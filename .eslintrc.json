@@ -97,6 +97,12 @@
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off",
     "react/jsx-wrap-multilines": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   }
 }
