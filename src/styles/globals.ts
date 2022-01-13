@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { COLORS } from '../constants';
 
 export const GlobalStyles = css`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -137,6 +138,7 @@ export const GlobalStyles = css`
     border: 0;
     background: none;
     color: inherit;
+    font-family: inherit;
     cursor: pointer;
   }
   .sr-only {
@@ -153,19 +155,16 @@ export const GlobalStyles = css`
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  .multi3-ellipsis {
+  .multi4-ellipsis {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     padding-bottom: 3px;
   }
-  .multi6-ellipsis {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 6;
-    -webkit-box-orient: vertical;
-    padding-bottom: 3px;
+
+  body {
+    color: ${COLORS.gray};
   }
 `;
 
