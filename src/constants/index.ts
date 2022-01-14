@@ -7,8 +7,10 @@ export const MEDIA_QUERY_END_POINT = {
   DESKTOP: '1600px',
 };
 
-export const THEME = {
-  accent: '#34C5EF',
-  white: '#fff',
+export const COLORS = {
+  accent_light_green: '#CDDE47',
+  accent_green: '#528540',
+  accent_orange: '#ff9500',
+  gray: '#767676',
   black: '#000',
 };
