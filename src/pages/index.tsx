@@ -65,13 +65,13 @@ const ListLink = styled.ul`
     background-color: #c4c4c4;
   }
 `;
+
 const splash = keyframes`
   to {
     opacity: 0;
     visibility: hidden;
   }
 `;
-
 const SplashScreen = styled.div`
   position: fixed;
   top: 0;
@@ -102,10 +102,14 @@ const Login: NextPage = () => {
           </FormSnsLogin>
           <ListLink>
             <li>
-              <Link href="/">이메일로 로그인</Link>
+              <Link href="/login-email">
+                <a>이메일로 로그인</a>
+              </Link>
             </li>
             <li>
-              <Link href="/">회원가입</Link>
+              <Link href="/signup">
+                <a>회원가입</a>
+              </Link>
             </li>
           </ListLink>
         </SectionLogin>

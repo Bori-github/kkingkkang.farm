@@ -123,6 +123,9 @@ export const GlobalStyles = css`
     display: block;
     width: 100%;
   }
+  input {
+    font-family: inherit;
+  }
   button {
     border: 0;
     background: none;
