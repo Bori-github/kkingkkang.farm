@@ -3,9 +3,9 @@ import { COLORS } from '../constants';
 
 export const GlobalStyles = css`
   /* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+    v2.0 | 20110126
+    License: none (public domain)
+  */
   html,
   body,
   div,
@@ -115,24 +115,13 @@ export const GlobalStyles = css`
   ul {
     list-style: none;
   }
-  blockquote,
-  q {
-    quotes: none;
-  }
-  blockquote:before,
-  blockquote:after,
-  q:before,
-  q:after {
-    content: '';
-    content: none;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
   a {
     color: inherit;
     text-decoration: none;
+  }
+  img {
+    display: block;
+    width: 100%;
   }
   button {
     border: 0;

@@ -8,8 +8,9 @@ export const MEDIA_QUERY_END_POINT = {
 };
 
 export const COLORS = {
-  accent: '#009f96',
-  accent_disabled: '#a0d0cb',
+  accent_light_green: '#CDDE47',
+  accent_green: '#528540',
+  accent_orange: '#ff9500',
   gray: '#767676',
   black: '#000',
 };
