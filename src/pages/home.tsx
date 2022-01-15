@@ -1,30 +1,9 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
-import { BORDER, BUTTON, COLORS } from '../constants';
-
-const HeaderMain = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  padding: 12px 16px;
-  border-bottom: ${BORDER.basic};
-  background-color: #fff;
-  color: ${COLORS.black};
-  font-size: 18px;
-  font-weight: 700;
-
-  & .btn-search-user {
-    width: 24px;
-    height: 24px;
-    background: url('/icons/header/search.svg') no-repeat 50% 50%;
-  }
-`;
+import { HeaderFeed } from '../components/layouts/Header';
+import { Navigation } from '../components/layouts/Navigation';
+import { BUTTON } from '../constants';
 
 const MainHome = styled.main`
   display: flex;
@@ -35,7 +14,7 @@ const MainHome = styled.main`
 `;
 
 const SectionHome = styled.section`
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -48,6 +27,10 @@ const SectionHome = styled.section`
     margin: 20px 0;
     font-size: 14px;
   }
+
+  &.nofollowers {
+    display: flex;
+  }
 `;
 const BtnSearchFollower = styled.button`
   padding: 8px 30px;
@@ -57,107 +40,55 @@ const BtnSearchFollower = styled.button`
   font-weight: 700;
 `;
 
-const Nav = styled.nav`
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-top: ${BORDER.basic};
-  background-color: #fff;
-`;
-const ListMenu = styled.ul`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  font-size: 10px;
-
-  & li {
-    background: no-repeat 50% 30%;
-    &.item-home {
-      background-image: url('/icons/nav/home.svg');
-    }
-    &.item-chat {
-      background-image: url('/icons/nav/chat.svg');
-    }
-    &.item-post {
-      background-image: url('/icons/nav/post.svg');
-    }
-    &.item-profile {
-      background-image: url('/icons/nav/profile.svg');
-    }
-
-    &.item-home.active {
-      background-image: url('/icons/nav/home-fill.svg');
-    }
-    &.item-chat.active {
-      background-image: url('/icons/nav/chat-fill.svg');
-    }
-    &.item-profile.active {
-      background-image: url('/icons/nav/profile-fill.svg');
-    }
-  }
-
-  & .link-menu {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    width: 85px;
-    height: 54px;
-    padding-bottom: 6px;
-  }
-`;
-
 const Home: NextPage = () => {
   return (
     <>
       <Head>
         <title>로그인ㅣ낑깡팜</title>
       </Head>
-      <HeaderMain>
-        <span>낑깡팜 피드</span>
-        <button type="button" className="btn-search-user">
-          <span className="sr-only">유저 검색하기</span>
-        </button>
-      </HeaderMain>
+      <HeaderFeed />
       <MainHome>
-        <SectionHome className="nofollowers">
+        <SectionHome>
           <img src="/logo/logo-gray.png" alt="낑깡팜 로고" />
           <p>유저를 검색해 팔로우 해보세요!</p>
           <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
         </SectionHome>
+        <section>
+          <article>
+            <div>
+              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
+            </div>
+            <div>
+              <span className="user-name">애월읍 위니브 농장</span>
+              <span className="user-id">@weniv_Mandarin</span>
+              <button type="button">
+                <span className="sr-only">옵션 더 보기</span>
+              </button>
+            </div>
+            <div>
+              <p>피드 내용</p>
+              <div>
+                <img src="/example/post-img-example.png" alt="피드 이미지" />
+              </div>
+            </div>
+            <ul>
+              <li>
+                <button type="button" className="btn-like">
+                  <span className="sr-only">좋아요</span>
+                </button>
+                <span className="count-like">58</span>
+              </li>
+              <li>
+                <button type="button" className="btn-reply">
+                  <span className="sr-only">댓글</span>
+                </button>
+                <span className="count-reply">12</span>
+              </li>
+            </ul>
+          </article>
+        </section>
       </MainHome>
-      <Nav>
-        <ListMenu>
-          <li className="item-home active">
-            <Link href="/home">
-              <a className="link-menu">
-                <span>홈</span>
-              </a>
-            </Link>
-          </li>
-          <li className="item-chat">
-            <Link href="/chat">
-              <a className="link-menu">
-                <span>채팅</span>
-              </a>
-            </Link>
-          </li>
-          <li className="item-post">
-            <Link href="/post">
-              <a className="link-menu">
-                <span>게시물 작성</span>
-              </a>
-            </Link>
-          </li>
-          <li className="item-profile">
-            <Link href="/my-profile">
-              <a className="link-menu">
-                <span>프로필</span>
-              </a>
-            </Link>
-          </li>
-        </ListMenu>
-      </Nav>
+      <Navigation />
     </>
   );
 };
