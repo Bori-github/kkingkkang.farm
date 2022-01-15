@@ -32,7 +32,8 @@ const BoxProfileImg = styled.div`
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: url('/icons/image.svg') no-repeat 50% 50% ${COLORS.accent_green};
+    background: url('/icons/img/image.svg') no-repeat 50% 50%
+      ${COLORS.accent_green};
   }
 `;
 const FormSetProfile = styled.form`
