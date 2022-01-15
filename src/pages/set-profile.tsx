@@ -73,8 +73,8 @@ const BtnStart = styled.button`
   width: 100%;
   margin: 30px 0 20px;
   padding: 13px 0;
-  border: ${BUTTON.border};
   border-radius: 44px;
+  background-color: ${BUTTON.disabled_color};
   color: ${BUTTON.color};
   font-weight: 700;
   transition: all 0.3s;
@@ -82,7 +82,6 @@ const BtnStart = styled.button`
   &:hover,
   &:active {
     background-color: ${BUTTON.background_color};
-    color: ${BUTTON.active_color};
   }
 `;
 
