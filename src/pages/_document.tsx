@@ -23,10 +23,6 @@ class MyDocument extends Document {
           <meta property="og:title" content="Kkingkkang Farm" />
           <meta property="og:description" content="Taste good Kkingkkang" />
           <meta property="og:image" content="/vercel.svg" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap"
-            rel="stylesheet"
-          />
         </Head>
         <body>
           <Main />
