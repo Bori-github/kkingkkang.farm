@@ -24,8 +24,7 @@ export const BORDER = {
 };
 
 export const BUTTON = {
-  border: `2px solid ${COLORS.accent_light_green}`,
   background_color: `${COLORS.accent_light_green}`,
-  color: `${COLORS.accent_light_green}`,
-  active_color: '#fff',
+  disabled_color: `${COLORS.light_gray}`,
+  color: '#fff',
 };
