@@ -15,11 +15,26 @@ const Feed = styled.header`
   color: ${COLORS.black};
   font-size: 18px;
   font-weight: 700;
+`;
+const BtnSearchUser = styled.button`
+  width: 24px;
+  height: 24px;
+  background: url('/icons/header/search.svg') no-repeat 50% 50%;
+`;
+const BtnPrev = styled.button`
+  width: 24px;
+  height: 24px;
+  background: url('/icons/header/arrow-left.svg') no-repeat 50% 50%;
+`;
+const InpSearchUser = styled.input`
+  width: calc(100% - 40px);
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 30px;
+  background-color: #f2f2f2;
 
-  & .btn-search-user {
-    width: 24px;
-    height: 24px;
-    background: url('/icons/header/search.svg') no-repeat 50% 50%;
+  &::placeholder {
+    color: #c4c4c4;
   }
 `;
 
@@ -27,9 +42,20 @@ export const HeaderFeed = () => {
   return (
     <Feed>
       <span>낑깡팜 피드</span>
-      <button type="button" className="btn-search-user">
+      <BtnSearchUser type="button">
         <span className="sr-only">유저 검색하기</span>
-      </button>
+      </BtnSearchUser>
+    </Feed>
+  );
+};
+
+export const HeaderSearch = () => {
+  return (
+    <Feed>
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <InpSearchUser type="search" placeholder="계정 검색" />
     </Feed>
   );
 };
