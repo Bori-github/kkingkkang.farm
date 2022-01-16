@@ -103,6 +103,7 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "no-use-before-define": "off"
   }
 }
