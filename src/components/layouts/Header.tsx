@@ -1,6 +1,28 @@
 import styled from '@emotion/styled';
 import { BORDER, COLORS } from '../../constants';
 
+export const HeaderFeed = () => {
+  return (
+    <Feed>
+      <span>낑깡팜 피드</span>
+      <BtnSearchUser type="button">
+        <span className="sr-only">유저 검색하기</span>
+      </BtnSearchUser>
+    </Feed>
+  );
+};
+
+export const HeaderSearch = () => {
+  return (
+    <Feed>
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <InpSearchUser type="search" placeholder="계정 검색" />
+    </Feed>
+  );
+};
+
 const Feed = styled.header`
   display: flex;
   align-items: center;
@@ -28,7 +50,7 @@ const BtnPrev = styled.button`
 `;
 const InpSearchUser = styled.input`
   width: calc(100% - 40px);
-  padding: 7px 16px;
+  padding: 4px 16px;
   border: 0;
   border-radius: 30px;
   background-color: #f2f2f2;
@@ -37,25 +59,3 @@ const InpSearchUser = styled.input`
     color: #c4c4c4;
   }
 `;
-
-export const HeaderFeed = () => {
-  return (
-    <Feed>
-      <span>낑깡팜 피드</span>
-      <BtnSearchUser type="button">
-        <span className="sr-only">유저 검색하기</span>
-      </BtnSearchUser>
-    </Feed>
-  );
-};
-
-export const HeaderSearch = () => {
-  return (
-    <Feed>
-      <BtnPrev type="button">
-        <span className="sr-only">뒤로가기</span>
-      </BtnPrev>
-      <InpSearchUser type="search" placeholder="계정 검색" />
-    </Feed>
-  );
-};

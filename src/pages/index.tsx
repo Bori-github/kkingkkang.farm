@@ -5,6 +5,44 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { COLORS } from '../constants';
 
+const Login: NextPage = () => {
+  return (
+    <>
+      <Head>
+        <title>로그인ㅣ낑깡팜</title>
+      </Head>
+      <MainLogin>
+        <FigLogo>
+          <img src="/logo/logo.png" alt="낑깡팜 로고" />
+        </FigLogo>
+        <SectionLogin>
+          <h2 className="sr-only">낑깡팜 로그인 창</h2>
+          <FormSnsLogin>
+            <BtnSnsLogin type="button">카카오톡 계정으로 로그인</BtnSnsLogin>
+            <BtnSnsLogin type="button">구글 계정으로 로그인</BtnSnsLogin>
+            <BtnSnsLogin type="button">페이스북 계정으로 로그인</BtnSnsLogin>
+          </FormSnsLogin>
+          <ListLink>
+            <li>
+              <Link href="/login-email">
+                <a>이메일로 로그인</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/signup">
+                <a>회원가입</a>
+              </Link>
+            </li>
+          </ListLink>
+        </SectionLogin>
+      </MainLogin>
+      <SplashScreen />
+    </>
+  );
+};
+
+export default Login;
+
 const MainLogin = styled.main`
   display: flex;
   align-items: center;
@@ -82,41 +120,3 @@ const SplashScreen = styled.div`
     ${COLORS.accent_green};
   animation: ${splash} 0.5s ease-in-out 0.5s forwards;
 `;
-
-const Login: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>로그인ㅣ낑깡팜</title>
-      </Head>
-      <MainLogin>
-        <FigLogo>
-          <img src="/logo/logo.png" alt="낑깡팜 로고" />
-        </FigLogo>
-        <SectionLogin>
-          <h2 className="sr-only">낑깡팜 로그인 창</h2>
-          <FormSnsLogin>
-            <BtnSnsLogin type="button">카카오톡 계정으로 로그인</BtnSnsLogin>
-            <BtnSnsLogin type="button">구글 계정으로 로그인</BtnSnsLogin>
-            <BtnSnsLogin type="button">페이스북 계정으로 로그인</BtnSnsLogin>
-          </FormSnsLogin>
-          <ListLink>
-            <li>
-              <Link href="/login-email">
-                <a>이메일로 로그인</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/signup">
-                <a>회원가입</a>
-              </Link>
-            </li>
-          </ListLink>
-        </SectionLogin>
-      </MainLogin>
-      <SplashScreen />
-    </>
-  );
-};
-
-export default Login;
