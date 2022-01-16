@@ -5,6 +5,142 @@ import { HeaderFeed } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { BUTTON, COLORS } from '../constants';
 
+const Home: NextPage = () => {
+  return (
+    <>
+      <Head>
+        <title>낑깡팜 피드ㅣ낑깡팜</title>
+      </Head>
+      <HeaderFeed />
+      <MainHome>
+        <SectionHome>
+          <img src="/logo/logo-gray.png" alt="낑깡팜 로고" />
+          <p>유저를 검색해 팔로우 해보세요!</p>
+          <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
+        </SectionHome>
+        <SectionFeed>
+          <Feed>
+            <BoxProfileImg>
+              <ImgProfile
+                src="/default-profile-w.png"
+                alt="사용자 프로필 이미지"
+              />
+            </BoxProfileImg>
+            <HeaderArticle>
+              <UserName>애월읍 위니브 농장</UserName>
+              <UserId>@weniv_Mandarin</UserId>
+              <BtnMore type="button">
+                <span className="sr-only">옵션 더 보기</span>
+              </BtnMore>
+            </HeaderArticle>
+            <ContentFeed>
+              <TxtFeed>
+                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
+                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
+                넣는 풍부하게 뛰노는 인생의 힘있다.
+              </TxtFeed>
+              <ContainerImg>
+                <img src="/example/post-img-example.png" alt="피드 이미지" />
+              </ContainerImg>
+              <ListIcons>
+                <ItemIcon>
+                  <BtnLike type="button">
+                    <span className="sr-only">좋아요</span>
+                  </BtnLike>
+                  <span className="count-like">58</span>
+                </ItemIcon>
+                <ItemIcon>
+                  <BtnReply type="button">
+                    <span className="sr-only">댓글</span>
+                  </BtnReply>
+                  <span className="count-reply">12</span>
+                </ItemIcon>
+              </ListIcons>
+              <span className="create-at">2022년 01월 16일</span>
+            </ContentFeed>
+          </Feed>
+          <Feed>
+            <BoxProfileImg>
+              <ImgProfile
+                src="/default-profile-w.png"
+                alt="사용자 프로필 이미지"
+              />
+            </BoxProfileImg>
+            <HeaderArticle>
+              <UserName>애월읍 위니브 농장</UserName>
+              <UserId>@weniv_Mandarin</UserId>
+              <BtnMore type="button">
+                <span className="sr-only">옵션 더 보기</span>
+              </BtnMore>
+            </HeaderArticle>
+            <ContentFeed>
+              <TxtFeed>감귤 잘 자라는 중...❤</TxtFeed>
+              <ContainerImg>
+                <img src="/example/post-img-example.png" alt="피드 이미지" />
+              </ContainerImg>
+              <ListIcons>
+                <ItemIcon>
+                  <BtnLike type="button" className="active">
+                    <span className="sr-only">좋아요</span>
+                  </BtnLike>
+                  <span className="count-like">58</span>
+                </ItemIcon>
+                <ItemIcon>
+                  <BtnReply type="button">
+                    <span className="sr-only">댓글</span>
+                  </BtnReply>
+                  <span className="count-reply">12</span>
+                </ItemIcon>
+              </ListIcons>
+              <span className="create-at">2022년 01월 16일</span>
+            </ContentFeed>
+          </Feed>
+          <Feed>
+            <BoxProfileImg>
+              <ImgProfile
+                src="/default-profile-w.png"
+                alt="사용자 프로필 이미지"
+              />
+            </BoxProfileImg>
+            <HeaderArticle>
+              <UserName>애월읍 위니브 농장</UserName>
+              <UserId>@weniv_Mandarin</UserId>
+              <BtnMore type="button">
+                <span className="sr-only">옵션 더 보기</span>
+              </BtnMore>
+            </HeaderArticle>
+            <ContentFeed>
+              <TxtFeed>
+                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
+                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
+                넣는 풍부하게 뛰노는 인생의 힘있다.
+              </TxtFeed>
+              <ListIcons>
+                <ItemIcon>
+                  <BtnLike type="button" className="active">
+                    <span className="sr-only">좋아요</span>
+                  </BtnLike>
+                  <span className="count-like">58</span>
+                </ItemIcon>
+                <ItemIcon>
+                  <BtnReply type="button">
+                    <span className="sr-only">댓글</span>
+                  </BtnReply>
+                  <span className="count-reply">12</span>
+                </ItemIcon>
+              </ListIcons>
+              <span className="create-at">2022년 01월 16일</span>
+            </ContentFeed>
+          </Feed>
+        </SectionFeed>
+      </MainHome>
+      <Navigation />
+    </>
+  );
+};
+
+export default Home;
+
 const MainHome = styled.main`
   display: flex;
   align-items: center;
@@ -55,12 +191,11 @@ const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
   width: 40px;
-
-  & img {
-    padding: 5px;
-    border-radius: 50%;
-    background-color: ${COLORS.light_gray};
-  }
+`;
+const ImgProfile = styled.img`
+  padding: 5px;
+  border-radius: 50%;
+  background-color: ${COLORS.light_gray};
 `;
 const HeaderArticle = styled.header`
   grid-column: 2 / 3;
@@ -69,26 +204,25 @@ const HeaderArticle = styled.header`
   justify-content: space-between;
   width: 100%;
   padding: 4px 0;
-
-  & .user-name {
-    grid-column: 1 / 2;
-    color: ${COLORS.black};
-    font-size: 14px;
-    font-weight: 700;
-  }
-  & .user-id {
-    grid-column: 1 / 2;
-    font-size: 12px;
-  }
-  & .btn-more {
-    grid-column: 2 / 3;
-    grid-row: 1 / 3;
-    align-self: flex-start;
-    width: 18px;
-    height: 18px;
-    background: url('/icons/header/more.svg') no-repeat;
-    background-size: 100%;
-  }
+`;
+const UserName = styled.span`
+  grid-column: 1 / 2;
+  color: ${COLORS.black};
+  font-size: 14px;
+  font-weight: 700;
+`;
+const UserId = styled.span`
+  grid-column: 1 / 2;
+  font-size: 12px;
+`;
+const BtnMore = styled.button`
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  align-self: flex-start;
+  width: 18px;
+  height: 18px;
+  background: url('/icons/header/more.svg') no-repeat;
+  background-size: 100%;
 `;
 
 const ContentFeed = styled.div`
@@ -106,12 +240,11 @@ const ListIcons = styled.ul`
   display: flex;
   margin: 10px 0;
   font-size: 12px;
-
-  & li {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-  }
+`;
+const ItemIcon = styled.li`
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
 `;
 const BtnLike = styled.button`
   width: 20px;
@@ -132,130 +265,3 @@ const BtnReply = styled.button`
   background: url('/icons/message-sm.svg') no-repeat;
   background-size: 100%;
 `;
-
-const Home: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>낑깡팜 피드ㅣ낑깡팜</title>
-      </Head>
-      <HeaderFeed />
-      <MainHome>
-        <SectionHome>
-          <img src="/logo/logo-gray.png" alt="낑깡팜 로고" />
-          <p>유저를 검색해 팔로우 해보세요!</p>
-          <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
-        </SectionHome>
-        <SectionFeed>
-          <Feed>
-            <BoxProfileImg>
-              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-            </BoxProfileImg>
-            <HeaderArticle>
-              <span className="user-name">애월읍 위니브 농장</span>
-              <span className="user-id">@weniv_Mandarin</span>
-              <button type="button" className="btn-more">
-                <span className="sr-only">옵션 더 보기</span>
-              </button>
-            </HeaderArticle>
-            <ContentFeed>
-              <TxtFeed>
-                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
-                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
-                넣는 풍부하게 뛰노는 인생의 힘있다.
-              </TxtFeed>
-              <ContainerImg>
-                <img src="/example/post-img-example.png" alt="피드 이미지" />
-              </ContainerImg>
-              <ListIcons>
-                <li>
-                  <BtnLike type="button">
-                    <span className="sr-only">좋아요</span>
-                  </BtnLike>
-                  <span className="count-like">58</span>
-                </li>
-                <li>
-                  <BtnReply type="button">
-                    <span className="sr-only">댓글</span>
-                  </BtnReply>
-                  <span className="count-reply">12</span>
-                </li>
-              </ListIcons>
-              <span className="create-at">2022년 01월 16일</span>
-            </ContentFeed>
-          </Feed>
-          <Feed>
-            <BoxProfileImg>
-              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-            </BoxProfileImg>
-            <HeaderArticle>
-              <span className="user-name">애월읍 위니브 농장</span>
-              <span className="user-id">@weniv_Mandarin</span>
-              <button type="button" className="btn-more">
-                <span className="sr-only">옵션 더 보기</span>
-              </button>
-            </HeaderArticle>
-            <ContentFeed>
-              <TxtFeed>감귤 잘 자라는 중...❤</TxtFeed>
-              <ContainerImg>
-                <img src="/example/post-img-example.png" alt="피드 이미지" />
-              </ContainerImg>
-              <ListIcons>
-                <li>
-                  <BtnLike type="button" className="active">
-                    <span className="sr-only">좋아요</span>
-                  </BtnLike>
-                  <span className="count-like">58</span>
-                </li>
-                <li>
-                  <BtnReply type="button">
-                    <span className="sr-only">댓글</span>
-                  </BtnReply>
-                  <span className="count-reply">12</span>
-                </li>
-              </ListIcons>
-              <span className="create-at">2022년 01월 16일</span>
-            </ContentFeed>
-          </Feed>
-          <Feed>
-            <BoxProfileImg>
-              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-            </BoxProfileImg>
-            <HeaderArticle>
-              <span className="user-name">애월읍 위니브 농장</span>
-              <span className="user-id">@weniv_Mandarin</span>
-              <button type="button" className="btn-more">
-                <span className="sr-only">옵션 더 보기</span>
-              </button>
-            </HeaderArticle>
-            <ContentFeed>
-              <TxtFeed>
-                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
-                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
-                넣는 풍부하게 뛰노는 인생의 힘있다.
-              </TxtFeed>
-              <ListIcons>
-                <li>
-                  <BtnLike type="button" className="active">
-                    <span className="sr-only">좋아요</span>
-                  </BtnLike>
-                  <span className="count-like">58</span>
-                </li>
-                <li>
-                  <BtnReply type="button">
-                    <span className="sr-only">댓글</span>
-                  </BtnReply>
-                  <span className="count-reply">12</span>
-                </li>
-              </ListIcons>
-              <span className="create-at">2022년 01월 16일</span>
-            </ContentFeed>
-          </Feed>
-        </SectionFeed>
-      </MainHome>
-      <Navigation />
-    </>
-  );
-};
-
-export default Home;
