@@ -1,30 +1,9 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
-import { BORDER, BUTTON, COLORS } from '../constants';
-
-const HeaderMain = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  padding: 12px 16px;
-  border-bottom: ${BORDER.basic};
-  background-color: #fff;
-  color: ${COLORS.black};
-  font-size: 18px;
-  font-weight: 700;
-
-  & .btn-search-user {
-    width: 24px;
-    height: 24px;
-    background: url('/icons/header/search.svg') no-repeat 50% 50%;
-  }
-`;
+import { HeaderFeed } from '../components/layouts/Header';
+import { Navigation } from '../components/layouts/Navigation';
+import { BUTTON, COLORS } from '../constants';
 
 const MainHome = styled.main`
   display: flex;
@@ -32,10 +11,11 @@ const MainHome = styled.main`
   justify-content: center;
   min-height: calc(100vh - 109px);
   margin: 49px 0 60px;
+  padding: 0 16px;
 `;
 
 const SectionHome = styled.section`
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -48,6 +28,10 @@ const SectionHome = styled.section`
     margin: 20px 0;
     font-size: 14px;
   }
+
+  &.nofollowers {
+    display: flex;
+  }
 `;
 const BtnSearchFollower = styled.button`
   padding: 8px 30px;
@@ -57,107 +41,219 @@ const BtnSearchFollower = styled.button`
   font-weight: 700;
 `;
 
-const Nav = styled.nav`
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-top: ${BORDER.basic};
-  background-color: #fff;
+const SectionFeed = styled.section`
+  width: 100%;
 `;
-const ListMenu = styled.ul`
-  display: flex;
+const Feed = styled.article`
+  display: grid;
+  grid-template-columns: 50px auto;
+  grid-template-rows: 50px auto;
+  gap: 10px;
+  margin: 20px 0;
+`;
+const BoxProfileImg = styled.div`
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  width: 40px;
+
+  & img {
+    padding: 5px;
+    border-radius: 50%;
+    background-color: ${COLORS.light_gray};
+  }
+`;
+const HeaderArticle = styled.header`
+  grid-column: 2 / 3;
+  display: grid;
   align-items: center;
-  justify-content: space-evenly;
-  font-size: 10px;
+  justify-content: space-between;
+  width: 100%;
+  padding: 4px 0;
+
+  & .user-name {
+    grid-column: 1 / 2;
+    color: ${COLORS.black};
+    font-size: 14px;
+    font-weight: 700;
+  }
+  & .user-id {
+    grid-column: 1 / 2;
+    font-size: 12px;
+  }
+  & .btn-more {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    align-self: flex-start;
+    width: 18px;
+    height: 18px;
+    background: url('/icons/header/more.svg') no-repeat;
+    background-size: 100%;
+  }
+`;
+
+const ContentFeed = styled.div`
+  & .create-at {
+    font-size: 10px;
+  }
+`;
+const ContainerImg = styled.div``;
+const TxtFeed = styled.p`
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+`;
+const ListIcons = styled.ul`
+  display: flex;
+  margin: 10px 0;
+  font-size: 12px;
 
   & li {
-    background: no-repeat 50% 30%;
-    &.item-home {
-      background-image: url('/icons/nav/home.svg');
-    }
-    &.item-chat {
-      background-image: url('/icons/nav/chat.svg');
-    }
-    &.item-post {
-      background-image: url('/icons/nav/post.svg');
-    }
-    &.item-profile {
-      background-image: url('/icons/nav/profile.svg');
-    }
-
-    &.item-home.active {
-      background-image: url('/icons/nav/home-fill.svg');
-    }
-    &.item-chat.active {
-      background-image: url('/icons/nav/chat-fill.svg');
-    }
-    &.item-profile.active {
-      background-image: url('/icons/nav/profile-fill.svg');
-    }
-  }
-
-  & .link-menu {
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    width: 85px;
-    height: 54px;
-    padding-bottom: 6px;
+    align-items: center;
+    margin-right: 15px;
   }
+`;
+const BtnLike = styled.button`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  background: url('/icons/heart.svg') no-repeat;
+  background-size: 100%;
+
+  &:hover,
+  &.active {
+    background-image: url('/icons/heart-fill.svg');
+  }
+`;
+const BtnReply = styled.button`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  background: url('/icons/message-sm.svg') no-repeat;
+  background-size: 100%;
 `;
 
 const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>로그인ㅣ낑깡팜</title>
+        <title>낑깡팜 피드ㅣ낑깡팜</title>
       </Head>
-      <HeaderMain>
-        <span>낑깡팜 피드</span>
-        <button type="button" className="btn-search-user">
-          <span className="sr-only">유저 검색하기</span>
-        </button>
-      </HeaderMain>
+      <HeaderFeed />
       <MainHome>
-        <SectionHome className="nofollowers">
+        <SectionHome>
           <img src="/logo/logo-gray.png" alt="낑깡팜 로고" />
           <p>유저를 검색해 팔로우 해보세요!</p>
           <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
         </SectionHome>
+        <SectionFeed>
+          <Feed>
+            <BoxProfileImg>
+              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
+            </BoxProfileImg>
+            <HeaderArticle>
+              <span className="user-name">애월읍 위니브 농장</span>
+              <span className="user-id">@weniv_Mandarin</span>
+              <button type="button" className="btn-more">
+                <span className="sr-only">옵션 더 보기</span>
+              </button>
+            </HeaderArticle>
+            <ContentFeed>
+              <TxtFeed>
+                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
+                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
+                넣는 풍부하게 뛰노는 인생의 힘있다.
+              </TxtFeed>
+              <ContainerImg>
+                <img src="/example/post-img-example.png" alt="피드 이미지" />
+              </ContainerImg>
+              <ListIcons>
+                <li>
+                  <BtnLike type="button">
+                    <span className="sr-only">좋아요</span>
+                  </BtnLike>
+                  <span className="count-like">58</span>
+                </li>
+                <li>
+                  <BtnReply type="button">
+                    <span className="sr-only">댓글</span>
+                  </BtnReply>
+                  <span className="count-reply">12</span>
+                </li>
+              </ListIcons>
+              <span className="create-at">2022년 01월 16일</span>
+            </ContentFeed>
+          </Feed>
+          <Feed>
+            <BoxProfileImg>
+              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
+            </BoxProfileImg>
+            <HeaderArticle>
+              <span className="user-name">애월읍 위니브 농장</span>
+              <span className="user-id">@weniv_Mandarin</span>
+              <button type="button" className="btn-more">
+                <span className="sr-only">옵션 더 보기</span>
+              </button>
+            </HeaderArticle>
+            <ContentFeed>
+              <TxtFeed>감귤 잘 자라는 중...❤</TxtFeed>
+              <ContainerImg>
+                <img src="/example/post-img-example.png" alt="피드 이미지" />
+              </ContainerImg>
+              <ListIcons>
+                <li>
+                  <BtnLike type="button" className="active">
+                    <span className="sr-only">좋아요</span>
+                  </BtnLike>
+                  <span className="count-like">58</span>
+                </li>
+                <li>
+                  <BtnReply type="button">
+                    <span className="sr-only">댓글</span>
+                  </BtnReply>
+                  <span className="count-reply">12</span>
+                </li>
+              </ListIcons>
+              <span className="create-at">2022년 01월 16일</span>
+            </ContentFeed>
+          </Feed>
+          <Feed>
+            <BoxProfileImg>
+              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
+            </BoxProfileImg>
+            <HeaderArticle>
+              <span className="user-name">애월읍 위니브 농장</span>
+              <span className="user-id">@weniv_Mandarin</span>
+              <button type="button" className="btn-more">
+                <span className="sr-only">옵션 더 보기</span>
+              </button>
+            </HeaderArticle>
+            <ContentFeed>
+              <TxtFeed>
+                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
+                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
+                넣는 풍부하게 뛰노는 인생의 힘있다.
+              </TxtFeed>
+              <ListIcons>
+                <li>
+                  <BtnLike type="button" className="active">
+                    <span className="sr-only">좋아요</span>
+                  </BtnLike>
+                  <span className="count-like">58</span>
+                </li>
+                <li>
+                  <BtnReply type="button">
+                    <span className="sr-only">댓글</span>
+                  </BtnReply>
+                  <span className="count-reply">12</span>
+                </li>
+              </ListIcons>
+              <span className="create-at">2022년 01월 16일</span>
+            </ContentFeed>
+          </Feed>
+        </SectionFeed>
       </MainHome>
-      <Nav>
-        <ListMenu>
-          <li className="item-home active">
-            <Link href="/home">
-              <a className="link-menu">
-                <span>홈</span>
-              </a>
-            </Link>
-          </li>
-          <li className="item-chat">
-            <Link href="/chat">
-              <a className="link-menu">
-                <span>채팅</span>
-              </a>
-            </Link>
-          </li>
-          <li className="item-post">
-            <Link href="/post">
-              <a className="link-menu">
-                <span>게시물 작성</span>
-              </a>
-            </Link>
-          </li>
-          <li className="item-profile">
-            <Link href="/my-profile">
-              <a className="link-menu">
-                <span>프로필</span>
-              </a>
-            </Link>
-          </li>
-        </ListMenu>
-      </Nav>
+      <Navigation />
     </>
   );
 };
