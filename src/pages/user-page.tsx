@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { HeaderUserPage } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
-import { COLORS } from '../constants';
+import { BORDER, COLORS } from '../constants';
 
 const UserPage: NextPage = () => {
   return (
@@ -13,78 +13,94 @@ const UserPage: NextPage = () => {
         <title>유저 이름(유저 아이디)ㅣ낑깡팜</title>
       </Head>
       <HeaderUserPage />
-      <main>
-        <section>
+      <MainUserPage>
+        <SectionUserInfo>
           <h2 className="sr-only">유저 정보</h2>
-          <div>
+          <BoxUser>
             <Link href="/list-followers">
-              <a>
+              <LinkFollowers>
                 <span className="count-followers">2950</span>
                 <span>followers</span>
-              </a>
+              </LinkFollowers>
             </Link>
-            <img src="/default-profile-w.png" alt="유저 프로필 이미지" />
+            <ImgUser src="/default-profile-w.png" alt="유저 프로필 이미지" />
             <Link href="/list-followings">
-              <a>
+              <LinkFollowings>
                 <span className="count-followings">128</span>
                 <span>followings</span>
-              </a>
+              </LinkFollowings>
             </Link>
-          </div>
-          <span>애월읍 낑깡농장</span>
-          <span>@kkingkkang_farm</span>
-          <p>애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장</p>
-          <ul>
+          </BoxUser>
+          <span className="user-name">애월읍 낑깡농장</span>
+          <span className="user-id">@kkingkkang_farm</span>
+          <p className="user-desc">
+            애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장
+          </p>
+          <ListBtns>
             <li>
-              <button type="button">
+              <BtnMsg type="button">
                 <span className="sr-only">메시지 보내기</span>
-              </button>
+              </BtnMsg>
             </li>
             <li>
-              <button type="button">팔로우</button>
+              <BtnFollow type="button">팔로우</BtnFollow>
             </li>
             <li>
-              <button type="button">
+              <BtnShare type="button">
                 <span className="sr-only">공유하기</span>
-              </button>
+              </BtnShare>
             </li>
-          </ul>
-        </section>
-        <section>
-          <h2>판매중인 상품</h2>
+          </ListBtns>
+        </SectionUserInfo>
+        <SectionProducts>
+          <TitleProducts>판매중인 상품</TitleProducts>
           <div>
-            <ul>
-              <li>
-                <img src="/example/product-img-example.png" alt="상품 이미지" />
-                <strong>낑깡낑깡</strong>
-                <span>35,000원</span>
-              </li>
-              <li>
-                <img src="/example/product-img-example.png" alt="상품 이미지" />
-                <strong>낑깡 10kg</strong>
-                <span>45,000원</span>
-              </li>
-              <li>
-                <img src="/example/product-img-example.png" alt="상품 이미지" />
-                <strong>낑깡 파지</strong>
-                <span>25,000원</span>
-              </li>
-            </ul>
+            <ListProducts>
+              <ItemProduct>
+                <ImgProduct
+                  src="/example/product-img-example.png"
+                  alt="상품 이미지"
+                />
+                <TitleProduct>낑깡낑깡</TitleProduct>
+                <PriceProduct>35,000원</PriceProduct>
+              </ItemProduct>
+              <ItemProduct>
+                <ImgProduct
+                  src="/example/product-img-example.png"
+                  alt="상품 이미지"
+                />
+                <TitleProduct>낑깡낑깡</TitleProduct>
+                <PriceProduct>35,000원</PriceProduct>
+              </ItemProduct>
+              <ItemProduct>
+                <ImgProduct
+                  src="/example/product-img-example.png"
+                  alt="상품 이미지"
+                />
+                <TitleProduct>낑깡 10kg</TitleProduct>
+                <PriceProduct>45,000원</PriceProduct>
+              </ItemProduct>
+              <ItemProduct>
+                <ImgProduct
+                  src="/example/product-img-example.png"
+                  alt="상품 이미지"
+                />
+                <TitleProduct>낑깡 파지</TitleProduct>
+                <PriceProduct>25,000원</PriceProduct>
+              </ItemProduct>
+            </ListProducts>
           </div>
-        </section>
-        <section>
+        </SectionProducts>
+        <SectionFeed>
           <h2 className="sr-only">게시글 보기</h2>
-          <div>
-            <button type="button">
+          <Toolbar>
+            <BtnListType type="button">
               <span className="sr-only">리스트 형</span>
-            </button>
-            <button type="button">
-              <span className="sr-only">리스트 형</span>
-            </button>
-            <button type="button">
+            </BtnListType>
+            <BtnAlbumType type="button">
               <span className="sr-only">앨범 형</span>
-            </button>
-          </div>
+            </BtnAlbumType>
+          </Toolbar>
           <Feed>
             <BoxProfileImg>
               <ImgProfile
@@ -125,8 +141,8 @@ const UserPage: NextPage = () => {
               <span className="create-at">2022년 01월 16일</span>
             </ContentFeed>
           </Feed>
-        </section>
-      </main>
+        </SectionFeed>
+      </MainUserPage>
       <Navigation />
     </>
   );
@@ -134,12 +150,146 @@ const UserPage: NextPage = () => {
 
 export default UserPage;
 
+const MainUserPage = styled.main`
+  margin: 49px 0 60px;
+  background-color: #f2f2f2;
+
+  & section {
+    background-color: #fff;
+  }
+`;
+
+const SectionUserInfo = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+
+  & .user-name {
+    margin: 16px 0 6px;
+    color: ${COLORS.black};
+    font-size: 18px;
+    font-weight: 700;
+  }
+  & .user-id {
+    font-size: 12px;
+  }
+  & .user-desc {
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+`;
+const BoxUser = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const LinkFollowers = styled.a`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 35px;
+  font-size: 10px;
+
+  & .count-followers {
+    color: ${COLORS.black};
+    font-size: 18px;
+    font-weight: 700;
+  }
+`;
+const ImgUser = styled.img`
+  width: 90px;
+  margin: 0 40px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: ${COLORS.light_gray};
+`;
+const LinkFollowings = styled.a`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 35px;
+  font-size: 10px;
+
+  & .count-followings {
+    font-size: 18px;
+    font-weight: 700;
+  }
+`;
+const ListBtns = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const BtnMsg = styled.button`
+  width: 34px;
+  height: 34px;
+  border: ${BORDER.basic};
+  border-radius: 50%;
+  background: url('/icons/message-sm.svg') no-repeat 50% 50%;
+`;
+const BtnFollow = styled.button`
+  margin: 0 10px;
+  padding: 10px 40px;
+  border-radius: 32px;
+  background-color: ${COLORS.accent_light_green};
+  color: #fff;
+`;
+const BtnShare = styled.button`
+  width: 34px;
+  height: 34px;
+  border: ${BORDER.basic};
+  border-radius: 50%;
+  background: url('/icons/share.svg') no-repeat 50% 50%;
+`;
+
+const SectionProducts = styled.section`
+  margin: 10px 0;
+  padding: 20px;
+`;
+const TitleProducts = styled.h2`
+  margin-bottom: 15px;
+  color: ${COLORS.black};
+  font-size: 18px;
+  font-weight: 700;
+`;
+const ListProducts = styled.ul`
+  display: flex;
+  overflow-x: auto;
+`;
+const ItemProduct = styled.li`
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+
+  &:not(:first-of-type) {
+    margin-left: 10px;
+  }
+`;
+const ImgProduct = styled.img`
+  width: 100%;
+  border-radius: 8px;
+`;
+const TitleProduct = styled.strong`
+  padding: 8px 0 6px;
+  color: ${COLORS.black};
+  font-size: 14px;
+`;
+const PriceProduct = styled.strong`
+  color: ${COLORS.accent_green};
+  font-size: 12px;
+  font-weight: 700;
+`;
+
 const Feed = styled.article`
   display: grid;
   grid-template-columns: 50px auto;
   grid-template-rows: 50px auto;
   gap: 10px;
   margin: 20px 0;
+  padding: 0 20px 20px;
 `;
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
@@ -218,4 +368,31 @@ const BtnReply = styled.button`
   margin-right: 5px;
   background: url('/icons/message-sm.svg') no-repeat;
   background-size: 100%;
+`;
+
+const SectionFeed = styled.section``;
+const Toolbar = styled.div`
+  padding: 6px 20px;
+  border-bottom: ${BORDER.basic};
+  text-align: right;
+`;
+const BtnListType = styled.button`
+  width: 26px;
+  height: 26px;
+  background: url('/icons/post/post-list-off.svg') no-repeat;
+
+  &.active {
+    background-image: url('/icons/post/post-list-on.svg');
+  }
+`;
+const BtnAlbumType = styled.button`
+  width: 26px;
+  height: 26px;
+  margin-left: 10px;
+  background: url('/icons/post/post-album-off.svg') no-repeat;
+  background-size: 100%;
+
+  &.active {
+    background-image: url('/icons/post/post-album-on.svg');
+  }
 `;
