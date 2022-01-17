@@ -45,6 +45,42 @@ export const SectionUserInfo = () => {
   );
 };
 
+export const SectionMyInfo = () => {
+  return (
+    <Container>
+      <h2 className="sr-only">나의 정보</h2>
+      <BoxUser>
+        <Link href="/list-followers">
+          <LinkFollowers>
+            <span className="count-followers">2950</span>
+            <span>followers</span>
+          </LinkFollowers>
+        </Link>
+        <ImgUser src="/default-profile-w.png" alt="나의 프로필 이미지" />
+        <Link href="/list-followings">
+          <LinkFollowings>
+            <span className="count-followings">128</span>
+            <span>followings</span>
+          </LinkFollowings>
+        </Link>
+      </BoxUser>
+      <span className="user-name">애월읍 낑깡농장</span>
+      <span className="user-id">@kkingkkang_farm</span>
+      <p className="user-desc">
+        애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장
+      </p>
+      <ListMyBtns>
+        <li>
+          <BtnProfile type="button">프로필 수정</BtnProfile>
+        </li>
+        <li>
+          <BtnProduct type="button">상품 등록</BtnProduct>
+        </li>
+      </ListMyBtns>
+    </Container>
+  );
+};
+
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -130,4 +166,23 @@ const BtnShare = styled.button`
   border: ${BORDER.basic};
   border-radius: 50%;
   background: url('/icons/share.svg') no-repeat 50% 50%;
+`;
+
+const ListMyBtns = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const BtnProfile = styled.button`
+  margin-right: 15px;
+  padding: 6px 20px;
+  border: ${BORDER.basic};
+  border-radius: 30px;
+  font-size: 14px;
+`;
+const BtnProduct = styled.button`
+  padding: 6px 20px;
+  border: ${BORDER.basic};
+  border-radius: 30px;
+  font-size: 14px;
 `;

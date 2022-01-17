@@ -41,6 +41,85 @@ export const PopupLogout = () => {
   );
 };
 
+export const PopupProduct = () => {
+  return (
+    <BgPopup>
+      <PopupMore>
+        <ul>
+          <ItemMore>
+            <button type="button">삭제</button>
+          </ItemMore>
+          <ItemMore>
+            <button type="button">수정</button>
+          </ItemMore>
+          <ItemMore>
+            <Link href="/">
+              <a>웹사이트에서 상품 보기</a>
+            </Link>
+          </ItemMore>
+        </ul>
+      </PopupMore>
+    </BgPopup>
+  );
+};
+
+export const PopupProducDelete = () => {
+  return (
+    <BgPopup>
+      <Popup>
+        <TxtLogout>상품을 삭제할까요?</TxtLogout>
+        <ListLogoutBtns>
+          <li>
+            <BtnCancel type="button">취소</BtnCancel>
+          </li>
+          <li>
+            <Link href="/" passHref>
+              <BtnLogout>삭제</BtnLogout>
+            </Link>
+          </li>
+        </ListLogoutBtns>
+      </Popup>
+    </BgPopup>
+  );
+};
+
+export const PopupPost = () => {
+  return (
+    <BgPopup>
+      <PopupMore>
+        <ul>
+          <ItemMore>
+            <button type="button">삭제</button>
+          </ItemMore>
+          <ItemMore>
+            <button type="button">수정</button>
+          </ItemMore>
+        </ul>
+      </PopupMore>
+    </BgPopup>
+  );
+};
+
+export const PopupPostDelete = () => {
+  return (
+    <BgPopup>
+      <Popup>
+        <TxtLogout>게시글을 삭제할까요?</TxtLogout>
+        <ListLogoutBtns>
+          <li>
+            <BtnCancel type="button">취소</BtnCancel>
+          </li>
+          <li>
+            <Link href="/" passHref>
+              <BtnLogout>삭제</BtnLogout>
+            </Link>
+          </li>
+        </ListLogoutBtns>
+      </Popup>
+    </BgPopup>
+  );
+};
+
 const BgPopup = styled.div`
   display: none;
   position: fixed;
@@ -80,7 +159,7 @@ const ItemMore = styled.li`
 
 const Popup = styled.div`
   position: absolute;
-  top: 50%;
+  top: calc(50% - 61px);
   left: 50%;
   border-radius: 10px;
   background-color: #fff;
