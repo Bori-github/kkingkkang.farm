@@ -143,6 +143,31 @@ const UserPage: NextPage = () => {
           </Feed>
         </SectionFeed>
       </MainUserPage>
+      <div>
+        <ul>
+          <li>
+            <Link href="/">
+              <a>설정 및 개인정보</a>
+            </Link>
+          </li>
+          <li>
+            <button type="button">로그아웃</button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <p>로그아웃 할까요?</p>
+        <ul>
+          <li>
+            <button type="button">취소</button>
+          </li>
+          <li>
+            <Link href="/">
+              <a>로그아웃</a>
+            </Link>
+          </li>
+        </ul>
+      </div>
       <Navigation />
     </>
   );
