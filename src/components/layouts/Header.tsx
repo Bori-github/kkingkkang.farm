@@ -23,6 +23,19 @@ export const HeaderSearch = () => {
   );
 };
 
+export const HeaderUserPage = () => {
+  return (
+    <Feed>
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <BtnMore type="button">
+        <span className="sr-only">옵션 더 보기</span>
+      </BtnMore>
+    </Feed>
+  );
+};
+
 const Feed = styled.header`
   display: flex;
   align-items: center;
@@ -58,4 +71,9 @@ const InpSearchUser = styled.input`
   &::placeholder {
     color: #c4c4c4;
   }
+`;
+const BtnMore = styled.button`
+  width: 24px;
+  height: 24px;
+  background: url('/icons/header/more.svg') no-repeat 50% 50%;
 `;

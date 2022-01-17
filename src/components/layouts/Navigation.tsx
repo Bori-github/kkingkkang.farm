@@ -44,6 +44,7 @@ const Nav = styled.nav`
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 10;
   border-top: ${BORDER.basic};
   background-color: #fff;
 `;

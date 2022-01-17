@@ -147,7 +147,6 @@ const MainHome = styled.main`
   justify-content: center;
   min-height: calc(100vh - 109px);
   margin: 49px 0 60px;
-  padding: 0 16px;
 `;
 
 const SectionHome = styled.section`
@@ -186,6 +185,7 @@ const Feed = styled.article`
   grid-template-rows: 50px auto;
   gap: 10px;
   margin: 20px 0;
+  padding: 0 16px;
 `;
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
