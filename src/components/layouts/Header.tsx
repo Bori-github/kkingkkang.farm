@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { BORDER, COLORS } from '../../constants';
+import { BORDER, BUTTON, COLORS } from '../../constants';
 
 export const HeaderFeed = () => {
   return (
@@ -32,6 +32,19 @@ export const HeaderUserPage = () => {
       <BtnMore type="button">
         <span className="sr-only">옵션 더 보기</span>
       </BtnMore>
+    </Header>
+  );
+};
+
+export const HeaderBtnSave = () => {
+  return (
+    <Header>
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <BtnSave type="button" className="active">
+        저장
+      </BtnSave>
     </Header>
   );
 };
@@ -91,6 +104,18 @@ const BtnMore = styled.button`
   width: 24px;
   height: 24px;
   background: url('/icons/header/more.svg') no-repeat 50% 50%;
+`;
+const BtnSave = styled.button`
+  width: 90px;
+  height: 24px;
+  border-radius: 24px;
+  background-color: ${BUTTON.disabled_color};
+  color: #fff;
+  font-size: 14px;
+
+  &.active {
+    background-color: ${BUTTON.background_color};
+  }
 `;
 const TitleHeader = styled.span`
   padding-left: 8px;
