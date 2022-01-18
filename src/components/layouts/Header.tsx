@@ -3,40 +3,51 @@ import { BORDER, COLORS } from '../../constants';
 
 export const HeaderFeed = () => {
   return (
-    <Feed>
+    <Header>
       <span>낑깡팜 피드</span>
       <BtnSearchUser type="button">
         <span className="sr-only">유저 검색하기</span>
       </BtnSearchUser>
-    </Feed>
+    </Header>
   );
 };
 
 export const HeaderSearch = () => {
   return (
-    <Feed>
+    <Header>
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <InpSearchUser type="search" placeholder="계정 검색" />
-    </Feed>
+    </Header>
   );
 };
 
 export const HeaderUserPage = () => {
   return (
-    <Feed>
+    <Header>
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <BtnMore type="button">
         <span className="sr-only">옵션 더 보기</span>
       </BtnMore>
-    </Feed>
+    </Header>
   );
 };
 
-const Feed = styled.header`
+export const HeaderListFollowers = () => {
+  return (
+    <Header className="header-list-followers">
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <TitleHeader>Followers</TitleHeader>
+    </Header>
+  );
+};
+
+const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,6 +61,10 @@ const Feed = styled.header`
   color: ${COLORS.black};
   font-size: 18px;
   font-weight: 700;
+
+  &.header-list-followers {
+    justify-content: flex-start;
+  }
 `;
 const BtnSearchUser = styled.button`
   width: 24px;
@@ -76,4 +91,7 @@ const BtnMore = styled.button`
   width: 24px;
   height: 24px;
   background: url('/icons/header/more.svg') no-repeat 50% 50%;
+`;
+const TitleHeader = styled.span`
+  padding-left: 8px;
 `;
