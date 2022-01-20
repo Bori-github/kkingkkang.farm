@@ -68,6 +68,7 @@ const Header = styled.header`
   top: 0;
   right: 0;
   left: 0;
+  z-index: 10;
   padding: 12px 16px;
   border-bottom: ${BORDER.basic};
   background-color: #fff;
