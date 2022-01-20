@@ -27,6 +27,8 @@ const EditProfile: NextPage = () => {
                 type="text"
                 id="name"
                 placeholder="2~10자 이내여야 합니다."
+                minLength={2}
+                maxLength={12}
                 required
               />
             </Label>
