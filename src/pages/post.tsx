@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderUserPage } from '../components/layouts/Header';
-import { COLORS } from '../constants';
+import { Reply } from '../components/Reply';
+import { SectionReplies } from '../components/SectionReplies';
+import { BORDER, COLORS } from '../constants';
 
 const Post: NextPage = () => {
   return (
@@ -11,7 +13,7 @@ const Post: NextPage = () => {
         <title>유저 이름(유저 아이디)ㅣ낑깡팜</title>
       </Head>
       <HeaderUserPage />
-      <main>
+      <MainPost>
         <Feed>
           <h2 className="sr-only">피드 보기</h2>
           <BoxProfileImg>
@@ -33,24 +35,30 @@ const Post: NextPage = () => {
               뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
               넣는 풍부하게 뛰노는 인생의 힘있다.
             </TxtFeed>
-            <ContainerImg>
-              <ul>
-                <li>
+            <ContCarousel>
+              <Carousel>
+                <CarouselSlide id="slide1">
                   <img src="/example/post-img-example.png" alt="피드 이미지" />
-                </li>
-                <li>
+                </CarouselSlide>
+                <CarouselSlide id="slide2">
                   <img src="/example/post-img-example.png" alt="피드 이미지" />
-                </li>
-                <li>
+                </CarouselSlide>
+                <CarouselSlide id="slide3">
                   <img src="/example/post-img-example.png" alt="피드 이미지" />
-                </li>
-              </ul>
-              <ul>
-                <li />
-                <li />
-                <li />
-              </ul>
-            </ContainerImg>
+                </CarouselSlide>
+              </Carousel>
+              <CarouselNav>
+                <a href="#slide1">
+                  <span className="sr-only">1</span>
+                </a>
+                <a href="#slide2">
+                  <span className="sr-only">2</span>
+                </a>
+                <a href="#slide3">
+                  <span className="sr-only">3</span>
+                </a>
+              </CarouselNav>
+            </ContCarousel>
             <ListIcons>
               <ItemIcon>
                 <BtnLike type="button">
@@ -68,41 +76,18 @@ const Post: NextPage = () => {
             <span className="create-at">2022년 01월 16일</span>
           </ContentFeed>
         </Feed>
-        <section>
-          <h2 className="sr-only">댓글 보기</h2>
-          <div>
-            <div>
-              <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-            </div>
-            <div>
-              <span>서귀포시 농장</span>
-              <span>5분 전</span>
-              <button type="button">
-                <span className="sr-only">더 보기</span>
-              </button>
-            </div>
-            <div>
-              <p>게시글 답글~~!! 쵝오</p>
-            </div>
-          </div>
-        </section>
-        <article>
-          <h3 className="sr-only">댓글 입력</h3>
-          <div>
-            <img src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-          </div>
-          <form>
-            <input type="text" placeholder="댓글 딜기..." />
-            <button type="button">게시</button>
-          </form>
-        </article>
-      </main>
+        <SectionReplies />
+        <Reply />
+      </MainPost>
     </>
   );
 };
 
 export default Post;
 
+const MainPost = styled.main`
+  margin: 49px 0 51px;
+`;
 const Feed = styled.section`
   display: grid;
   grid-template-columns: 50px auto;
@@ -153,7 +138,43 @@ const ContentFeed = styled.div`
     font-size: 10px;
   }
 `;
-const ContainerImg = styled.div``;
+const ContCarousel = styled.div`
+  position: relative;
+`;
+const Carousel = styled.ul`
+  overflow-x: auto;
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+`;
+const CarouselSlide = styled.li`
+  min-width: 100%;
+  scroll-snap-align: center;
+  position: relative;
+
+  &:not(:first-of-type) {
+    margin-left: 10px;
+  }
+`;
+const CarouselNav = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+
+  & a {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 3px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+`;
 const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
