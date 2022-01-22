@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { HeaderUserPage } from '../components/layouts/Header';
 import { Reply } from '../components/Reply';
 import { SectionReplies } from '../components/SectionReplies';
-import { BORDER, COLORS } from '../constants';
+import { COLORS } from '../constants';
 
 const Post: NextPage = () => {
   return (
@@ -151,7 +151,6 @@ const Carousel = styled.ul`
 const CarouselSlide = styled.li`
   min-width: 100%;
   scroll-snap-align: center;
-  position: relative;
 
   &:not(:first-of-type) {
     margin-left: 10px;
