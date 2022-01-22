@@ -123,7 +123,8 @@ export const GlobalStyles = css`
     display: block;
     width: 100%;
   }
-  input {
+  input,
+  textarea {
     font-family: inherit;
   }
   button {
