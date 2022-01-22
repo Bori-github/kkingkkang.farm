@@ -49,6 +49,19 @@ export const HeaderBtnSave = () => {
   );
 };
 
+export const HeaderBtnUpload = () => {
+  return (
+    <Header>
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <BtnUpload type="button" className="active">
+        업로드
+      </BtnUpload>
+    </Header>
+  );
+};
+
 export const HeaderListFollowers = () => {
   return (
     <Header className="header-list-followers">
@@ -107,6 +120,18 @@ const BtnMore = styled.button`
   background: url('/icons/header/more.svg') no-repeat 50% 50%;
 `;
 const BtnSave = styled.button`
+  width: 90px;
+  height: 24px;
+  border-radius: 24px;
+  background-color: ${BUTTON.disabled_color};
+  color: #fff;
+  font-size: 14px;
+
+  &.active {
+    background-color: ${BUTTON.background_color};
+  }
+`;
+const BtnUpload = styled.button`
   width: 90px;
   height: 24px;
   border-radius: 24px;
