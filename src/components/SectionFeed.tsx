@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { BORDER, COLORS } from '../constants';
+import { UserAvatar } from './UserAvatar';
 
 export const SectionFeed = () => {
   return (
@@ -15,7 +16,7 @@ export const SectionFeed = () => {
       </Toolbar>
       <Feed>
         <BoxProfileImg>
-          <ImgProfile src="/default-profile-w.png" alt="사용자 프로필 이미지" />
+          <UserAvatar size="40px" padding="5px" />
         </BoxProfileImg>
         <HeaderArticle>
           <UserName>애월읍 위니브 농장</UserName>
@@ -89,18 +90,11 @@ const Feed = styled.article`
   grid-template-columns: 50px auto;
   grid-template-rows: 50px auto;
   gap: 10px;
-  /* margin: 20px 0; */
   padding: 20px;
 `;
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
-  width: 40px;
-`;
-const ImgProfile = styled.img`
-  padding: 5px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 `;
 const HeaderArticle = styled.header`
   grid-column: 2 / 3;

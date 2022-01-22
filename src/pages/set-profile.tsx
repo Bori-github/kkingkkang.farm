@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { UserAvatar } from '../components/UserAvatar';
 import { BORDER, BUTTON, COLORS } from '../constants';
 
 const SetProfile: NextPage = () => {
@@ -13,7 +14,7 @@ const SetProfile: NextPage = () => {
         <TitleMain>프로필 설정</TitleMain>
         <TxtSetProfile>나중에 언제든지 변경할 수 있습니다.</TxtSetProfile>
         <BoxProfileImg>
-          <img src="/default-profile-w.png" alt="기본 프로필" />
+          <UserAvatar size="90px" padding="10px" />
           <button type="button">
             <span className="sr-only">프로필 사진 업로드</span>
           </button>

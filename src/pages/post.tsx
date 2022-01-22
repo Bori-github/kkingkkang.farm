@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { HeaderUserPage } from '../components/layouts/Header';
 import { Reply } from '../components/Reply';
 import { SectionReplies } from '../components/SectionReplies';
+import { UserAvatar } from '../components/UserAvatar';
 import { COLORS } from '../constants';
 
 const Post: NextPage = () => {
@@ -17,10 +18,7 @@ const Post: NextPage = () => {
         <Feed>
           <h2 className="sr-only">피드 보기</h2>
           <BoxProfileImg>
-            <ImgProfile
-              src="/default-profile-w.png"
-              alt="사용자 프로필 이미지"
-            />
+            <UserAvatar size="30px" padding="6px" />
           </BoxProfileImg>
           <HeaderArticle>
             <UserName>애월읍 위니브 농장</UserName>
@@ -90,20 +88,14 @@ const MainPost = styled.main`
 `;
 const Feed = styled.section`
   display: grid;
-  grid-template-columns: 50px auto;
-  grid-template-rows: 50px auto;
+  grid-template-columns: 42px auto;
+  grid-template-rows: 42px auto;
   gap: 10px;
   padding: 20px;
 `;
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
-  width: 40px;
-`;
-const ImgProfile = styled.img`
-  padding: 5px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 `;
 const HeaderArticle = styled.header`
   grid-column: 2 / 3;

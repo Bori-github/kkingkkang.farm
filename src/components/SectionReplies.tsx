@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
-import { BORDER, BUTTON, COLORS } from '../constants';
+import { BORDER, COLORS } from '../constants';
+import { UserAvatar } from './UserAvatar';
 
 export const SectionReplies = () => {
   return (
     <Container>
       <h2 className="sr-only">댓글 보기</h2>
       <UserReply>
-        <div>
-          <ImgUser src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-        </div>
+        <UserAvatar size="24px" padding="6px" />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>5분 전</Timestamp>
@@ -19,9 +18,7 @@ export const SectionReplies = () => {
         <TxtReply>게시글 답글~~!! 쵝오</TxtReply>
       </UserReply>
       <UserReply>
-        <div>
-          <ImgUser src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-        </div>
+        <UserAvatar size="24px" padding="6px" />
         <User>
           <UserName>감귤러버</UserName>
           <Timestamp>15분 전</Timestamp>
@@ -35,9 +32,7 @@ export const SectionReplies = () => {
         </TxtReply>
       </UserReply>
       <UserReply>
-        <div>
-          <ImgUser src="/default-profile-w.png" alt="사용자 프로필 이미지" />
-        </div>
+        <UserAvatar size="24px" padding="6px" />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>20분 전</Timestamp>
@@ -62,12 +57,6 @@ const UserReply = styled.div`
   &:not(:first-of-type) {
     margin-top: 16px;
   }
-`;
-const ImgUser = styled.img`
-  width: 24px;
-  padding: 6px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 `;
 const User = styled.div`
   position: relative;

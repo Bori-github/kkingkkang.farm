@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderBtnUpload } from '../components/layouts/Header';
+import { UserAvatar } from '../components/UserAvatar';
 import { BUTTON, COLORS } from '../constants';
 
 const Upload: NextPage = () => {
@@ -14,10 +15,7 @@ const Upload: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <ImgProfile
-              src="/default-profile-w.png"
-              alt="사용자 프로필 이미지"
-            />
+            <UserAvatar size="30px" padding="6px" />
           </BoxProfileImg>
           <form action="#">
             <p className="sr-only">게시글을 작성해주세요</p>
@@ -71,12 +69,6 @@ const SectionUpload = styled.section`
 `;
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
-  width: 30px;
-`;
-const ImgProfile = styled.img`
-  padding: 5px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 `;
 const TextUpload = styled.textarea`
   width: 100%;
