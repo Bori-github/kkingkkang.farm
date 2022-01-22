@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { HeaderSearch } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
+import { UserAvatar } from '../components/UserAvatar';
 import { COLORS } from '../constants';
 
 const SearchUser: NextPage = () => {
@@ -18,10 +19,7 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <ImgUser
-                  src="/default-profile-w.png"
-                  alt="사용자 프로필 이미지"
-                />
+                <UserAvatar size="40px" padding="5px" />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -32,10 +30,7 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <ImgUser
-                  src="/default-profile-w.png"
-                  alt="사용자 프로필 이미지"
-                />
+                <UserAvatar size="40px" padding="5px" />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -46,10 +41,7 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <ImgUser
-                  src="/default-profile-w.png"
-                  alt="사용자 프로필 이미지"
-                />
+                <UserAvatar size="40px" padding="5px" />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -80,12 +72,6 @@ const LinkUser = styled.a`
   display: grid;
   grid-template-columns: 50px auto;
   gap: 10px;
-`;
-const ImgUser = styled.img`
-  width: 40px;
-  padding: 5px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 `;
 const UserAccount = styled.div`
   display: grid;

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { BORDER, COLORS } from '../constants';
+import { UserAvatar } from './UserAvatar';
 
 export const SectionUserInfo = () => {
   return (
@@ -13,7 +14,7 @@ export const SectionUserInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <ImgUser src="/default-profile-w.png" alt="유저 프로필 이미지" />
+        <UserAvatar size="90px" padding="10px" />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>
@@ -56,7 +57,7 @@ export const SectionMyInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <ImgUser src="/default-profile-w.png" alt="나의 프로필 이미지" />
+        <UserAvatar size="90px" padding="10px" />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>
@@ -113,6 +114,7 @@ const LinkFollowers = styled.a`
   align-items: center;
   justify-content: space-between;
   height: 35px;
+  margin-right: 40px;
   font-size: 10px;
 
   & .count-followers {
@@ -121,19 +123,13 @@ const LinkFollowers = styled.a`
     font-weight: 700;
   }
 `;
-const ImgUser = styled.img`
-  width: 90px;
-  margin: 0 40px;
-  padding: 10px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
-`;
 const LinkFollowings = styled.a`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 35px;
+  margin-left: 40px;
   font-size: 10px;
 
   & .count-followings {

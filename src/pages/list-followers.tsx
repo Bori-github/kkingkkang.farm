@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { HeaderListFollowers } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
+import { UserAvatar } from '../components/UserAvatar';
 import { BORDER, COLORS } from '../constants';
 
 const ListFollowers: NextPage = () => {
@@ -18,10 +19,7 @@ const ListFollowers: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkFollower>
-                <ImgFollower
-                  src="/default-profile-w.png"
-                  alt="팔로워 프로필 이미지"
-                />
+                <UserAvatar size="40px" padding="5px" />
                 <FollowerAccount>
                   <FollowerName>애월읍 위니브 농장</FollowerName>
                   <FollowerId>@weniv_Mandarin</FollowerId>
@@ -33,10 +31,7 @@ const ListFollowers: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkFollower>
-                <ImgFollower
-                  src="/default-profile-w.png"
-                  alt="팔로워 프로필 이미지"
-                />
+                <UserAvatar size="40px" padding="5px" />
                 <FollowerAccount>
                   <FollowerName>애월읍 위니브 농장</FollowerName>
                   <FollowerId>@weniv_Mandarin</FollowerId>
@@ -67,12 +62,6 @@ const LinkFollower = styled.a`
   display: grid;
   grid-template-columns: 50px auto 56px;
   gap: 10px;
-`;
-const ImgFollower = styled.img`
-  width: 40px;
-  padding: 5px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 `;
 const FollowerAccount = styled.div`
   display: grid;
