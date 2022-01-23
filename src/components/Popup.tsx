@@ -5,7 +5,7 @@ import { BORDER, COLORS } from '../constants';
 export const PopupMoreUser = () => {
   return (
     <BgPopup>
-      <PopupMore>
+      <ModalPopup>
         <ul>
           <ItemMore>
             <Link href="/">
@@ -16,7 +16,7 @@ export const PopupMoreUser = () => {
             <button type="button">로그아웃</button>
           </ItemMore>
         </ul>
-      </PopupMore>
+      </ModalPopup>
     </BgPopup>
   );
 };
@@ -44,7 +44,7 @@ export const PopupLogout = () => {
 export const PopupProduct = () => {
   return (
     <BgPopup>
-      <PopupMore>
+      <ModalPopup>
         <ul>
           <ItemMore>
             <button type="button">삭제</button>
@@ -58,7 +58,7 @@ export const PopupProduct = () => {
             </Link>
           </ItemMore>
         </ul>
-      </PopupMore>
+      </ModalPopup>
     </BgPopup>
   );
 };
@@ -86,7 +86,7 @@ export const PopupProducDelete = () => {
 export const PopupPost = () => {
   return (
     <BgPopup>
-      <PopupMore>
+      <ModalPopup>
         <ul>
           <ItemMore>
             <button type="button">삭제</button>
@@ -95,7 +95,7 @@ export const PopupPost = () => {
             <button type="button">수정</button>
           </ItemMore>
         </ul>
-      </PopupMore>
+      </ModalPopup>
     </BgPopup>
   );
 };
@@ -120,8 +120,17 @@ export const PopupPostDelete = () => {
   );
 };
 
+export const PopupExitChat = () => {
+  return (
+    <BgPopup>
+      <ModalPopup className="exit">
+        <BtnExit type="button">채팅방 나가기</BtnExit>
+      </ModalPopup>
+    </BgPopup>
+  );
+};
 const BgPopup = styled.div`
-  display: none;
+  /* display: none; */
   position: fixed;
   top: 0;
   right: 0;
@@ -131,7 +140,7 @@ const BgPopup = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   color: ${COLORS.black};
 `;
-const PopupMore = styled.div`
+const ModalPopup = styled.div`
   position: fixed;
   right: 0;
   bottom: 60px;
@@ -151,6 +160,10 @@ const PopupMore = styled.div`
     background-color: #dbdbdb;
     transform: translateX(-50%);
   }
+
+  &.exit {
+    bottom: 51px;
+  }
 `;
 const ItemMore = styled.li`
   padding: 14px 25px;
@@ -159,7 +172,7 @@ const ItemMore = styled.li`
 
 const Popup = styled.div`
   position: absolute;
-  top: calc(50% - 61px);
+  top: calc(50% - 30px);
   left: 50%;
   border-radius: 10px;
   background-color: #fff;
@@ -194,4 +207,10 @@ const BtnLogout = styled.a`
   width: 126px;
   line-height: 46px;
   color: ${COLORS.accent_green};
+`;
+const BtnExit = styled.button`
+  width: 100%;
+  padding: 14px 25px;
+  font-size: 14px;
+  text-align: left;
 `;
