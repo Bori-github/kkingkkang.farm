@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { BORDER, COLORS } from '../constants';
+import { BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionUserInfo = () => {
@@ -14,7 +14,10 @@ export const SectionUserInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar size="90px" padding="10px" />
+        <UserAvatar
+          size={USER_AVATAR.lg.size}
+          padding={USER_AVATAR.lg.padding}
+        />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>
@@ -57,7 +60,10 @@ export const SectionMyInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar size="90px" padding="10px" />
+        <UserAvatar
+          size={USER_AVATAR.lg.size}
+          padding={USER_AVATAR.lg.padding}
+        />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>

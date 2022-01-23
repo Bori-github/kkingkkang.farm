@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { HeaderListFollowers } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { UserAvatar } from '../components/UserAvatar';
-import { BORDER, COLORS } from '../constants';
+import { BORDER, COLORS, USER_AVATAR } from '../constants';
 
 const ListFollowers: NextPage = () => {
   return (
@@ -19,7 +19,10 @@ const ListFollowers: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkFollower>
-                <UserAvatar size="40px" padding="5px" />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  padding={USER_AVATAR.md.padding}
+                />
                 <FollowerAccount>
                   <FollowerName>애월읍 위니브 농장</FollowerName>
                   <FollowerId>@weniv_Mandarin</FollowerId>
@@ -31,7 +34,10 @@ const ListFollowers: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkFollower>
-                <UserAvatar size="40px" padding="5px" />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  padding={USER_AVATAR.md.padding}
+                />
                 <FollowerAccount>
                   <FollowerName>애월읍 위니브 농장</FollowerName>
                   <FollowerId>@weniv_Mandarin</FollowerId>

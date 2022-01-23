@@ -28,3 +28,22 @@ export const BUTTON = {
   disabled_color: `${COLORS.light_gray}`,
   color: '#fff',
 };
+
+export const USER_AVATAR = {
+  xs: {
+    size: '24px',
+    padding: '6px',
+  },
+  sm: {
+    size: '30px',
+    padding: '6px',
+  },
+  md: {
+    size: '40px',
+    padding: '5px',
+  },
+  lg: {
+    size: '90px',
+    padding: '10px',
+  },
+};

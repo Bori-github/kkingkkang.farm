@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderUserPage } from '../components/layouts/Header';
-import { Reply } from '../components/Reply';
+import { SectionInpReply } from '../components/SectionInput';
 import { SectionReplies } from '../components/SectionReplies';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS } from '../constants';
+import { COLORS, USER_AVATAR } from '../constants';
 
 const Post: NextPage = () => {
   return (
@@ -18,7 +18,10 @@ const Post: NextPage = () => {
         <Feed>
           <h2 className="sr-only">피드 보기</h2>
           <BoxProfileImg>
-            <UserAvatar size="30px" padding="6px" />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              padding={USER_AVATAR.sm.padding}
+            />
           </BoxProfileImg>
           <HeaderArticle>
             <UserName>애월읍 위니브 농장</UserName>
@@ -75,7 +78,7 @@ const Post: NextPage = () => {
           </ContentFeed>
         </Feed>
         <SectionReplies />
-        <Reply />
+        <SectionInpReply />
       </MainPost>
     </>
   );
@@ -84,7 +87,7 @@ const Post: NextPage = () => {
 export default Post;
 
 const MainPost = styled.main`
-  margin: 49px 0 51px;
+  margin: 49px 0 53px;
 `;
 const Feed = styled.section`
   display: grid;

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { BORDER, COLORS } from '../constants';
+import { BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionFeed = () => {
@@ -16,7 +16,10 @@ export const SectionFeed = () => {
       </Toolbar>
       <Feed>
         <BoxProfileImg>
-          <UserAvatar size="40px" padding="5px" />
+          <UserAvatar
+            size={USER_AVATAR.md.size}
+            padding={USER_AVATAR.md.padding}
+          />
         </BoxProfileImg>
         <HeaderArticle>
           <UserName>애월읍 위니브 농장</UserName>

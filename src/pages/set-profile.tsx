@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { UserAvatar } from '../components/UserAvatar';
-import { BORDER, BUTTON, COLORS } from '../constants';
+import { BORDER, BUTTON, COLORS, USER_AVATAR } from '../constants';
 
 const SetProfile: NextPage = () => {
   return (
@@ -14,7 +14,10 @@ const SetProfile: NextPage = () => {
         <TitleMain>프로필 설정</TitleMain>
         <TxtSetProfile>나중에 언제든지 변경할 수 있습니다.</TxtSetProfile>
         <BoxProfileImg>
-          <UserAvatar size="90px" padding="10px" />
+          <UserAvatar
+            size={USER_AVATAR.lg.size}
+            padding={USER_AVATAR.lg.padding}
+          />
           <button type="button">
             <span className="sr-only">프로필 사진 업로드</span>
           </button>
@@ -86,9 +89,6 @@ const TxtSetProfile = styled.p`
 const BoxProfileImg = styled.div`
   position: relative;
   margin: 30px 0;
-  padding: 10px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 
   & button {
     position: absolute;

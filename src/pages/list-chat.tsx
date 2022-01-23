@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { HeaderUserPage } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS } from '../constants';
+import { COLORS, USER_AVATAR } from '../constants';
 
 const ListChat: NextPage = () => {
   return (
@@ -19,7 +19,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size="36px" padding="6px" />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  padding={USER_AVATAR.sm.padding}
+                />
                 <Badge className="unread">
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -36,7 +39,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size="36px" padding="6px" />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  padding={USER_AVATAR.sm.padding}
+                />
                 <Badge>
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -53,7 +59,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size="36px" padding="6px" />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  padding={USER_AVATAR.sm.padding}
+                />
                 <Badge>
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -88,7 +97,7 @@ const ListChats = styled.ul`
 `;
 const LinkChat = styled.a`
   display: grid;
-  grid-template-columns: 50px auto 56px;
+  grid-template-columns: 42px auto 56px;
   gap: 10px;
 `;
 const BoxUserAvatar = styled.div`
