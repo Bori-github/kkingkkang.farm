@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { BORDER, COLORS } from '../constants';
+import { BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionReplies = () => {
@@ -7,7 +7,10 @@ export const SectionReplies = () => {
     <Container>
       <h2 className="sr-only">댓글 보기</h2>
       <UserReply>
-        <UserAvatar size="24px" padding="6px" />
+        <UserAvatar
+          size={USER_AVATAR.xs.size}
+          padding={USER_AVATAR.xs.padding}
+        />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>5분 전</Timestamp>
@@ -18,7 +21,10 @@ export const SectionReplies = () => {
         <TxtReply>게시글 답글~~!! 쵝오</TxtReply>
       </UserReply>
       <UserReply>
-        <UserAvatar size="24px" padding="6px" />
+        <UserAvatar
+          size={USER_AVATAR.xs.size}
+          padding={USER_AVATAR.xs.padding}
+        />
         <User>
           <UserName>감귤러버</UserName>
           <Timestamp>15분 전</Timestamp>
@@ -32,7 +38,10 @@ export const SectionReplies = () => {
         </TxtReply>
       </UserReply>
       <UserReply>
-        <UserAvatar size="24px" padding="6px" />
+        <UserAvatar
+          size={USER_AVATAR.xs.size}
+          padding={USER_AVATAR.xs.padding}
+        />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>20분 전</Timestamp>

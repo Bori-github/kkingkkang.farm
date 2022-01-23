@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderBtnUpload } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
-import { BUTTON, COLORS } from '../constants';
+import { BUTTON, COLORS, USER_AVATAR } from '../constants';
 
 const Upload: NextPage = () => {
   return (
@@ -15,7 +15,10 @@ const Upload: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <UserAvatar size="30px" padding="6px" />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              padding={USER_AVATAR.sm.padding}
+            />
           </BoxProfileImg>
           <form action="#">
             <p className="sr-only">게시글을 작성해주세요</p>

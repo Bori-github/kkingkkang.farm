@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderBtnSave } from '../components/layouts/Header';
-import { BORDER, COLORS } from '../constants';
+import { UserAvatar } from '../components/UserAvatar';
+import { BORDER, COLORS, USER_AVATAR } from '../constants';
 
 const EditProfile: NextPage = () => {
   return (
@@ -14,7 +15,10 @@ const EditProfile: NextPage = () => {
       <MainEditProfile>
         <h2 className="sr-only">내 프로필 편집</h2>
         <BoxProfileImg>
-          <img src="/default-profile-w.png" alt="기본 프로필" />
+          <UserAvatar
+            size={USER_AVATAR.lg.size}
+            padding={USER_AVATAR.lg.padding}
+          />
           <button type="button">
             <span className="sr-only">프로필 사진 업로드</span>
           </button>
@@ -78,9 +82,6 @@ const MainEditProfile = styled.main`
 const BoxProfileImg = styled.div`
   position: relative;
   margin: 30px 0;
-  padding: 10px;
-  border-radius: 50%;
-  background-color: ${COLORS.light_gray};
 
   & button {
     position: absolute;

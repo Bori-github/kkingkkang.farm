@@ -165,6 +165,7 @@ export const GlobalStyles = css`
   }
 
   body {
+    min-width: 375px;
     color: ${COLORS.gray};
     font-family: 'Pretendard-Regular';
   }

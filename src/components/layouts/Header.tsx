@@ -73,6 +73,22 @@ export const HeaderListFollowers = () => {
   );
 };
 
+export const HeaderChat = () => {
+  return (
+    <Header>
+      <HeaderColumn>
+        <BtnPrev type="button">
+          <span className="sr-only">뒤로가기</span>
+        </BtnPrev>
+        <ChatUser>채팅 유저 이름</ChatUser>
+      </HeaderColumn>
+      <BtnMore type="button">
+        <span className="sr-only">옵션 더 보기</span>
+      </BtnMore>
+    </Header>
+  );
+};
+
 const Header = styled.header`
   display: flex;
   align-items: center;
@@ -145,4 +161,11 @@ const BtnUpload = styled.button`
 `;
 const TitleHeader = styled.span`
   padding-left: 8px;
+`;
+const HeaderColumn = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const ChatUser = styled.span`
+  margin-left: 10px;
 `;
