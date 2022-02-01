@@ -12,7 +12,7 @@ export const SignupEmail = ({
   setUserInfo: (value: { email: string; password: string }) => void;
 }) => {
   const regExpEm =
-    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const regExgPw = /^[A-Za-z0-9]{6,12}$/;
 
   const [emailValid, setEmailValid] = useState('');
