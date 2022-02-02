@@ -1,10 +1,52 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { UserAvatar } from '../components/UserAvatar';
-import { BORDER, BUTTON, COLORS, USER_AVATAR } from '../constants';
+import {
+  API_ENDPOINT,
+  BORDER,
+  BUTTON,
+  COLORS,
+  USER_AVATAR,
+} from '../constants';
 
 const SetProfile: NextPage = () => {
+  // const [image, setImage] = useState('/default-profile-w.png');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<{
+    username: string;
+    email: string;
+    password: string;
+    accountname: string;
+    intro: string;
+    image: string;
+  }>({ mode: 'onChange' });
+
+  const signup = handleSubmit(async (data) => {
+    const res = await axios(`${API_ENDPOINT}/user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        user: {
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          accountname: data.accountname,
+          intro: data.intro,
+          image: 'https://api.mandarin.cf/1643614860329.png',
+        },
+      }),
+    });
+  });
   return (
     <>
       <Head>
@@ -18,9 +60,16 @@ const SetProfile: NextPage = () => {
             size={USER_AVATAR.lg.size}
             padding={USER_AVATAR.lg.padding}
           />
-          <button type="button">
+          <Label htmlFor="uploadImag" className="btn-profile-img">
             <span className="sr-only">프로필 사진 업로드</span>
-          </button>
+          </Label>
+          <input
+            type="file"
+            id="uploadImag"
+            accept="image/*"
+            // onChange={}
+            className="sr-only"
+          />
         </BoxProfileImg>
         <FormSetProfile>
           <BoxInp>
@@ -89,17 +138,6 @@ const TxtSetProfile = styled.p`
 const BoxProfileImg = styled.div`
   position: relative;
   margin: 30px 0;
-
-  & button {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: url('/icons/img/image.svg') no-repeat 50% 50%
-      ${COLORS.accent_green};
-  }
 `;
 const FormSetProfile = styled.form`
   width: 100%;
@@ -111,6 +149,17 @@ const BoxInp = styled.div`
 `;
 const Label = styled.label`
   font-size: 12px;
+
+  &.btn-profile-img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: url('/icons/img/image.svg') no-repeat 50% 50%
+      ${COLORS.accent_green};
+  }
 
   & input {
     display: block;
