@@ -2,23 +2,17 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { UserAvatar } from '../components/UserAvatar';
-import {
-  API_ENDPOINT,
-  BORDER,
-  BUTTON,
-  COLORS,
-  USER_AVATAR,
-} from '../constants';
+import { API_ENDPOINT, BORDER, BUTTON, COLORS } from '../constants';
 
 const SetProfile: NextPage = () => {
-  // const [image, setImage] = useState('/default-profile-w.png');
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isValid },
   } = useForm<{
     username: string;
@@ -28,6 +22,22 @@ const SetProfile: NextPage = () => {
     intro: string;
     image: string;
   }>({ mode: 'onChange' });
+
+  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
+
+  const onUploadImg = async () => {
+    const imgData = new FormData();
+    imgData.append('image', getValues().image[0]);
+
+    const uploadImg = await axios(`${API_ENDPOINT}/image/uploadfile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: imgData,
+    });
+    setProfileImg(`${API_ENDPOINT}/${uploadImg.data.filename}`);
+  };
 
   const signup = handleSubmit(async (data) => {
     const res = await axios(`${API_ENDPOINT}/user`, {
@@ -42,10 +52,14 @@ const SetProfile: NextPage = () => {
           password: data.password,
           accountname: data.accountname,
           intro: data.intro,
-          image: 'https://api.mandarin.cf/1643614860329.png',
+          image: profileImg,
         },
       }),
     });
+
+    if (res.data.message === '회원가입 성공') {
+      router.push('/login');
+    }
   });
   return (
     <>
@@ -56,10 +70,7 @@ const SetProfile: NextPage = () => {
         <TitleMain>프로필 설정</TitleMain>
         <TxtSetProfile>나중에 언제든지 변경할 수 있습니다.</TxtSetProfile>
         <BoxProfileImg>
-          <UserAvatar
-            size={USER_AVATAR.lg.size}
-            padding={USER_AVATAR.lg.padding}
-          />
+          <ImgProfile src={profileImg} alt="사용자 프로필 이미지" />
           <Label htmlFor="uploadImag" className="btn-profile-img">
             <span className="sr-only">프로필 사진 업로드</span>
           </Label>
@@ -67,11 +78,14 @@ const SetProfile: NextPage = () => {
             type="file"
             id="uploadImag"
             accept="image/*"
-            // onChange={}
+            // onChange={onUploadImg}
             className="sr-only"
+            {...register('image', {
+              onChange: onUploadImg,
+            })}
           />
         </BoxProfileImg>
-        <FormSetProfile>
+        <FormSetProfile onSubmit={signup}>
           <BoxInp>
             <Label htmlFor="name">
               사용자 이름
@@ -138,6 +152,13 @@ const TxtSetProfile = styled.p`
 const BoxProfileImg = styled.div`
   position: relative;
   margin: 30px 0;
+`;
+const ImgProfile = styled.img`
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background-color: ${COLORS.light_gray};
+  object-fit: cover;
 `;
 const FormSetProfile = styled.form`
   width: 100%;
