@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import Link from 'next/link';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import { useState, useEffect } from 'react';
+import { API_ENDPOINT, BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionUserInfo = () => {
@@ -47,29 +49,60 @@ export const SectionUserInfo = () => {
 };
 
 export const SectionMyInfo = () => {
+  const [accountName, setAccountName] = useState('계정 이름');
+  const [follower, setFollower] = useState([]);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [following, setFollowing] = useState([]);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
+  const [intro, setIntro] = useState('소개글을 작성해주세요.');
+  const [isFollow, setIsFollow] = useState(false);
+  const [userName, setUserName] = useState('사용자 이름');
+  // const [id, setId] = useState('');
+
+  const getProfile = async () => {
+    const account = localStorage.getItem('account');
+    const token = localStorage.getItem('token');
+    const res = await axios(`${API_ENDPOINT}/profile/${account}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+    setAccountName(res?.data?.profile?.accountname);
+    setFollowerCount(res?.data?.profile?.followerCount);
+    setFollowingCount(res?.data?.profile?.followingCount);
+    setProfileImg(res?.data?.profile?.image);
+    setIntro(res?.data?.profile?.intro);
+    setUserName(res?.data?.profile?.username);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <Container>
-      <h2 className="sr-only">나의 정보</h2>
+      <h2 className="sr-only">{userName}의 정보</h2>
       <BoxUser>
         <Link href="/list-followers">
           <LinkFollowers>
-            <span className="count-followers">2950</span>
+            <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar size={USER_AVATAR.lg.size} />
+        <UserAvatar size={USER_AVATAR.lg.size} src={profileImg} />
         <Link href="/list-followings">
           <LinkFollowings>
-            <span className="count-followings">128</span>
+            <span className="count-followings">{followingCount}</span>
             <span>followings</span>
           </LinkFollowings>
         </Link>
       </BoxUser>
-      <span className="user-name">애월읍 낑깡농장</span>
-      <span className="user-id">@kkingkkang_farm</span>
-      <p className="user-desc">
-        애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장
-      </p>
+      <span className="user-name">{userName}</span>
+      <span className="user-id">@{accountName}</span>
+      <p className="user-desc">{intro}</p>
       <ListMyBtns>
         <li>
           <BtnProfile type="button">프로필 수정</BtnProfile>

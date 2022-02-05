@@ -4,21 +4,17 @@ import { COLORS } from '../constants';
 
 type AvatarProps = {
   size: string;
+  src: string;
 };
 
-export const UserAvatar = ({ size }: AvatarProps) => {
-  return (
-    <ImgProfile
-      size={size}
-      src="/default-profile-w.png"
-      alt="사용자 프로필 이미지"
-    />
-  );
+export const UserAvatar = ({ size, src }: AvatarProps) => {
+  return <ImgProfile size={size} src={src} alt="사용자 프로필 이미지" />;
 };
 
 const ImgProfile = styled.img<AvatarProps>`
   width: ${(props) => props.size};
   height: ${(props) => props.size};
   border-radius: 50%;
-  background-color: ${COLORS.light_gray};
+  background-color: ${(props) =>
+    props.src !== '/default-profile-w.png' ? 'transparent' : COLORS.light_gray};
 `;
