@@ -15,10 +15,7 @@ const Upload: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <UserAvatar
-              size={USER_AVATAR.sm.size}
-              padding={USER_AVATAR.sm.padding}
-            />
+            <UserAvatar size={USER_AVATAR.sm.size} />
           </BoxProfileImg>
           <form action="#">
             <p className="sr-only">게시글을 작성해주세요</p>

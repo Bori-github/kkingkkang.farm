@@ -18,10 +18,7 @@ const Post: NextPage = () => {
         <Feed>
           <h2 className="sr-only">피드 보기</h2>
           <BoxProfileImg>
-            <UserAvatar
-              size={USER_AVATAR.sm.size}
-              padding={USER_AVATAR.sm.padding}
-            />
+            <UserAvatar size={USER_AVATAR.sm.size} />
           </BoxProfileImg>
           <HeaderArticle>
             <UserName>애월읍 위니브 농장</UserName>

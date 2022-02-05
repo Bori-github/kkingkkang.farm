@@ -14,10 +14,7 @@ export const SectionUserInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar
-          size={USER_AVATAR.lg.size}
-          padding={USER_AVATAR.lg.padding}
-        />
+        <UserAvatar size={USER_AVATAR.lg.size} />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>
@@ -60,10 +57,7 @@ export const SectionMyInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar
-          size={USER_AVATAR.lg.size}
-          padding={USER_AVATAR.lg.padding}
-        />
+        <UserAvatar size={USER_AVATAR.lg.size} />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>

@@ -19,10 +19,7 @@ const ListFollowers: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkFollower>
-                <UserAvatar
-                  size={USER_AVATAR.md.size}
-                  padding={USER_AVATAR.md.padding}
-                />
+                <UserAvatar size={USER_AVATAR.md.size} />
                 <FollowerAccount>
                   <FollowerName>애월읍 위니브 농장</FollowerName>
                   <FollowerId>@weniv_Mandarin</FollowerId>
@@ -34,10 +31,7 @@ const ListFollowers: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkFollower>
-                <UserAvatar
-                  size={USER_AVATAR.md.size}
-                  padding={USER_AVATAR.md.padding}
-                />
+                <UserAvatar size={USER_AVATAR.md.size} />
                 <FollowerAccount>
                   <FollowerName>애월읍 위니브 농장</FollowerName>
                   <FollowerId>@weniv_Mandarin</FollowerId>

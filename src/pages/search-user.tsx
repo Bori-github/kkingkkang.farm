@@ -19,10 +19,7 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar
-                  size={USER_AVATAR.md.size}
-                  padding={USER_AVATAR.md.padding}
-                />
+                <UserAvatar size={USER_AVATAR.md.size} />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -33,10 +30,7 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar
-                  size={USER_AVATAR.md.size}
-                  padding={USER_AVATAR.md.padding}
-                />
+                <UserAvatar size={USER_AVATAR.md.size} />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -47,10 +41,7 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar
-                  size={USER_AVATAR.md.size}
-                  padding={USER_AVATAR.md.padding}
-                />
+                <UserAvatar size={USER_AVATAR.md.size} />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
