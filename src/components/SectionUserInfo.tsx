@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import Link from 'next/link';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import { useState, useEffect } from 'react';
+import { API_ENDPOINT, BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionUserInfo = () => {
@@ -14,10 +16,7 @@ export const SectionUserInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar
-          size={USER_AVATAR.lg.size}
-          padding={USER_AVATAR.lg.padding}
-        />
+        <UserAvatar size={USER_AVATAR.lg.size} />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">128</span>
@@ -50,38 +49,69 @@ export const SectionUserInfo = () => {
 };
 
 export const SectionMyInfo = () => {
+  const [accountName, setAccountName] = useState('계정 이름');
+  const [follower, setFollower] = useState([]);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [following, setFollowing] = useState([]);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
+  const [intro, setIntro] = useState('소개글을 작성해주세요.');
+  const [isFollow, setIsFollow] = useState(false);
+  const [userName, setUserName] = useState('사용자 이름');
+
+  const getProfile = async () => {
+    const accountname = localStorage.getItem('accountname');
+    const token = localStorage.getItem('token');
+    const res = await axios(`${API_ENDPOINT}/profile/${accountname}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+    setAccountName(res?.data?.profile?.accountname);
+    setFollowerCount(res?.data?.profile?.followerCount);
+    setFollowingCount(res?.data?.profile?.followingCount);
+    setProfileImg(res?.data?.profile?.image);
+    setIntro(res?.data?.profile?.intro);
+    setUserName(res?.data?.profile?.username);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <Container>
-      <h2 className="sr-only">나의 정보</h2>
+      <h2 className="sr-only">{userName}의 정보</h2>
       <BoxUser>
         <Link href="/list-followers">
           <LinkFollowers>
-            <span className="count-followers">2950</span>
+            <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar
-          size={USER_AVATAR.lg.size}
-          padding={USER_AVATAR.lg.padding}
-        />
+        <UserAvatar size={USER_AVATAR.lg.size} src={profileImg} />
         <Link href="/list-followings">
           <LinkFollowings>
-            <span className="count-followings">128</span>
+            <span className="count-followings">{followingCount}</span>
             <span>followings</span>
           </LinkFollowings>
         </Link>
       </BoxUser>
-      <span className="user-name">애월읍 낑깡농장</span>
-      <span className="user-id">@kkingkkang_farm</span>
-      <p className="user-desc">
-        애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장
-      </p>
+      <span className="user-name">{userName}</span>
+      <span className="user-id">@{accountName}</span>
+      <p className="user-desc">{intro}</p>
       <ListMyBtns>
         <li>
-          <BtnProfile type="button">프로필 수정</BtnProfile>
+          <Link href="/edit-profile" passHref>
+            <BtnProfile>프로필 수정</BtnProfile>
+          </Link>
         </li>
         <li>
-          <BtnProduct type="button">상품 등록</BtnProduct>
+          <Link href="/add-product" passHref>
+            <BtnProduct>상품 등록</BtnProduct>
+          </Link>
         </li>
       </ListMyBtns>
     </Container>
@@ -175,14 +205,14 @@ const ListMyBtns = styled.ul`
   align-items: center;
   justify-content: center;
 `;
-const BtnProfile = styled.button`
+const BtnProfile = styled.a`
   margin-right: 15px;
   padding: 6px 20px;
   border: ${BORDER.basic};
   border-radius: 30px;
   font-size: 14px;
 `;
-const BtnProduct = styled.button`
+const BtnProduct = styled.a`
   padding: 6px 20px;
   border: ${BORDER.basic};
   border-radius: 30px;

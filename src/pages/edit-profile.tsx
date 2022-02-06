@@ -15,10 +15,7 @@ const EditProfile: NextPage = () => {
       <MainEditProfile>
         <h2 className="sr-only">내 프로필 편집</h2>
         <BoxProfileImg>
-          <UserAvatar
-            size={USER_AVATAR.lg.size}
-            padding={USER_AVATAR.lg.padding}
-          />
+          <UserAvatar size={USER_AVATAR.lg.size} />
           <button type="button">
             <span className="sr-only">프로필 사진 업로드</span>
           </button>

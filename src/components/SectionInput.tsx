@@ -7,7 +7,7 @@ export const SectionInpReply = () => {
   return (
     <Contaioner>
       <h3 className="sr-only">댓글 입력</h3>
-      <UserAvatar size={USER_AVATAR.sm.size} padding={USER_AVATAR.sm.padding} />
+      <UserAvatar size={USER_AVATAR.sm.size} />
       <Form>
         <InpTxt type="text" placeholder="댓글 달기..." />
         <BtnSend type="button" className="active">

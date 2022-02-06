@@ -43,9 +43,9 @@ const LoginEmail: NextPage = () => {
     if (res.data.message) {
       setLoginError(true);
     } else {
-      localStorage.setItem('account', res.data.user.accountname);
+      localStorage.setItem('accountname', res.data.user.accountname);
       localStorage.setItem('token', res.data.user.token);
-      router.push('/');
+      router.push('/home');
     }
   });
 

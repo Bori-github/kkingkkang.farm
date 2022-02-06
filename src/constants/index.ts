@@ -32,19 +32,15 @@ export const BUTTON = {
 
 export const USER_AVATAR = {
   xs: {
-    size: '24px',
-    padding: '6px',
+    size: '36px',
   },
   sm: {
-    size: '30px',
-    padding: '6px',
+    size: '42px',
   },
   md: {
-    size: '40px',
-    padding: '5px',
+    size: '50px',
   },
   lg: {
-    size: '90px',
-    padding: '10px',
+    size: '110px',
   },
 };
