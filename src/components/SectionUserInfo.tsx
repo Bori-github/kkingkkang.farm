@@ -58,12 +58,11 @@ export const SectionMyInfo = () => {
   const [intro, setIntro] = useState('소개글을 작성해주세요.');
   const [isFollow, setIsFollow] = useState(false);
   const [userName, setUserName] = useState('사용자 이름');
-  // const [id, setId] = useState('');
 
   const getProfile = async () => {
-    const account = localStorage.getItem('account');
+    const accountname = localStorage.getItem('accountname');
     const token = localStorage.getItem('token');
-    const res = await axios(`${API_ENDPOINT}/profile/${account}`, {
+    const res = await axios(`${API_ENDPOINT}/profile/${accountname}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,10 +104,14 @@ export const SectionMyInfo = () => {
       <p className="user-desc">{intro}</p>
       <ListMyBtns>
         <li>
-          <BtnProfile type="button">프로필 수정</BtnProfile>
+          <Link href="/edit-profile" passHref>
+            <BtnProfile>프로필 수정</BtnProfile>
+          </Link>
         </li>
         <li>
-          <BtnProduct type="button">상품 등록</BtnProduct>
+          <Link href="/add-product" passHref>
+            <BtnProduct>상품 등록</BtnProduct>
+          </Link>
         </li>
       </ListMyBtns>
     </Container>
@@ -202,14 +205,14 @@ const ListMyBtns = styled.ul`
   align-items: center;
   justify-content: center;
 `;
-const BtnProfile = styled.button`
+const BtnProfile = styled.a`
   margin-right: 15px;
   padding: 6px 20px;
   border: ${BORDER.basic};
   border-radius: 30px;
   font-size: 14px;
 `;
-const BtnProduct = styled.button`
+const BtnProduct = styled.a`
   padding: 6px 20px;
   border: ${BORDER.basic};
   border-radius: 30px;
