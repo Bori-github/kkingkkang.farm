@@ -1,53 +1,56 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { API_ENDPOINT, BORDER, BUTTON, COLORS } from '../constants';
 
 const LoginEmail: NextPage = () => {
   const router = useRouter();
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      router.push('/');
-    }
-  }, []);
+  if (Cookies.get('token')) {
+    router.push('/home');
+  }
 
-  const regExpEm =
-    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-  const regExgPw = /^[A-Za-z0-9]{6,12}$/;
-
-  const [loginError, setLoginError] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState('');
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<{ email: string; password: string }>({ mode: 'onChange' });
 
-  const onSubmit = handleSubmit(async (data) => {
-    const res = await axios(`${API_ENDPOINT}/user/login`, {
+  const onSubmit = handleSubmit(async (userData) => {
+    const { data } = await axios(`${API_ENDPOINT}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       data: JSON.stringify({
         user: {
-          email: data.email,
-          password: data.password,
+          email: userData.email,
+          password: userData.password,
         },
       }),
     });
-    if (res.data.message) {
-      setLoginError(true);
+
+    if (data.message) {
+      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
     } else {
-      localStorage.setItem('accountname', res.data.user.accountname);
-      localStorage.setItem('token', res.data.user.token);
-      router.push('/home');
+      Cookies.set('accountname', data.user.accountname);
+      Cookies.set('token', data.user.token);
     }
   });
+
+  const handleChange = () => {
+    setLoginError('');
+  };
+
+  const regExpEm =
+    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+  const regExgPw = /^[A-Za-z0-9]{6,12}$/;
 
   return (
     <>
@@ -81,7 +84,11 @@ const LoginEmail: NextPage = () => {
                 type="password"
                 id="userPw"
                 required
-                {...register('password', { required: true, pattern: regExgPw })}
+                {...register('password', {
+                  required: true,
+                  pattern: regExgPw,
+                  onChange: handleChange,
+                })}
               />
             </Label>
             {errors?.password?.type === 'pattern' && (
@@ -90,7 +97,7 @@ const LoginEmail: NextPage = () => {
                 입력해 주세요.
               </TxtError>
             )}
-            {loginError && (
+            {loginError === '이메일 또는 비밀번호가 일치하지 않습니다.' && (
               <TxtError>* 이메일 또는 비밀번호가 일치하지 않습니다.</TxtError>
             )}
           </BoxInp>
