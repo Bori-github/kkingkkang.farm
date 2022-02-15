@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useState } from 'react';
 import { BORDER, COLORS, USER_AVATAR } from '../../constants';
 import { UserAvatar } from '../UserAvatar';
 
@@ -14,9 +15,14 @@ interface FollowerProps {
 
 export const FollowerCard = ({ followerData }: FollowerProps) => {
   const { accountName, profileImg, userName, isFollow } = followerData;
+  const [followed, setFollowed] = useState(isFollow);
+
+  const toggleFollow = () => {
+    return followed ? setFollowed(false) : setFollowed(true);
+  };
 
   return (
-    <li>
+    <Follower>
       <Link href={`/profile/${accountName}`} passHref>
         <LinkFollower>
           <UserAvatar size={USER_AVATAR.md.size} src={profileImg} />
@@ -24,20 +30,29 @@ export const FollowerCard = ({ followerData }: FollowerProps) => {
             <FollowerName>{userName}</FollowerName>
             <FollowerId>@{accountName}</FollowerId>
           </FollowerAccount>
-          {isFollow ? (
-            <BtnCancel type="button">팔로잉</BtnCancel>
-          ) : (
-            <BtnFollow type="button">팔로우</BtnFollow>
-          )}
         </LinkFollower>
       </Link>
-    </li>
+      {followed ? (
+        <BtnCancel type="button" onClick={toggleFollow}>
+          팔로잉
+        </BtnCancel>
+      ) : (
+        <BtnFollow type="button" onClick={toggleFollow}>
+          팔로우
+        </BtnFollow>
+      )}
+    </Follower>
   );
 };
 
+const Follower = styled.li`
+  display: grid;
+  grid-template-columns: auto 56px;
+  gap: 10px;
+`;
 const LinkFollower = styled.a`
   display: grid;
-  grid-template-columns: 50px auto 56px;
+  grid-template-columns: 50px auto;
   gap: 10px;
 `;
 const FollowerAccount = styled.div`
