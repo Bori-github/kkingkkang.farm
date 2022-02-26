@@ -31,7 +31,7 @@ export const FollowerContainer = () => {
         const { _id, username, accountname, image, isfollow } = followerData;
         return (
           <FollowerCard
-            key={_id}
+            key={`follower-list-${_id}`}
             followerData={{
               accountName: accountname,
               profileImg: image,
