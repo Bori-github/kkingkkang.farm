@@ -3,30 +3,42 @@ import Link from 'next/link';
 import { BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
-export const SectionUserInfo = () => {
+interface UserInfoProps {
+  userInfoData: {
+    accountname: string | string[] | undefined;
+    followerCount: number;
+    followingCount: number;
+    image: string;
+    intro: string;
+    username: string;
+  };
+}
+
+export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
+  const { accountname, followerCount, followingCount, image, intro, username } =
+    userInfoData;
+
   return (
     <Container>
       <h2 className="sr-only">유저 정보</h2>
       <BoxUser>
         <Link href="/list-followers">
           <LinkFollowers>
-            <span className="count-followers">2950</span>
+            <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        {/* <UserAvatar size={USER_AVATAR.lg.size} /> */}
+        <UserAvatar size={USER_AVATAR.lg.size} src={image} />
         <Link href="/list-followings">
           <LinkFollowings>
-            <span className="count-followings">128</span>
+            <span className="count-followings">{followingCount}</span>
             <span>followings</span>
           </LinkFollowings>
         </Link>
       </BoxUser>
-      <span className="user-name">애월읍 낑깡농장</span>
-      <span className="user-id">@kkingkkang_farm</span>
-      <p className="user-desc">
-        애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장
-      </p>
+      <span className="user-name">{username}</span>
+      <span className="user-id">@{accountname}</span>
+      <p className="user-desc">{intro}</p>
       <ListBtns>
         <li>
           <BtnMsg type="button">
@@ -45,17 +57,6 @@ export const SectionUserInfo = () => {
     </Container>
   );
 };
-
-interface UserInfoProps {
-  userInfoData: {
-    accountname: string;
-    followerCount: number;
-    followingCount: number;
-    image: string;
-    intro: string;
-    username: string;
-  };
-}
 
 export const SectionMyInfo = ({ userInfoData }: UserInfoProps) => {
   const { accountname, followerCount, followingCount, image, intro, username } =
