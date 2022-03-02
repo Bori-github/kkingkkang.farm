@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
@@ -8,19 +8,20 @@ import { fetcher } from '../../utils/fetcher';
 import { FollowerCard } from './FollowerCard';
 
 export const FollowerContainer = () => {
-  const accountname = Cookies.get('accountname') || '';
+  const router = useRouter();
+  const { id } = router.query;
   const { data, error } = useSWR(
-    `${API_ENDPOINT}/profile/${accountname}/follower/?limit=100`,
+    `${API_ENDPOINT}/profile/${id}/follower`,
     fetcher,
   );
+
+  const [followerList, setFollowerList] = useState([]);
 
   useEffect(() => {
     if (data) {
       setFollowerList(data);
     }
   }, [data]);
-
-  const [followerList, setFollowerList] = useState([]);
 
   if (!data) return <div>잠시만 기다려주세요.</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
