@@ -23,7 +23,7 @@ export const FollowerCard = ({ followerData }: FollowerProps) => {
 
   return (
     <Follower>
-      <Link href={`/profile/${accountName}`} passHref>
+      <Link href={`/user-page/${accountName}`} passHref>
         <LinkFollower>
           <UserAvatar size={USER_AVATAR.md.size} src={profileImg} />
           <FollowerAccount>

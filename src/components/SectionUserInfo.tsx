@@ -22,7 +22,7 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
     <Container>
       <h2 className="sr-only">유저 정보</h2>
       <BoxUser>
-        <Link href="/list-followers">
+        <Link href={`/list-followers/${accountname}`}>
           <LinkFollowers>
             <span className="count-followers">{followerCount}</span>
             <span>followers</span>
