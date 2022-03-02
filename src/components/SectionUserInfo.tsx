@@ -1,34 +1,44 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { API_ENDPOINT, BORDER, COLORS, USER_AVATAR } from '../constants';
+import { BORDER, COLORS, USER_AVATAR } from '../constants';
 import { UserAvatar } from './UserAvatar';
 
-export const SectionUserInfo = () => {
+interface UserInfoProps {
+  userInfoData: {
+    accountname: string | string[] | undefined;
+    followerCount: number;
+    followingCount: number;
+    image: string;
+    intro: string;
+    username: string;
+  };
+}
+
+export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
+  const { accountname, followerCount, followingCount, image, intro, username } =
+    userInfoData;
+
   return (
     <Container>
       <h2 className="sr-only">유저 정보</h2>
       <BoxUser>
-        <Link href="/list-followers">
+        <Link href={`/list-followers/${accountname}`}>
           <LinkFollowers>
-            <span className="count-followers">2950</span>
+            <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar size={USER_AVATAR.lg.size} />
+        <UserAvatar size={USER_AVATAR.lg.size} src={image} />
         <Link href="/list-followings">
           <LinkFollowings>
-            <span className="count-followings">128</span>
+            <span className="count-followings">{followingCount}</span>
             <span>followings</span>
           </LinkFollowings>
         </Link>
       </BoxUser>
-      <span className="user-name">애월읍 낑깡농장</span>
-      <span className="user-id">@kkingkkang_farm</span>
-      <p className="user-desc">
-        애월읍 낑깡 전국 배송, 낑깡따기 체험, 낑깡 농장
-      </p>
+      <span className="user-name">{username}</span>
+      <span className="user-id">@{accountname}</span>
+      <p className="user-desc">{intro}</p>
       <ListBtns>
         <li>
           <BtnMsg type="button">
@@ -48,42 +58,13 @@ export const SectionUserInfo = () => {
   );
 };
 
-export const SectionMyInfo = () => {
-  const [accountName, setAccountName] = useState('계정 이름');
-  const [follower, setFollower] = useState([]);
-  const [followerCount, setFollowerCount] = useState(0);
-  const [following, setFollowing] = useState([]);
-  const [followingCount, setFollowingCount] = useState(0);
-  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
-  const [intro, setIntro] = useState('소개글을 작성해주세요.');
-  const [isFollow, setIsFollow] = useState(false);
-  const [userName, setUserName] = useState('사용자 이름');
-
-  const getProfile = async () => {
-    const accountname = localStorage.getItem('accountname');
-    const token = localStorage.getItem('token');
-    const res = await axios(`${API_ENDPOINT}/profile/${accountname}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-type': 'application/json',
-      },
-    });
-    setAccountName(res?.data?.profile?.accountname);
-    setFollowerCount(res?.data?.profile?.followerCount);
-    setFollowingCount(res?.data?.profile?.followingCount);
-    setProfileImg(res?.data?.profile?.image);
-    setIntro(res?.data?.profile?.intro);
-    setUserName(res?.data?.profile?.username);
-  };
-
-  useEffect(() => {
-    getProfile();
-  }, []);
+export const SectionMyInfo = ({ userInfoData }: UserInfoProps) => {
+  const { accountname, followerCount, followingCount, image, intro, username } =
+    userInfoData;
 
   return (
     <Container>
-      <h2 className="sr-only">{userName}의 정보</h2>
+      <h2 className="sr-only">{username}의 정보</h2>
       <BoxUser>
         <Link href="/list-followers">
           <LinkFollowers>
@@ -91,7 +72,7 @@ export const SectionMyInfo = () => {
             <span>followers</span>
           </LinkFollowers>
         </Link>
-        <UserAvatar size={USER_AVATAR.lg.size} src={profileImg} />
+        <UserAvatar size={USER_AVATAR.lg.size} src={image} />
         <Link href="/list-followings">
           <LinkFollowings>
             <span className="count-followings">{followingCount}</span>
@@ -99,8 +80,8 @@ export const SectionMyInfo = () => {
           </LinkFollowings>
         </Link>
       </BoxUser>
-      <span className="user-name">{userName}</span>
-      <span className="user-id">@{accountName}</span>
+      <span className="user-name">{username}</span>
+      <span className="user-id">@{accountname}</span>
       <p className="user-desc">{intro}</p>
       <ListMyBtns>
         <li>
@@ -131,19 +112,23 @@ const Container = styled.section`
     font-size: 18px;
     font-weight: 700;
   }
+
   & .user-id {
     font-size: 12px;
   }
+
   & .user-desc {
     margin: 16px 0 24px;
     font-size: 14px;
   }
 `;
+
 const BoxUser = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 const LinkFollowers = styled.a`
   display: flex;
   flex-direction: column;
@@ -159,6 +144,7 @@ const LinkFollowers = styled.a`
     font-weight: 700;
   }
 `;
+
 const LinkFollowings = styled.a`
   display: flex;
   flex-direction: column;
@@ -173,11 +159,13 @@ const LinkFollowings = styled.a`
     font-weight: 700;
   }
 `;
+
 const ListBtns = styled.ul`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 const BtnMsg = styled.button`
   width: 34px;
   height: 34px;
@@ -185,6 +173,7 @@ const BtnMsg = styled.button`
   border-radius: 50%;
   background: url('/icons/message-sm.svg') no-repeat 50% 50%;
 `;
+
 const BtnFollow = styled.button`
   margin: 0 10px;
   padding: 10px 40px;
@@ -192,6 +181,7 @@ const BtnFollow = styled.button`
   background-color: ${COLORS.accent_light_green};
   color: #fff;
 `;
+
 const BtnShare = styled.button`
   width: 34px;
   height: 34px;
@@ -205,6 +195,7 @@ const ListMyBtns = styled.ul`
   align-items: center;
   justify-content: center;
 `;
+
 const BtnProfile = styled.a`
   margin-right: 15px;
   padding: 6px 20px;
@@ -212,6 +203,7 @@ const BtnProfile = styled.a`
   border-radius: 30px;
   font-size: 14px;
 `;
+
 const BtnProduct = styled.a`
   padding: 6px 20px;
   border: ${BORDER.basic};
