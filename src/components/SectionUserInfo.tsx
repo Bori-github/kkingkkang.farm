@@ -29,7 +29,7 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
           </LinkFollowers>
         </Link>
         <UserAvatar size={USER_AVATAR.lg.size} src={image} />
-        <Link href="/list-followings">
+        <Link href={`/list-followings/${accountname}`}>
           <LinkFollowings>
             <span className="count-followings">{followingCount}</span>
             <span>followings</span>
@@ -66,14 +66,14 @@ export const SectionMyInfo = ({ userInfoData }: UserInfoProps) => {
     <Container>
       <h2 className="sr-only">{username}의 정보</h2>
       <BoxUser>
-        <Link href="/list-followers">
+        <Link href={`/list-followers/${accountname}`}>
           <LinkFollowers>
             <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
         <UserAvatar size={USER_AVATAR.lg.size} src={image} />
-        <Link href="/list-followings">
+        <Link href={`/list-followings/${accountname}`}>
           <LinkFollowings>
             <span className="count-followings">{followingCount}</span>
             <span>followings</span>
