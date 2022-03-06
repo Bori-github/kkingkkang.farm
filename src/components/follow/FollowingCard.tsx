@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useState } from 'react';
-import { COLORS, BORDER, USER_AVATAR } from '../../constants';
+import { COLORS, BORDER, USER_AVATAR, API_ENDPOINT } from '../../constants';
 import { UserAvatar } from '../UserAvatar';
 
 interface FollowingProps {
@@ -17,9 +19,33 @@ interface FollowingProps {
 export const FollowingCard = ({ followingData }: FollowingProps) => {
   const { accountname, image, username, isfollow } = followingData;
   const [followed, setFollowed] = useState(isfollow);
+  const token = Cookies.get('token');
+  const removeFollow = async (accountname: string) => {
+    const { data } = await axios(
+      `${API_ENDPOINT}/profile/${accountname}/unfollow`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      },
+    );
+    setFollowed(false);
+  };
 
-  const toggleFollow = () => {
-    return setFollowed((curr) => !curr);
+  const getFollow = async (accountname: string) => {
+    const { data } = await axios(
+      `${API_ENDPOINT}/profile/${accountname}/follow`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      },
+    );
+    setFollowed(true);
   };
 
   return (
@@ -34,11 +60,11 @@ export const FollowingCard = ({ followingData }: FollowingProps) => {
         </LinkFollowing>
       </Link>
       {followed ? (
-        <BtnCancel type="button" onClick={toggleFollow}>
+        <BtnCancel type="button" onClick={() => removeFollow(accountname)}>
           팔로잉
         </BtnCancel>
       ) : (
-        <BtnFollow type="button" onClick={toggleFollow}>
+        <BtnFollow type="button" onClick={() => getFollow(accountname)}>
           팔로우
         </BtnFollow>
       )}
