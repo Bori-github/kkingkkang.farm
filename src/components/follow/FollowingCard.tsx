@@ -4,11 +4,11 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useState } from 'react';
-import { API_ENDPOINT, BORDER, COLORS, USER_AVATAR } from '../../constants';
+import { COLORS, BORDER, USER_AVATAR, API_ENDPOINT } from '../../constants';
 import { UserAvatar } from '../UserAvatar';
 
-interface FollowerProps {
-  followerData: {
+interface FollowingProps {
+  followingData: {
     accountname: string;
     image: string;
     username: string;
@@ -16,10 +16,9 @@ interface FollowerProps {
   };
 }
 
-export const FollowerCard = ({ followerData }: FollowerProps) => {
-  const { accountname, image, username, isfollow } = followerData;
+export const FollowingCard = ({ followingData }: FollowingProps) => {
+  const { accountname, image, username, isfollow } = followingData;
   const [followed, setFollowed] = useState(isfollow);
-
   const token = Cookies.get('token');
   const removeFollow = async (accountname: string) => {
     const { data } = await axios(
@@ -50,15 +49,15 @@ export const FollowerCard = ({ followerData }: FollowerProps) => {
   };
 
   return (
-    <Follower>
+    <Following>
       <Link href={`/user-page/${accountname}`} passHref>
-        <LinkFollower>
+        <LinkFollowing>
           <UserAvatar size={USER_AVATAR.md.size} src={image} />
-          <FollowerAccount>
-            <FollowerName>{username}</FollowerName>
-            <FollowerId>@{accountname}</FollowerId>
-          </FollowerAccount>
-        </LinkFollower>
+          <FollowingAccount>
+            <FollowingName>{username}</FollowingName>
+            <FollowingId>@{accountname}</FollowingId>
+          </FollowingAccount>
+        </LinkFollowing>
       </Link>
       {followed ? (
         <BtnCancel type="button" onClick={() => removeFollow(accountname)}>
@@ -69,35 +68,35 @@ export const FollowerCard = ({ followerData }: FollowerProps) => {
           팔로우
         </BtnFollow>
       )}
-    </Follower>
+    </Following>
   );
 };
 
-const Follower = styled.li`
+const Following = styled.li`
   display: grid;
   grid-template-columns: auto 56px;
   gap: 10px;
 `;
 
-const LinkFollower = styled.a`
+const LinkFollowing = styled.a`
   display: grid;
   grid-template-columns: 50px auto;
   gap: 10px;
 `;
 
-const FollowerAccount = styled.div`
+const FollowingAccount = styled.div`
   display: grid;
   align-items: center;
   padding: 4px 0;
 `;
 
-const FollowerName = styled.span`
+const FollowingName = styled.span`
   color: ${COLORS.black};
   font-size: 14px;
   font-weight: 700;
 `;
 
-const FollowerId = styled.span`
+const FollowingId = styled.span`
   font-size: 12px;
 `;
 

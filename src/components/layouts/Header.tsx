@@ -73,6 +73,17 @@ export const HeaderListFollowers = () => {
   );
 };
 
+export const HeaderListFollowings = () => {
+  return (
+    <Header className="header-list-followers">
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <TitleHeader>Followings</TitleHeader>
+    </Header>
+  );
+};
+
 export const HeaderChat = () => {
   return (
     <Header>

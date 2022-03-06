@@ -3,23 +3,23 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
-import { Follower } from '../../types/Follower';
+import { Following } from '../../types/Following';
 import { fetcher } from '../../utils/fetcher';
-import { FollowerCard } from './FollowerCard';
+import { FollowingCard } from './FollowingCard';
 
-export const FollowerContainer = () => {
+export const FollowingContainer = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, error } = useSWR(
-    `${API_ENDPOINT}/profile/${id}/follower`,
+    `${API_ENDPOINT}/profile/${id}/following`,
     fetcher,
   );
 
-  const [followerList, setFollowerList] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
 
   useEffect(() => {
     if (data) {
-      setFollowerList(data);
+      setFollowingList(data);
     }
   }, [data]);
 
@@ -27,26 +27,26 @@ export const FollowerContainer = () => {
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
-    <ListFollower>
-      {followerList.map((followerData: Follower) => {
-        const { _id, username, accountname, image, isfollow } = followerData;
+    <ListFollowing>
+      {followingList.map((followingData: Following) => {
+        const { _id, accountname, image, isfollow, username } = followingData;
         return (
-          <FollowerCard
-            key={`follower-list-${_id}`}
-            followerData={{
+          <FollowingCard
+            key={`following-list-${_id}`}
+            followingData={{
               accountname,
               image,
-              username,
               isfollow,
+              username,
             }}
           />
         );
       })}
-    </ListFollower>
+    </ListFollowing>
   );
 };
 
-const ListFollower = styled.ul`
+const ListFollowing = styled.ul`
   display: grid;
   gap: 15px;
   padding: 20px 0;

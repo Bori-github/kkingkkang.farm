@@ -28,7 +28,7 @@ export const Navigation = () => {
           </Link>
         </ItemMenu>
         <ItemMenu className="item-profile">
-          <Link href="/my-profile">
+          <Link href="/user-page">
             <LinkMenu>
               <span>프로필</span>
             </LinkMenu>
