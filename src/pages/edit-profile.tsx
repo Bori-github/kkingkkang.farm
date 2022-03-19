@@ -1,11 +1,79 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import useSWR from 'swr';
 import { HeaderBtnSave } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import {
+  API_ENDPOINT,
+  BORDER,
+  BUTTON,
+  COLORS,
+  USER_AVATAR,
+} from '../constants';
+import { fetcher } from '../utils/fetcher';
+
+interface EditProfileValues {
+  username: string;
+  accountname: string;
+  intro: string;
+  image: string;
+}
 
 const EditProfile: NextPage = () => {
+  const {
+    register,
+    getValues,
+    setValue,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<EditProfileValues>({ mode: 'onChange' });
+
+  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
+  const [accountValid, setAccountValid] = useState('');
+  const accountname = Cookies.get('accountname') || '';
+  const regExpId = /^[0-9a-z-_]{5,20}$/;
+
+  const { data, error } = useSWR(
+    `${API_ENDPOINT}/profile/${accountname}`,
+    fetcher,
+  );
+
+  useEffect(() => {
+    setProfileImg(image);
+    setValue('username', username);
+    setValue('accountname', accountName);
+    setValue('intro', intro);
+  }, [data]);
+
+  const handelBlur = async () => {
+    const res = await axios(`${API_ENDPOINT}/user/accountnamevalid`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        user: {
+          accountname: getValues().accountname,
+        },
+      }),
+    });
+    setAccountValid(res.data.message);
+  };
+
+  const handelChange = () => {
+    setAccountValid('');
+  };
+
+  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (error) return <div>에러가 발생했습니다.</div>;
+
+  const { accountname: accountName, image, intro, username } = data.profile;
+
   return (
     <>
       <Head>
@@ -15,39 +83,63 @@ const EditProfile: NextPage = () => {
       <MainEditProfile>
         <h2 className="sr-only">내 프로필 편집</h2>
         <BoxProfileImg>
-          <UserAvatar size={USER_AVATAR.lg.size} />
-          <button type="button">
+          <UserAvatar size={USER_AVATAR.lg.size} src={profileImg} />
+          <Label htmlFor="uploadImag" className="btn-profile-img">
             <span className="sr-only">프로필 사진 업로드</span>
-          </button>
+          </Label>
+          <input
+            type="file"
+            id="uploadImag"
+            accept="image/*"
+            className="sr-only"
+            {...register('image')}
+          />
         </BoxProfileImg>
-        <FormSetProfile>
+        <FormEditProfile>
           <BoxInp>
-            <Label htmlFor="name">
+            <Label htmlFor="username">
               사용자 이름
               <input
                 type="text"
-                id="name"
+                id="username"
                 placeholder="2~10자 이내여야 합니다."
-                minLength={2}
-                maxLength={12}
-                required
+                {...register('username', {
+                  minLength: 2,
+                  maxLength: 10,
+                })}
               />
             </Label>
+            {(errors?.username?.type === 'minLength' ||
+              errors?.username?.type === 'maxLength') && (
+              <TxtError>* 2~10자 이내여야 합니다.</TxtError>
+            )}
           </BoxInp>
           <BoxInp>
-            <Label htmlFor="id">
+            <Label htmlFor="accountname">
               계정 ID
               <input
-                type="text"
+                type="accountname"
                 id="id"
-                placeholder="영문, 숫자, 특주문자(.),(_)만 사용 가능합니다."
-                required
+                placeholder="5~20자의 영문 소문자, 숫자와 특수기호(_),(.)만 사용 가능합니다."
+                {...register('accountname', {
+                  pattern: regExpId,
+                  onBlur: handelBlur,
+                  onChange: handelChange,
+                })}
               />
             </Label>
-            <TxtError>
-              *영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
-            </TxtError>
-            <TxtError>*이미 사용 중인 ID 입니다.</TxtError>
+            {errors?.accountname?.type === 'pattern' && (
+              <TxtError>
+                * 5~20자의 영문 소문자, 숫자와 특수기호(_),(.)만 사용
+                가능합니다.
+              </TxtError>
+            )}
+            {accountValid === '이미 가입된 계정ID 입니다.' && (
+              <TxtError>* 이미 사용 중인 계정ID 입니다.</TxtError>
+            )}
+            {accountValid === '사용 가능한 계정ID 입니다.' && (
+              <TxtSuccess>* 사용 가능한 계정ID 입니다.</TxtSuccess>
+            )}
           </BoxInp>
           <BoxInp>
             <Label htmlFor="introduce">
@@ -56,11 +148,13 @@ const EditProfile: NextPage = () => {
                 type="text"
                 id="introduce"
                 placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
-                required
               />
             </Label>
           </BoxInp>
-        </FormSetProfile>
+          <BtnSave type="submit" disabled={!isValid}>
+            저장
+          </BtnSave>
+        </FormEditProfile>
       </MainEditProfile>
     </>
   );
@@ -79,8 +173,22 @@ const MainEditProfile = styled.main`
 const BoxProfileImg = styled.div`
   position: relative;
   margin: 30px 0;
+`;
 
-  & button {
+const FormEditProfile = styled.form`
+  width: 100%;
+`;
+
+const BoxInp = styled.div`
+  &:not(:first-of-type) {
+    margin-top: 16px;
+  }
+`;
+
+const Label = styled.label`
+  font-size: 12px;
+
+  &.btn-profile-img {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -90,17 +198,6 @@ const BoxProfileImg = styled.div`
     background: url('/icons/img/image.svg') no-repeat 50% 50%
       ${COLORS.accent_green};
   }
-`;
-const FormSetProfile = styled.form`
-  width: 100%;
-`;
-const BoxInp = styled.div`
-  &:not(:first-of-type) {
-    margin-top: 16px;
-  }
-`;
-const Label = styled.label`
-  font-size: 12px;
 
   & input {
     display: block;
@@ -119,9 +216,35 @@ const Label = styled.label`
     border-color: ${COLORS.accent_green};
   }
 `;
+
 const TxtError = styled.span`
   display: inline-block;
   margin-top: 6px;
   color: ${COLORS.error};
   font-size: 12px;
+`;
+
+const TxtSuccess = styled.span`
+  display: block;
+  margin-top: 6px;
+  color: ${COLORS.accent_light_green};
+  font-size: 12px;
+`;
+
+const BtnSave = styled.button`
+  width: 100%;
+  margin: 30px 0 20px;
+  padding: 13px 0;
+  border-radius: 44px;
+  background-color: ${BUTTON.background_color};
+  color: ${BUTTON.color};
+  font-weight: 700;
+  transition: all 0.3s;
+  &:disabled {
+    background-color: ${BUTTON.disabled_color};
+  }
+  &:hover,
+  &:active {
+    background-color: ${BUTTON.background_color};
+  }
 `;
