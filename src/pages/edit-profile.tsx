@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
@@ -33,6 +34,7 @@ const EditProfile: NextPage = () => {
     formState: { errors, isValid },
   } = useForm<EditProfileValues>({ mode: 'onChange' });
 
+  const router = useRouter();
   const [profileImg, setProfileImg] = useState('/default-profile-w.png');
   const [accountValid, setAccountValid] = useState('');
   const accountname = Cookies.get('accountname') || '';
@@ -83,6 +85,28 @@ const EditProfile: NextPage = () => {
     setProfileImg(`${API_ENDPOINT}/${uploadImg.data.filename}`);
   };
 
+  const onHandleSubmit = handleSubmit(async () => {
+    const token = Cookies.get('token');
+    const { username, accountname, intro } = getValues();
+    await axios(`${API_ENDPOINT}/user`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+      data: JSON.stringify({
+        user: {
+          username,
+          accountname,
+          intro,
+          image: profileImg,
+        },
+      }),
+    });
+    Cookies.set('accountname', accountname);
+    router.push('/user-page');
+  });
+
   if (!data) return <div>잠시만 기다려주세요.</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
 
@@ -111,7 +135,7 @@ const EditProfile: NextPage = () => {
             })}
           />
         </BoxProfileImg>
-        <FormEditProfile>
+        <FormEditProfile onSubmit={onHandleSubmit}>
           <BoxInp>
             <Label htmlFor="username">
               사용자 이름
