@@ -69,6 +69,20 @@ const EditProfile: NextPage = () => {
     setAccountValid('');
   };
 
+  const onUploadImg = async () => {
+    const imgData = new FormData();
+    imgData.append('image', getValues().image[0]);
+
+    const uploadImg = await axios(`${API_ENDPOINT}/image/uploadfile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: imgData,
+    });
+    setProfileImg(`${API_ENDPOINT}/${uploadImg.data.filename}`);
+  };
+
   if (!data) return <div>잠시만 기다려주세요.</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
 
@@ -92,7 +106,9 @@ const EditProfile: NextPage = () => {
             id="uploadImag"
             accept="image/*"
             className="sr-only"
-            {...register('image')}
+            {...register('image', {
+              onChange: onUploadImg,
+            })}
           />
         </BoxProfileImg>
         <FormEditProfile>
