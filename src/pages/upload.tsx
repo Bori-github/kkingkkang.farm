@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { HeaderBtnUpload } from '../components/layouts/Header';
+import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { BUTTON, COLORS, USER_AVATAR } from '../constants';
 
@@ -11,7 +11,7 @@ const Upload: NextPage = () => {
       <Head>
         <title>게시글 업로드ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnUpload />
+      <HeaderBtnPrev headerTitle="새 게시물" />
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>

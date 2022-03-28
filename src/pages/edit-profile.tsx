@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
-import { HeaderBtnSave } from '../components/layouts/Header';
+import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import {
   API_ENDPOINT,
@@ -117,7 +117,7 @@ const EditProfile: NextPage = () => {
       <Head>
         <title>내 프로필 편집ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnSave />
+      <HeaderBtnPrev headerTitle="내 프로필 편집" />
       <MainEditProfile>
         <h2 className="sr-only">내 프로필 편집</h2>
         <BoxProfileImg>

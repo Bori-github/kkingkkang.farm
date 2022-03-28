@@ -35,7 +35,7 @@ const MyProfile: NextPage = () => {
           {username}({id})ㅣ낑깡팜
         </title>
       </Head>
-      <HeaderUserPage />
+      <HeaderUserPage headerTitle={username} />
       <MainMyPage>
         <SectionUserInfo
           userInfoData={{

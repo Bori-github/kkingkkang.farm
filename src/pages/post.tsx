@@ -13,7 +13,7 @@ const Post: NextPage = () => {
       <Head>
         <title>유저 이름(유저 아이디)ㅣ낑깡팜</title>
       </Head>
-      <HeaderUserPage />
+      <HeaderUserPage headerTitle="게시물" />
       <MainPost>
         <Feed>
           <h2 className="sr-only">피드 보기</h2>
