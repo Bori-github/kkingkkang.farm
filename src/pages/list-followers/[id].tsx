@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { FollowerContainer } from '../../components/follow/FollowerContainer';
-import { HeaderListFollowers } from '../../components/layouts/Header';
+import { HeaderBtnPrev } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
 
 const UserListFollowers: NextPage = () => {
@@ -11,7 +11,7 @@ const UserListFollowers: NextPage = () => {
       <Head>
         <title>팔로워ㅣ낑깡팜</title>
       </Head>
-      <HeaderListFollowers />
+      <HeaderBtnPrev headerTitle="Followers" />
       <MainListFollowers>
         <FollowerContainer />
       </MainListFollowers>

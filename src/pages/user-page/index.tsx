@@ -40,7 +40,7 @@ const UserPage: NextPage = () => {
           {username}({accountname})ㅣ낑깡팜
         </title>
       </Head>
-      <HeaderUserPage />
+      <HeaderUserPage headerTitle={username} />
       <MainMyPage>
         <SectionMyInfo
           userInfoData={{
