@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
 import { BORDER, COLORS } from '../../constants';
 
-export const HeaderFeed = () => {
+interface HeaderProps {
+  headerTitle: string;
+}
+
+export const HeaderFeed = ({ headerTitle }: HeaderProps) => {
   return (
     <Header>
-      <TitleHeader>낑깡팜 피드</TitleHeader>
+      <TitleHeader>{headerTitle}</TitleHeader>
       <BtnSearchUser type="button">
         <span className="sr-only">유저 검색하기</span>
       </BtnSearchUser>
@@ -23,12 +27,13 @@ export const HeaderSearch = () => {
   );
 };
 
-export const HeaderUserPage = () => {
+export const HeaderUserPage = ({ headerTitle }: HeaderProps) => {
   return (
     <Header>
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
+      <TitleHeader>{headerTitle}</TitleHeader>
       <BtnMore type="button">
         <span className="sr-only">옵션 더 보기</span>
       </BtnMore>
@@ -36,35 +41,13 @@ export const HeaderUserPage = () => {
   );
 };
 
-export const HeaderBtnSave = () => {
+export const HeaderBtnPrev = ({ headerTitle }: HeaderProps) => {
   return (
     <Header>
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
-      <TitleHeader>프로필 편집</TitleHeader>
-    </Header>
-  );
-};
-
-export const HeaderListFollowers = () => {
-  return (
-    <Header>
-      <BtnPrev type="button">
-        <span className="sr-only">뒤로가기</span>
-      </BtnPrev>
-      <TitleHeader>Followers</TitleHeader>
-    </Header>
-  );
-};
-
-export const HeaderListFollowings = () => {
-  return (
-    <Header>
-      <BtnPrev type="button">
-        <span className="sr-only">뒤로가기</span>
-      </BtnPrev>
-      <TitleHeader>Followings</TitleHeader>
+      <TitleHeader>{headerTitle}</TitleHeader>
     </Header>
   );
 };
@@ -95,8 +78,9 @@ const Header = styled.header`
   border-bottom: ${BORDER.basic};
   background-color: #fff;
   color: ${COLORS.black};
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
+  line-height: 17px;
 `;
 
 const BtnSearchUser = styled.button`
@@ -112,7 +96,8 @@ const BtnPrev = styled.button`
 `;
 
 const InpSearchUser = styled.input`
-  width: calc(100% - 40px);
+  flex: 1;
+  margin-left: 8px;
   padding: 4px 16px;
   border: 0;
   border-radius: 30px;

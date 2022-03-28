@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { HeaderBtnSave } from '../components/layouts/Header';
+import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { BORDER, COLORS, USER_AVATAR } from '../constants';
 
@@ -11,7 +11,7 @@ const EditProfile: NextPage = () => {
       <Head>
         <title>내 프로필 편집ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnSave />
+      <HeaderBtnPrev headerTitle="내 프로필 편집" />
       <MainEditProfile>
         <h2 className="sr-only">내 프로필 편집</h2>
         <BoxProfileImg>

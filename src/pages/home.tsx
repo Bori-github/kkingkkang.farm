@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       <Head>
         <title>낑깡팜 피드ㅣ낑깡팜</title>
       </Head>
-      <HeaderFeed />
+      <HeaderFeed headerTitle="낑깡팜 피드" />
       <MainHome>
         <SectionHome>
           <img src="/logo/logo-gray.png" alt="낑깡팜 로고" />
