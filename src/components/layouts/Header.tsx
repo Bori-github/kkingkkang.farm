@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import { BORDER, BUTTON, COLORS } from '../../constants';
+import { BORDER, COLORS } from '../../constants';
 
 export const HeaderFeed = () => {
   return (
     <Header>
-      <span>낑깡팜 피드</span>
+      <TitleHeader>낑깡팜 피드</TitleHeader>
       <BtnSearchUser type="button">
         <span className="sr-only">유저 검색하기</span>
       </BtnSearchUser>
@@ -42,29 +42,14 @@ export const HeaderBtnSave = () => {
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
-      <BtnSave type="button" className="active">
-        저장
-      </BtnSave>
-    </Header>
-  );
-};
-
-export const HeaderBtnUpload = () => {
-  return (
-    <Header>
-      <BtnPrev type="button">
-        <span className="sr-only">뒤로가기</span>
-      </BtnPrev>
-      <BtnUpload type="button" className="active">
-        업로드
-      </BtnUpload>
+      <TitleHeader>프로필 편집</TitleHeader>
     </Header>
   );
 };
 
 export const HeaderListFollowers = () => {
   return (
-    <Header className="header-list-followers">
+    <Header>
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
@@ -75,7 +60,7 @@ export const HeaderListFollowers = () => {
 
 export const HeaderListFollowings = () => {
   return (
-    <Header className="header-list-followers">
+    <Header>
       <BtnPrev type="button">
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
@@ -87,12 +72,10 @@ export const HeaderListFollowings = () => {
 export const HeaderChat = () => {
   return (
     <Header>
-      <HeaderColumn>
-        <BtnPrev type="button">
-          <span className="sr-only">뒤로가기</span>
-        </BtnPrev>
-        <ChatUser>채팅 유저 이름</ChatUser>
-      </HeaderColumn>
+      <BtnPrev type="button">
+        <span className="sr-only">뒤로가기</span>
+      </BtnPrev>
+      <TitleHeader>채팅 유저 이름</TitleHeader>
       <BtnMore type="button">
         <span className="sr-only">옵션 더 보기</span>
       </BtnMore>
@@ -103,7 +86,6 @@ export const HeaderChat = () => {
 const Header = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   position: fixed;
   top: 0;
   right: 0;
@@ -115,21 +97,20 @@ const Header = styled.header`
   color: ${COLORS.black};
   font-size: 18px;
   font-weight: 700;
-
-  &.header-list-followers {
-    justify-content: flex-start;
-  }
 `;
+
 const BtnSearchUser = styled.button`
   width: 24px;
   height: 24px;
   background: url('/icons/header/search.svg') no-repeat 50% 50%;
 `;
+
 const BtnPrev = styled.button`
   width: 24px;
   height: 24px;
   background: url('/icons/header/arrow-left.svg') no-repeat 50% 50%;
 `;
+
 const InpSearchUser = styled.input`
   width: calc(100% - 40px);
   padding: 4px 16px;
@@ -141,42 +122,14 @@ const InpSearchUser = styled.input`
     color: #c4c4c4;
   }
 `;
+
 const BtnMore = styled.button`
   width: 24px;
   height: 24px;
   background: url('/icons/header/more.svg') no-repeat 50% 50%;
 `;
-const BtnSave = styled.button`
-  width: 90px;
-  height: 24px;
-  border-radius: 24px;
-  background-color: ${BUTTON.disabled_color};
-  color: #fff;
-  font-size: 14px;
 
-  &.active {
-    background-color: ${BUTTON.background_color};
-  }
-`;
-const BtnUpload = styled.button`
-  width: 90px;
-  height: 24px;
-  border-radius: 24px;
-  background-color: ${BUTTON.disabled_color};
-  color: #fff;
-  font-size: 14px;
-
-  &.active {
-    background-color: ${BUTTON.background_color};
-  }
-`;
 const TitleHeader = styled.span`
+  flex: 1;
   padding-left: 8px;
-`;
-const HeaderColumn = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const ChatUser = styled.span`
-  margin-left: 10px;
 `;
