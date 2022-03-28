@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { BORDER, COLORS } from '../../constants';
 
 interface HeaderProps {
@@ -17,9 +18,11 @@ export const HeaderFeed = ({ headerTitle }: HeaderProps) => {
 };
 
 export const HeaderSearch = () => {
+  const router = useRouter();
+
   return (
     <Header>
-      <BtnPrev type="button">
+      <BtnPrev type="button" onClick={() => router.back()}>
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <InpSearchUser type="search" placeholder="계정 검색" />
@@ -28,9 +31,11 @@ export const HeaderSearch = () => {
 };
 
 export const HeaderUserPage = ({ headerTitle }: HeaderProps) => {
+  const router = useRouter();
+
   return (
     <Header>
-      <BtnPrev type="button">
+      <BtnPrev type="button" onClick={() => router.back()}>
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <TitleHeader>{headerTitle}</TitleHeader>
@@ -42,9 +47,11 @@ export const HeaderUserPage = ({ headerTitle }: HeaderProps) => {
 };
 
 export const HeaderBtnPrev = ({ headerTitle }: HeaderProps) => {
+  const router = useRouter();
+
   return (
     <Header>
-      <BtnPrev type="button">
+      <BtnPrev type="button" onClick={() => router.back()}>
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <TitleHeader>{headerTitle}</TitleHeader>
@@ -53,9 +60,11 @@ export const HeaderBtnPrev = ({ headerTitle }: HeaderProps) => {
 };
 
 export const HeaderChat = () => {
+  const router = useRouter();
+
   return (
     <Header>
-      <BtnPrev type="button">
+      <BtnPrev type="button" onClick={() => router.back()}>
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <TitleHeader>채팅 유저 이름</TitleHeader>
