@@ -7,7 +7,7 @@ export const SectionReplies = () => {
     <Container>
       <h2 className="sr-only">댓글 보기</h2>
       <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} />
+        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>5분 전</Timestamp>
@@ -18,7 +18,7 @@ export const SectionReplies = () => {
         <TxtReply>게시글 답글~~!! 쵝오</TxtReply>
       </UserReply>
       <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} />
+        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
         <User>
           <UserName>감귤러버</UserName>
           <Timestamp>15분 전</Timestamp>
@@ -32,7 +32,7 @@ export const SectionReplies = () => {
         </TxtReply>
       </UserReply>
       <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} />
+        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>20분 전</Timestamp>

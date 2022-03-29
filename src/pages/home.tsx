@@ -24,7 +24,7 @@ const Home: NextPage = () => {
             <BoxProfileImg>
               <UserAvatar
                 size={USER_AVATAR.sm.size}
-                padding={USER_AVATAR.sm.padding}
+                src="/default-profile-w.png"
               />
             </BoxProfileImg>
             <HeaderArticle>
@@ -64,7 +64,7 @@ const Home: NextPage = () => {
             <BoxProfileImg>
               <UserAvatar
                 size={USER_AVATAR.sm.size}
-                padding={USER_AVATAR.sm.padding}
+                src="/default-profile-w.png"
               />
             </BoxProfileImg>
             <HeaderArticle>
@@ -100,7 +100,7 @@ const Home: NextPage = () => {
             <BoxProfileImg>
               <UserAvatar
                 size={USER_AVATAR.sm.size}
-                padding={USER_AVATAR.sm.padding}
+                src="/default-profile-w.png"
               />
             </BoxProfileImg>
             <HeaderArticle>

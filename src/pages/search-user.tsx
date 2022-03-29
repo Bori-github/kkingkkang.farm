@@ -19,7 +19,10 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar size={USER_AVATAR.md.size} />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  src="/default-profile-w.png"
+                />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -30,7 +33,10 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar size={USER_AVATAR.md.size} />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  src="/default-profile-w.png"
+                />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -41,7 +47,10 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar size={USER_AVATAR.md.size} />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  src="/default-profile-w.png"
+                />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>

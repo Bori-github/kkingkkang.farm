@@ -19,7 +19,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size={USER_AVATAR.sm.size} />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src="/default-profile-w.png"
+                />
                 <Badge className="unread">
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -36,7 +39,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size={USER_AVATAR.sm.size} />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src="/default-profile-w.png"
+                />
                 <Badge>
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -53,7 +59,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size={USER_AVATAR.sm.size} />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src="/default-profile-w.png"
+                />
                 <Badge>
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>

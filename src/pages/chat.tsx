@@ -17,7 +17,10 @@ const Chat: NextPage = () => {
       <MainChat>
         <SectionChat>
           <Message>
-            <UserAvatar size={USER_AVATAR.sm.size} />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              src="/default-profile-w.png"
+            />
             <MsgBubble>
               <span>
                 옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
@@ -28,7 +31,10 @@ const Chat: NextPage = () => {
             <Timestamp>12:39</Timestamp>
           </Message>
           <Message>
-            <UserAvatar size={USER_AVATAR.sm.size} />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              src="/default-profile-w.png"
+            />
             <MsgBubble>
               <span>안녕하세요. 감귤 사고싶어요요요요요</span>
             </MsgBubble>
