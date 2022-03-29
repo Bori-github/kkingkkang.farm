@@ -59,7 +59,7 @@ export const HeaderBtnPrev = ({ headerTitle }: HeaderProps) => {
   );
 };
 
-export const HeaderChat = () => {
+export const HeaderChat = ({ headerTitle }: HeaderProps) => {
   const router = useRouter();
 
   return (
@@ -67,7 +67,7 @@ export const HeaderChat = () => {
       <BtnPrev type="button" onClick={() => router.back()}>
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
-      <TitleHeader>채팅 유저 이름</TitleHeader>
+      <TitleHeader>{headerTitle}</TitleHeader>
       <BtnMore type="button">
         <span className="sr-only">옵션 더 보기</span>
       </BtnMore>

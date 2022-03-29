@@ -13,7 +13,7 @@ const Chat: NextPage = () => {
       <Head>
         <title>채팅 유저 이름ㅣ낑깡팜</title>
       </Head>
-      <HeaderChat />
+      <HeaderChat headerTitle="채팅 유저 이름" />
       <MainChat>
         <SectionChat>
           <Message>

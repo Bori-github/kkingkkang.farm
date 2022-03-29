@@ -13,7 +13,7 @@ const ListChat: NextPage = () => {
       <Head>
         <title>채팅ㅣ낑깡팜</title>
       </Head>
-      <HeaderUserPage />
+      <HeaderUserPage headerTitle="채팅" />
       <MainListChat>
         <ListChats>
           <Link href="/" passHref>
