@@ -20,18 +20,20 @@ export const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link href="/chat" passHref>
+          <Link href="/list-chat" passHref>
             <LinkMenu
-              className={router.pathname === '/chat' ? 'chat active' : 'chat'}
+              className={
+                router.pathname === '/list-chat' ? 'chat active' : 'chat'
+              }
             >
               <span>채팅</span>
             </LinkMenu>
           </Link>
         </li>
         <li>
-          <Link href="/post" passHref>
+          <Link href="/upload" passHref>
             <LinkMenu
-              className={router.pathname === '/post' ? 'post active' : 'post'}
+              className={router.pathname === '/upload' ? 'post active' : 'post'}
             >
               <span>게시물 작성</span>
             </LinkMenu>
