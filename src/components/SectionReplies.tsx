@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import { BORDER, USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionReplies = () => {
@@ -7,7 +8,7 @@ export const SectionReplies = () => {
     <Container>
       <h2 className="sr-only">댓글 보기</h2>
       <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} />
+        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>5분 전</Timestamp>
@@ -18,7 +19,7 @@ export const SectionReplies = () => {
         <TxtReply>게시글 답글~~!! 쵝오</TxtReply>
       </UserReply>
       <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} />
+        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
         <User>
           <UserName>감귤러버</UserName>
           <Timestamp>15분 전</Timestamp>
@@ -32,7 +33,7 @@ export const SectionReplies = () => {
         </TxtReply>
       </UserReply>
       <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} />
+        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
         <User>
           <UserName>서귀포시 농장</UserName>
           <Timestamp>20분 전</Timestamp>
@@ -63,7 +64,7 @@ const User = styled.div`
   padding-top: 8px;
 `;
 const UserName = styled.span`
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
 `;
 const Timestamp = styled.span`
@@ -84,7 +85,7 @@ const BtnMore = styled.button`
 `;
 const TxtReply = styled.p`
   grid-column: 2 / 3;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   line-height: 1.4;
 `;

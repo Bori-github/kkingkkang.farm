@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { BORDER } from '../constants';
+import { WHITE } from '../constants/colors';
 
 export const SectionAlbum = () => {
   return (
@@ -47,7 +48,7 @@ export const SectionAlbum = () => {
 
 const Container = styled.section`
   margin-top: 10px;
-  background-color: #fff;
+  background-color: ${WHITE};
 `;
 const Toolbar = styled.div`
   padding: 6px 20px;

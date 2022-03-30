@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import { COLORS } from '../constants';
+import { GRAY_600 } from '../constants/colors';
 
 export const GlobalStyles = css`
-  /* http://meyerweb.com/eric/tools/css/reset/ 
+  /* http://meyerweb.com/eric/tools/css/reset/
     v2.0 | 20110126
     License: none (public domain)
   */
@@ -166,7 +166,7 @@ export const GlobalStyles = css`
 
   body {
     min-width: 375px;
-    color: ${COLORS.gray};
+    color: ${GRAY_600};
     font-family: 'Pretendard-Regular';
   }
 `;

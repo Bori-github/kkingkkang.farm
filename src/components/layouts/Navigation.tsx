@@ -1,39 +1,57 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { BORDER } from '../../constants';
+import { WHITE } from '../../constants/colors';
 
 export const Navigation = () => {
+  const router = useRouter();
+
   return (
     <Nav>
       <ListMenu>
-        <ItemMenu className="item-home">
-          <Link href="/home">
-            <LinkMenu>
+        <li>
+          <Link href="/home" passHref>
+            <LinkMenu
+              className={router.pathname === '/home' ? 'home active' : 'home'}
+            >
               <span>홈</span>
             </LinkMenu>
           </Link>
-        </ItemMenu>
-        <ItemMenu className="item-chat">
-          <Link href="/chat">
-            <LinkMenu>
+        </li>
+        <li>
+          <Link href="/list-chat" passHref>
+            <LinkMenu
+              className={
+                router.pathname === '/list-chat' ? 'chat active' : 'chat'
+              }
+            >
               <span>채팅</span>
             </LinkMenu>
           </Link>
-        </ItemMenu>
-        <ItemMenu className="item-post">
-          <Link href="/post">
-            <LinkMenu>
+        </li>
+        <li>
+          <Link href="/upload" passHref>
+            <LinkMenu
+              className={router.pathname === '/upload' ? 'post active' : 'post'}
+            >
               <span>게시물 작성</span>
             </LinkMenu>
           </Link>
-        </ItemMenu>
-        <ItemMenu className="item-profile">
-          <Link href="/user-page">
-            <LinkMenu>
+        </li>
+        <li>
+          <Link href="/user-page" passHref>
+            <LinkMenu
+              className={
+                router.pathname === '/user-page'
+                  ? 'user-page active'
+                  : 'user-page'
+              }
+            >
               <span>프로필</span>
             </LinkMenu>
           </Link>
-        </ItemMenu>
+        </li>
       </ListMenu>
     </Nav>
   );
@@ -46,39 +64,16 @@ const Nav = styled.nav`
   left: 0;
   z-index: 10;
   border-top: ${BORDER.basic};
-  background-color: #fff;
+  background-color: ${WHITE};
 `;
+
 const ListMenu = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   font-size: 10px;
 `;
-const ItemMenu = styled.li`
-  background: no-repeat 50% 30%;
-  &.item-home {
-    background-image: url('/icons/nav/home.svg');
-  }
-  &.item-chat {
-    background-image: url('/icons/nav/chat.svg');
-  }
-  &.item-post {
-    background-image: url('/icons/nav/post.svg');
-  }
-  &.item-profile {
-    background-image: url('/icons/nav/profile.svg');
-  }
 
-  &.item-home.active {
-    background-image: url('/icons/nav/home-fill.svg');
-  }
-  &.item-chat.active {
-    background-image: url('/icons/nav/chat-fill.svg');
-  }
-  &.item-profile.active {
-    background-image: url('/icons/nav/profile-fill.svg');
-  }
-`;
 const LinkMenu = styled.a`
   display: flex;
   align-items: flex-end;
@@ -86,4 +81,28 @@ const LinkMenu = styled.a`
   width: 85px;
   height: 54px;
   padding-bottom: 6px;
+  background: no-repeat 50% 30%;
+
+  &.home {
+    background-image: url('/icons/nav/home.svg');
+  }
+  &.chat {
+    background-image: url('/icons/nav/chat.svg');
+  }
+  &.post {
+    background-image: url('/icons/nav/post.svg');
+  }
+  &.user-page {
+    background-image: url('/icons/nav/profile.svg');
+  }
+
+  &.home.active {
+    background-image: url('/icons/nav/home-fill.svg');
+  }
+  &.chat.active {
+    background-image: url('/icons/nav/chat-fill.svg');
+  }
+  &.user-page.active {
+    background-image: url('/icons/nav/profile-fill.svg');
+  }
 `;

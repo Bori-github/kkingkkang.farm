@@ -3,7 +3,14 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { API_ENDPOINT, BORDER, BUTTON, COLORS } from '../../constants';
+import { API_ENDPOINT, BORDER, BUTTON } from '../../constants';
+import {
+  ERROR,
+  GRAY_300,
+  GRAY_900,
+  PRIMARY,
+  SECONDARY,
+} from '../../constants/colors';
 
 export const SetProfile = ({
   userInfo,
@@ -187,7 +194,7 @@ const MainSetProfile = styled.main`
 `;
 const TitleMain = styled.h2`
   margin-bottom: 40px;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 24px;
   font-weight: 700;
 `;
@@ -202,7 +209,7 @@ const ImgProfile = styled.img`
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background-color: ${COLORS.light_gray};
+  background-color: ${GRAY_300};
   object-fit: cover;
 `;
 const FormSetProfile = styled.form`
@@ -223,8 +230,7 @@ const Label = styled.label`
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: url('/icons/img/image.svg') no-repeat 50% 50%
-      ${COLORS.accent_green};
+    background: url('/icons/img/image.svg') no-repeat 50% 50% ${PRIMARY};
   }
 
   & input {
@@ -233,27 +239,27 @@ const Label = styled.label`
     padding: 10px 0 8px;
     border: 0;
     border-bottom: ${BORDER.basic};
-    color: ${COLORS.black};
+    color: ${GRAY_900};
     font-size: 14px;
   }
   & input::placeholder {
-    color: ${COLORS.placeholder};
+    color: ${GRAY_300};
   }
   & input:focus,
   & input:active {
-    border-color: ${COLORS.accent_green};
+    border-color: ${PRIMARY};
   }
 `;
 const TxtError = styled.span`
   display: block;
   margin-top: 6px;
-  color: ${COLORS.error};
+  color: ${ERROR};
   font-size: 12px;
 `;
 const TxtSuccess = styled.span`
   display: block;
   margin-top: 6px;
-  color: ${COLORS.accent_light_green};
+  color: ${SECONDARY};
   font-size: 12px;
 `;
 const BtnStart = styled.button`

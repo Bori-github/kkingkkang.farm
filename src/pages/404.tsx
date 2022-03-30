@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { BUTTON } from '../constants';
+import { WHITE } from '../constants/colors';
 
 const Page404: NextPage = () => {
   return (
@@ -11,7 +12,7 @@ const Page404: NextPage = () => {
       </Head>
       <Main404>
         <Img404 src="/logo/logo-404.png" alt="404" />
-        <Txt404>페이지를 찾을 수 없습니다. &#58;&#40;</Txt404>
+        <Txt404>페이지를 찾을 수 없습니다 :&#40;</Txt404>
         <BtnPrev type="button">이전 페이지</BtnPrev>
       </Main404>
     </>
@@ -40,5 +41,5 @@ const BtnPrev = styled.button`
   margin-bottom: 60px;
   border-radius: 44px;
   background-color: ${BUTTON.background_color};
-  color: #fff;
+  color: ${WHITE};
 `;

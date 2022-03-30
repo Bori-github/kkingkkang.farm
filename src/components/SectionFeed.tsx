@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import { BORDER, USER_AVATAR } from '../constants';
+import { GRAY_900, WHITE } from '../constants/colors';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionFeed = () => {
@@ -16,7 +17,7 @@ export const SectionFeed = () => {
       </Toolbar>
       <Feed>
         <BoxProfileImg>
-          <UserAvatar size={USER_AVATAR.md.size} />
+          <UserAvatar size={USER_AVATAR.md.size} src="/default-profile-w.png" />
         </BoxProfileImg>
         <HeaderArticle>
           <UserName>애월읍 위니브 농장</UserName>
@@ -58,7 +59,7 @@ export const SectionFeed = () => {
 const Container = styled.section`
   /* display: none; */
   margin-top: 10px;
-  background-color: #fff;
+  background-color: ${WHITE};
 `;
 const Toolbar = styled.div`
   padding: 6px 20px;
@@ -106,7 +107,7 @@ const HeaderArticle = styled.header`
 `;
 const UserName = styled.span`
   grid-column: 1 / 2;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;

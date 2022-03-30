@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLORS } from '../constants';
+import { GRAY_900, PRIMARY, WHITE } from '../constants/colors';
 
 export const SectionProducts = () => {
   return (
@@ -48,11 +48,11 @@ export const SectionProducts = () => {
 const Container = styled.section`
   margin-top: 10px;
   padding: 20px;
-  background-color: #fff;
+  background-color: ${WHITE};
 `;
 const TitleProducts = styled.h2`
   margin-bottom: 15px;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 18px;
   font-weight: 700;
 `;
@@ -75,11 +75,11 @@ const ImgProduct = styled.img`
 `;
 const TitleProduct = styled.strong`
   padding: 8px 0 6px;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
 `;
 const PriceProduct = styled.strong`
-  color: ${COLORS.accent_green};
+  color: ${PRIMARY};
   font-size: 12px;
   font-weight: 700;
 `;

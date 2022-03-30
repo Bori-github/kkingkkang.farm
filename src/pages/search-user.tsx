@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { HeaderSearch } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS, USER_AVATAR } from '../constants';
+import { USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 
 const SearchUser: NextPage = () => {
   return (
@@ -19,7 +20,10 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar size={USER_AVATAR.md.size} />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  src="/default-profile-w.png"
+                />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -30,7 +34,10 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar size={USER_AVATAR.md.size} />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  src="/default-profile-w.png"
+                />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -41,7 +48,10 @@ const SearchUser: NextPage = () => {
           <li>
             <Link href="/" passHref>
               <LinkUser>
-                <UserAvatar size={USER_AVATAR.md.size} />
+                <UserAvatar
+                  size={USER_AVATAR.md.size}
+                  src="/default-profile-w.png"
+                />
                 <UserAccount>
                   <UserName>애월읍 위니브 농장</UserName>
                   <UserId>@weniv_Mandarin</UserId>
@@ -79,7 +89,7 @@ const UserAccount = styled.div`
   padding: 4px 0;
 `;
 const UserName = styled.span`
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;

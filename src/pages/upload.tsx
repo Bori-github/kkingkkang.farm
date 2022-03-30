@@ -3,7 +3,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
-import { BUTTON, COLORS, USER_AVATAR } from '../constants';
+import { BUTTON, USER_AVATAR } from '../constants';
+import { SECONDARY } from '../constants/colors';
 
 const Upload: NextPage = () => {
   return (
@@ -15,7 +16,10 @@ const Upload: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <UserAvatar size={USER_AVATAR.sm.size} />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              src="/default-profile-w.png"
+            />
           </BoxProfileImg>
           <form action="#">
             <p className="sr-only">게시글을 작성해주세요</p>
@@ -79,7 +83,7 @@ const TextUpload = styled.textarea`
   resize: none;
 
   &::placeholder {
-    color: ${COLORS.light_gray};
+    color: ${SECONDARY};
   }
 `;
 const ContUploadImg = styled.div`

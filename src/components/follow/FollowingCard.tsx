@@ -4,7 +4,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useState } from 'react';
-import { COLORS, BORDER, USER_AVATAR, API_ENDPOINT } from '../../constants';
+import { BORDER, USER_AVATAR, API_ENDPOINT } from '../../constants';
+import { GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
 import { UserAvatar } from '../UserAvatar';
 
 interface FollowingProps {
@@ -91,7 +92,7 @@ const FollowingAccount = styled.div`
 `;
 
 const FollowingName = styled.span`
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;
@@ -109,8 +110,8 @@ const BtnStyle = () => css`
 
 const BtnFollow = styled.button`
   ${BtnStyle}
-  background-color: ${COLORS.accent_green};
-  color: #fff;
+  background-color: ${PRIMARY};
+  color: ${WHITE};
 `;
 
 const BtnCancel = styled.button`

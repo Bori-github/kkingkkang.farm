@@ -5,7 +5,8 @@ import { HeaderUserPage } from '../components/layouts/Header';
 import { SectionInpReply } from '../components/SectionInput';
 import { SectionReplies } from '../components/SectionReplies';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS, USER_AVATAR } from '../constants';
+import { USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 
 const Post: NextPage = () => {
   return (
@@ -18,7 +19,10 @@ const Post: NextPage = () => {
         <Feed>
           <h2 className="sr-only">피드 보기</h2>
           <BoxProfileImg>
-            <UserAvatar size={USER_AVATAR.sm.size} />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              src="/default-profile-w.png"
+            />
           </BoxProfileImg>
           <HeaderArticle>
             <UserName>애월읍 위니브 농장</UserName>
@@ -107,7 +111,7 @@ const HeaderArticle = styled.header`
 `;
 const UserName = styled.span`
   grid-column: 1 / 2;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;

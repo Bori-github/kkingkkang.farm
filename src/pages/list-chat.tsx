@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { HeaderUserPage } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS, USER_AVATAR } from '../constants';
+import { USER_AVATAR } from '../constants';
+import { GRAY_900, PRIMARY, SECONDARY } from '../constants/colors';
 
 const ListChat: NextPage = () => {
   return (
@@ -13,13 +14,16 @@ const ListChat: NextPage = () => {
       <Head>
         <title>채팅ㅣ낑깡팜</title>
       </Head>
-      <HeaderUserPage />
+      <HeaderUserPage headerTitle="채팅" />
       <MainListChat>
         <ListChats>
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size={USER_AVATAR.sm.size} />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src="/default-profile-w.png"
+                />
                 <Badge className="unread">
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -36,7 +40,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size={USER_AVATAR.sm.size} />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src="/default-profile-w.png"
+                />
                 <Badge>
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -53,7 +60,10 @@ const ListChat: NextPage = () => {
           <Link href="/" passHref>
             <LinkChat>
               <BoxUserAvatar>
-                <UserAvatar size={USER_AVATAR.sm.size} />
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src="/default-profile-w.png"
+                />
                 <Badge>
                   <span className="sr-only">읽지 않은 채팅</span>
                 </Badge>
@@ -102,7 +112,7 @@ const Badge = styled.div`
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: ${COLORS.accent_green};
+  background-color: ${PRIMARY};
 
   &.unread {
     display: block;
@@ -114,7 +124,7 @@ const UserChat = styled.div`
 `;
 const UserName = styled.span`
   align-self: center;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
 `;
 const UserText = styled.p`
@@ -123,6 +133,6 @@ const UserText = styled.p`
 const ChatTime = styled.span`
   align-self: flex-end;
   padding-bottom: 5px;
-  color: ${COLORS.light_gray};
+  color: ${SECONDARY};
   font-size: 10px;
 `;

@@ -1,6 +1,6 @@
 // import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { COLORS } from '../constants';
+import { GRAY_300 } from '../constants/colors';
 
 type AvatarProps = {
   size: string;
@@ -16,5 +16,5 @@ const ImgProfile = styled.img<AvatarProps>`
   height: ${(props) => props.size};
   border-radius: 50%;
   background-color: ${(props) =>
-    props.src !== '/default-profile-w.png' ? 'transparent' : COLORS.light_gray};
+    props.src !== '/default-profile-w.png' ? 'transparent' : GRAY_300};
 `;

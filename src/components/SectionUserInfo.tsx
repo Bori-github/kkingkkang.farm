@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import { BORDER, USER_AVATAR } from '../constants';
+import { GRAY_900, PRIMARY, WHITE } from '../constants/colors';
 import { UserAvatar } from './UserAvatar';
 
 interface UserInfoProps {
@@ -104,11 +105,11 @@ const Container = styled.section`
   flex-direction: column;
   align-items: center;
   padding: 30px 0;
-  background-color: #fff;
+  background-color: ${WHITE};
 
   & .user-name {
     margin: 16px 0 6px;
-    color: ${COLORS.black};
+    color: ${GRAY_900};
     font-size: 18px;
     font-weight: 700;
   }
@@ -139,7 +140,7 @@ const LinkFollowers = styled.a`
   font-size: 10px;
 
   & .count-followers {
-    color: ${COLORS.black};
+    color: ${GRAY_900};
     font-size: 18px;
     font-weight: 700;
   }
@@ -178,8 +179,8 @@ const BtnFollow = styled.button`
   margin: 0 10px;
   padding: 10px 40px;
   border-radius: 32px;
-  background-color: ${COLORS.accent_light_green};
-  color: #fff;
+  background-color: ${PRIMARY};
+  color: ${WHITE};
 `;
 
 const BtnShare = styled.button`
