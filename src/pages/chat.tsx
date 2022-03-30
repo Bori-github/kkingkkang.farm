@@ -5,7 +5,8 @@ import { HeaderChat } from '../components/layouts/Header';
 import { PopupExitChat } from '../components/Popup';
 import { SectionInpChat } from '../components/SectionInput';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS, USER_AVATAR } from '../constants';
+import { USER_AVATAR } from '../constants';
+import { GRAY_900, PRIMARY, SECONDARY, WHITE } from '../constants/colors';
 
 const Chat: NextPage = () => {
   return (
@@ -66,7 +67,7 @@ export default Chat;
 const MainChat = styled.main`
   min-height: calc(100vh - 100px);
   margin: 49px 0 51px;
-  background-color: ${COLORS.light_gray};
+  background-color: ${SECONDARY};
 `;
 const SectionChat = styled.section`
   display: grid;
@@ -86,16 +87,16 @@ const MsgBubble = styled.div`
   margin: 0 5px 0 8px;
   padding: 12px;
   border-radius: 0 10px 10px 10px;
-  background-color: #fff;
-  color: ${COLORS.black};
+  background-color: ${WHITE};
+  color: ${GRAY_900};
   font-size: 14px;
   line-height: 1.3;
 
   &.own {
     margin: 0 0 0 5px;
     border-radius: 10px 0 10px 10px;
-    background-color: ${COLORS.accent_green};
-    color: #fff;
+    background-color: ${PRIMARY};
+    color: ${WHITE};
   }
 `;
 const Timestamp = styled.span`

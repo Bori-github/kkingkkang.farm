@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { BORDER } from '../../constants';
+import { WHITE } from '../../constants/colors';
 
 export const Navigation = () => {
   return (
@@ -46,7 +47,7 @@ const Nav = styled.nav`
   left: 0;
   z-index: 10;
   border-top: ${BORDER.basic};
-  background-color: #fff;
+  background-color: ${WHITE};
 `;
 const ListMenu = styled.ul`
   display: flex;

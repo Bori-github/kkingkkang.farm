@@ -5,7 +5,8 @@ import { HeaderUserPage } from '../components/layouts/Header';
 import { SectionInpReply } from '../components/SectionInput';
 import { SectionReplies } from '../components/SectionReplies';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS, USER_AVATAR } from '../constants';
+import { USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 
 const Post: NextPage = () => {
   return (
@@ -110,7 +111,7 @@ const HeaderArticle = styled.header`
 `;
 const UserName = styled.span`
   grid-column: 1 / 2;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;

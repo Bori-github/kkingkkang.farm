@@ -9,13 +9,14 @@ import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
+import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../constants';
 import {
-  API_ENDPOINT,
-  BORDER,
-  BUTTON,
-  COLORS,
-  USER_AVATAR,
-} from '../constants';
+  ERROR,
+  GRAY_300,
+  GRAY_900,
+  PRIMARY,
+  SECONDARY,
+} from '../constants/colors';
 import { fetcher } from '../utils/fetcher';
 
 interface EditProfileValues {
@@ -236,8 +237,7 @@ const Label = styled.label`
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: url('/icons/img/image.svg') no-repeat 50% 50%
-      ${COLORS.accent_green};
+    background: url('/icons/img/image.svg') no-repeat 50% 50% ${PRIMARY};
   }
 
   & input {
@@ -246,29 +246,29 @@ const Label = styled.label`
     padding: 10px 0 8px;
     border: 0;
     border-bottom: ${BORDER.basic};
-    color: ${COLORS.black};
+    color: ${GRAY_900};
     font-size: 14px;
   }
   & input::placeholder {
-    color: ${COLORS.placeholder};
+    color: ${GRAY_300};
   }
   & input:focus,
   & input:active {
-    border-color: ${COLORS.accent_green};
+    border-color: ${PRIMARY};
   }
 `;
 
 const TxtError = styled.span`
   display: inline-block;
   margin-top: 6px;
-  color: ${COLORS.error};
+  color: ${ERROR};
   font-size: 12px;
 `;
 
 const TxtSuccess = styled.span`
   display: block;
   margin-top: 6px;
-  color: ${COLORS.accent_light_green};
+  color: ${SECONDARY};
   font-size: 12px;
 `;
 

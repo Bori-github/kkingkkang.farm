@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { HeaderSearch } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { UserAvatar } from '../components/UserAvatar';
-import { COLORS, USER_AVATAR } from '../constants';
+import { USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 
 const SearchUser: NextPage = () => {
   return (
@@ -88,7 +89,7 @@ const UserAccount = styled.div`
   padding: 4px 0;
 `;
 const UserName = styled.span`
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;

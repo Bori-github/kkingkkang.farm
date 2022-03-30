@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { BORDER, COLORS } from '../../constants';
+import { BORDER } from '../../constants';
+import { GRAY_300, GRAY_50, GRAY_900, WHITE } from '../../constants/colors';
 
 interface HeaderProps {
   headerTitle: string;
@@ -85,8 +86,8 @@ const Header = styled.header`
   z-index: 10;
   padding: 12px 16px;
   border-bottom: ${BORDER.basic};
-  background-color: #fff;
-  color: ${COLORS.black};
+  background-color: ${WHITE};
+  color: ${GRAY_900};
   font-size: 16px;
   font-weight: 700;
   line-height: 17px;
@@ -110,10 +111,10 @@ const InpSearchUser = styled.input`
   padding: 4px 16px;
   border: 0;
   border-radius: 30px;
-  background-color: #f2f2f2;
+  background-color: ${GRAY_50};
 
   &::placeholder {
-    color: #c4c4c4;
+    color: ${GRAY_300};
   }
 `;
 

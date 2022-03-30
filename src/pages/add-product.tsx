@@ -2,7 +2,14 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderBtnPrev } from '../components/layouts/Header';
-import { BORDER, COLORS } from '../constants';
+import { BORDER } from '../constants';
+import {
+  GRAY_300,
+  GRAY_600,
+  GRAY_900,
+  PRIMARY,
+  SECONDARY,
+} from '../constants/colors';
 
 const AddProduct: NextPage = () => {
   return (
@@ -94,18 +101,18 @@ const Label = styled.label`
     padding: 10px 0 8px;
     border: 0;
     border-bottom: ${BORDER.basic};
-    color: ${COLORS.black};
+    color: ${GRAY_900};
     font-size: 14px;
   }
   & input[type='file'] {
     display: none;
   }
   & input::placeholder {
-    color: ${COLORS.placeholder};
+    color: ${GRAY_300};
   }
   & input:focus,
   & input:active {
-    border-color: ${COLORS.accent_green};
+    border-color: ${PRIMARY};
   }
 `;
 const BoxUploadImg = styled.div`
@@ -117,7 +124,7 @@ const BoxUploadImg = styled.div`
   height: 200px;
   margin: 18px 0 30px;
   border-radius: 10px;
-  background-color: ${COLORS.light_gray};
+  background-color: ${SECONDARY};
 `;
 const BtnUpload = styled.button`
   position: absolute;
@@ -126,5 +133,5 @@ const BtnUpload = styled.button`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: url('/icons/img/image.svg') no-repeat ${COLORS.gray} 50% 50%;
+  background: url('/icons/img/image.svg') no-repeat ${GRAY_600} 50% 50%;
 `;

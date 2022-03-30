@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { API_ENDPOINT, BORDER, BUTTON, COLORS } from '../constants';
+import { API_ENDPOINT, BORDER, BUTTON } from '../constants';
+import { ERROR, GRAY_900 } from '../constants/colors';
 
 const LoginEmail: NextPage = () => {
   const router = useRouter();
@@ -126,7 +127,7 @@ const LinkSignUp = styled.a`
 `;
 const TitleMain = styled.h2`
   margin-bottom: 40px;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 24px;
   font-weight: 700;
 `;
@@ -147,7 +148,7 @@ const Input = styled.input`
   padding: 10px 0 8px;
   border: 0;
   border-bottom: ${BORDER.basic};
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
 
   &:focus,
@@ -158,7 +159,7 @@ const Input = styled.input`
 const TxtError = styled.span`
   display: block;
   margin-top: 6px;
-  color: ${COLORS.error};
+  color: ${ERROR};
   font-size: 12px;
 `;
 const BtnLogin = styled.button`

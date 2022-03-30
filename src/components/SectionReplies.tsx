@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { BORDER, COLORS, USER_AVATAR } from '../constants';
+import { BORDER, USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionReplies = () => {
@@ -63,7 +64,7 @@ const User = styled.div`
   padding-top: 8px;
 `;
 const UserName = styled.span`
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
 `;
 const Timestamp = styled.span`
@@ -84,7 +85,7 @@ const BtnMore = styled.button`
 `;
 const TxtReply = styled.p`
   grid-column: 2 / 3;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   line-height: 1.4;
 `;

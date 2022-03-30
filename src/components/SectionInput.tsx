@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { BORDER, BUTTON, USER_AVATAR } from '../constants';
+import { WHITE } from '../constants/colors';
 import { BtnImgUpload } from './BtnImgUpload';
 import { UserAvatar } from './UserAvatar';
 
@@ -44,7 +45,7 @@ const Contaioner = styled.article`
   z-index: 10;
   padding: 5px;
   border-top: ${BORDER.basic};
-  background-color: #fff;
+  background-color: ${WHITE};
 `;
 const Form = styled.form`
   display: grid;
@@ -61,7 +62,7 @@ const BtnSend = styled.button`
   padding: 5px;
   border-radius: 26px;
   background-color: ${BUTTON.disabled_color};
-  color: #fff;
+  color: ${WHITE};
 
   &.active {
     background-color: ${BUTTON.background_color};

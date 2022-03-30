@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { BORDER, COLORS } from '../constants';
+import { BORDER } from '../constants';
+import { GRAY_300, GRAY_900, PRIMARY, WHITE } from '../constants/colors';
 
 export const PopupMoreUser = () => {
   return (
@@ -138,7 +139,7 @@ const BgPopup = styled.div`
   left: 0;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.5);
-  color: ${COLORS.black};
+  color: ${GRAY_900};
 `;
 const ModalPopup = styled.div`
   position: fixed;
@@ -147,7 +148,7 @@ const ModalPopup = styled.div`
   left: 0;
   padding: 36px 0 10px;
   border-radius: 20px 20px 0 0;
-  background-color: #fff;
+  background-color: ${WHITE};
 
   &::before {
     content: '';
@@ -157,7 +158,7 @@ const ModalPopup = styled.div`
     width: 50px;
     height: 4px;
     border-radius: 4px;
-    background-color: #dbdbdb;
+    background-color: ${GRAY_300};
     transform: translateX(-50%);
   }
 
@@ -175,7 +176,7 @@ const Popup = styled.div`
   top: calc(50% - 30px);
   left: 50%;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: ${WHITE};
   text-align: center;
   transform: translate(-50%, -50%);
 `;
@@ -199,14 +200,14 @@ const BtnCancel = styled.button`
     right: 0;
     bottom: 0;
     width: 1px;
-    background-color: ${COLORS.light_gray};
+    background-color: ${GRAY_300};
   }
 `;
 const BtnLogout = styled.a`
   display: block;
   width: 126px;
   line-height: 46px;
-  color: ${COLORS.accent_green};
+  color: ${PRIMARY};
 `;
 const BtnExit = styled.button`
   width: 100%;

@@ -2,7 +2,14 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { API_ENDPOINT, BORDER, BUTTON, COLORS } from '../../constants';
+import { API_ENDPOINT, BORDER, BUTTON } from '../../constants';
+import {
+  ERROR,
+  GRAY_300,
+  GRAY_900,
+  PRIMARY,
+  SECONDARY,
+} from '../../constants/colors';
 
 export const SignupEmail = ({
   setPages,
@@ -122,7 +129,7 @@ const MainSignup = styled.main`
 `;
 const TitleMain = styled.h2`
   margin-bottom: 40px;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 24px;
   font-weight: 700;
 `;
@@ -143,27 +150,27 @@ const Input = styled.input`
   padding: 10px 0 8px;
   border: 0;
   border-bottom: ${BORDER.basic};
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
 
   &::placeholder {
-    color: ${COLORS.placeholder};
+    color: ${GRAY_300};
   }
   &:focus,
   &:active {
-    border-color: ${COLORS.accent_green};
+    border-color: ${PRIMARY};
   }
 `;
 const TxtError = styled.span`
   display: block;
   margin-top: 6px;
-  color: ${COLORS.error};
+  color: ${ERROR};
   font-size: 12px;
 `;
 const TxtSuccess = styled.span`
   display: block;
   margin-top: 6px;
-  color: ${COLORS.accent_light_green};
+  color: ${SECONDARY};
   font-size: 12px;
 `;
 const BtnNext = styled.button`

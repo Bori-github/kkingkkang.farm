@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { COLORS } from '../constants';
+import { PRIMARY } from '../constants/colors';
 
 const Login: NextPage = () => {
   return (
@@ -49,7 +49,7 @@ const MainLogin = styled.main`
   justify-content: center;
   position: relative;
   min-height: 100vh;
-  background-color: ${COLORS.accent_light_green};
+  background-color: ${PRIMARY};
 `;
 
 const FigLogo = styled.figure`
@@ -116,7 +116,6 @@ const SplashScreen = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background: url('/logo/logo-kkingkkang.png') no-repeat 50% 50%
-    ${COLORS.accent_green};
+  background: url('/logo/logo-kkingkkang.png') no-repeat 50% 50% ${PRIMARY};
   animation: ${splash} 0.5s ease-in-out 0.5s forwards;
 `;

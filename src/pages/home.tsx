@@ -4,7 +4,8 @@ import Head from 'next/head';
 import { HeaderFeed } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { UserAvatar } from '../components/UserAvatar';
-import { BUTTON, COLORS, USER_AVATAR } from '../constants';
+import { BUTTON, USER_AVATAR } from '../constants';
+import { GRAY_900 } from '../constants/colors';
 
 const Home: NextPage = () => {
   return (
@@ -202,7 +203,7 @@ const HeaderArticle = styled.header`
 `;
 const UserName = styled.span`
   grid-column: 1 / 2;
-  color: ${COLORS.black};
+  color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;
