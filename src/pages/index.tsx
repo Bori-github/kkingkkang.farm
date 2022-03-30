@@ -1,9 +1,9 @@
-import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { SignIn } from '../components/SignIn';
-import { PRIMARY, WHITE } from '../constants/colors';
+import { SplashScreen } from '../components/SplashScreen';
+import { PRIMARY } from '../constants/colors';
 
 const Login: NextPage = () => {
   return (
@@ -36,21 +36,4 @@ const MainLogin = styled.main`
 const ImgLogo = styled.img`
   width: 100px;
   margin-bottom: 20px;
-`;
-
-const splash = keyframes`
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-`;
-
-const SplashScreen = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: url('/logo/logo-kkingkkang.png') no-repeat 50% 50% ${WHITE};
-  animation: ${splash} 0.5s ease-in-out 0.5s forwards;
 `;

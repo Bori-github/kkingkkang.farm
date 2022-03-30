@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { HeaderFeed } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
+import { SplashScreen } from '../components/SplashScreen';
 import { UserAvatar } from '../components/UserAvatar';
 import { BUTTON, USER_AVATAR } from '../constants';
 import { GRAY_900 } from '../constants/colors';
@@ -41,9 +42,9 @@ const Home: NextPage = () => {
                 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
                 넣는 풍부하게 뛰노는 인생의 힘있다.
               </TxtFeed>
-              <ContainerImg>
+              <div>
                 <img src="/example/post-img-example.png" alt="피드 이미지" />
-              </ContainerImg>
+              </div>
               <ListIcons>
                 <ItemIcon>
                   <BtnLike type="button">
@@ -77,9 +78,9 @@ const Home: NextPage = () => {
             </HeaderArticle>
             <ContentFeed>
               <TxtFeed>감귤 잘 자라는 중...❤</TxtFeed>
-              <ContainerImg>
+              <div>
                 <img src="/example/post-img-example.png" alt="피드 이미지" />
-              </ContainerImg>
+              </div>
               <ListIcons>
                 <ItemIcon>
                   <BtnLike type="button" className="active">
@@ -137,6 +138,7 @@ const Home: NextPage = () => {
         </SectionFeed>
       </MainHome>
       <Navigation />
+      <SplashScreen />
     </>
   );
 };
@@ -170,6 +172,7 @@ const SectionHome = styled.section`
     display: flex;
   }
 `;
+
 const BtnSearchFollower = styled.button`
   padding: 8px 30px;
   border-radius: 44px;
@@ -181,6 +184,7 @@ const BtnSearchFollower = styled.button`
 const SectionFeed = styled.section`
   width: 100%;
 `;
+
 const Feed = styled.article`
   display: grid;
   grid-template-columns: 42px auto;
@@ -189,10 +193,12 @@ const Feed = styled.article`
   margin: 20px 0;
   padding: 0 16px;
 `;
+
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
 `;
+
 const HeaderArticle = styled.header`
   grid-column: 2 / 3;
   display: grid;
@@ -201,16 +207,19 @@ const HeaderArticle = styled.header`
   width: 100%;
   padding: 4px 0;
 `;
+
 const UserName = styled.span`
   grid-column: 1 / 2;
   color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;
+
 const UserId = styled.span`
   grid-column: 1 / 2;
   font-size: 12px;
 `;
+
 const BtnMore = styled.button`
   grid-column: 2 / 3;
   grid-row: 1 / 3;
@@ -226,22 +235,25 @@ const ContentFeed = styled.div`
     font-size: 10px;
   }
 `;
-const ContainerImg = styled.div``;
+
 const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
 `;
+
 const ListIcons = styled.ul`
   display: flex;
   margin: 10px 0;
   font-size: 12px;
 `;
+
 const ItemIcon = styled.li`
   display: flex;
   align-items: center;
   margin-right: 15px;
 `;
+
 const BtnLike = styled.button`
   width: 20px;
   height: 20px;
@@ -254,6 +266,7 @@ const BtnLike = styled.button`
     background-image: url('/icons/heart-fill.svg');
   }
 `;
+
 const BtnReply = styled.button`
   width: 20px;
   height: 20px;
