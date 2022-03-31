@@ -1,14 +1,23 @@
 import styled from '@emotion/styled';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import useSWR from 'swr';
 import { HeaderFeed } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
 import { SplashScreen } from '../components/SplashScreen';
 import { UserAvatar } from '../components/UserAvatar';
-import { BUTTON, USER_AVATAR } from '../constants';
-import { GRAY_900 } from '../constants/colors';
+import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../constants';
+import { GRAY_900, WHITE } from '../constants/colors';
+import { fetcher } from '../utils/fetcher';
 
 const Home: NextPage = () => {
+  const accountname = Cookies.get('accountname');
+  const { data, error } = useSWR(
+    `${API_ENDPOINT}/profile/${accountname}`,
+    fetcher,
+  );
+
   return (
     <>
       <Head>
@@ -16,11 +25,13 @@ const Home: NextPage = () => {
       </Head>
       <HeaderFeed headerTitle="낑깡팜 피드" />
       <MainHome>
-        <SectionHome>
-          <img src="/logo/logo-gray.png" alt="낑깡팜 로고" />
-          <p>유저를 검색해 팔로우 해보세요!</p>
-          <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
-        </SectionHome>
+        {data.profile.followerCount < 1 && (
+          <SectionHome>
+            <ImgLogoGray src="/logo/logo-gray.png" alt="낑깡팜 로고" />
+            <p>유저를 검색해 팔로우 해보세요!</p>
+            <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
+          </SectionHome>
+        )}
         <SectionFeed>
           <Feed>
             <BoxProfileImg>
@@ -154,26 +165,26 @@ const MainHome = styled.main`
 `;
 
 const SectionHome = styled.section`
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  position: absolute;
+  top: 49px;
+  right: 0;
+  bottom: 60px;
+  left: 0;
+  background-color: ${WHITE};
+  font-size: 14px;
+`;
 
-  & img {
-    width: 100px;
-  }
-  & p {
-    margin: 20px 0;
-    font-size: 14px;
-  }
-
-  &.nofollowers {
-    display: flex;
-  }
+const ImgLogoGray = styled.img`
+  width: 100px;
+  margin-bottom: 15px;
 `;
 
 const BtnSearchFollower = styled.button`
+  margin-top: 20px;
   padding: 8px 30px;
   border-radius: 44px;
   background-color: ${BUTTON.background_color};
