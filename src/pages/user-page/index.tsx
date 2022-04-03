@@ -18,7 +18,7 @@ import {
   SectionUserInfo,
 } from '../../components/SectionUserInfo';
 import { API_ENDPOINT } from '../../constants';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
 
 const UserPage: NextPage = () => {
   const accountname = Cookies.get('accountname') || '';

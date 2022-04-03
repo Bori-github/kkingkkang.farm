@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
 import { Follower } from '../../types/Follower';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
 import { FollowerCard } from './FollowerCard';
 
 export const FollowerContainer = () => {

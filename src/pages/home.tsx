@@ -9,7 +9,7 @@ import { Navigation } from '../components/layouts/Navigation';
 import { SplashScreen } from '../components/SplashScreen';
 import { API_ENDPOINT, BUTTON } from '../constants';
 import { WHITE } from '../constants/colors';
-import { fetcher } from '../utils/fetcher';
+import { fetcher } from '../utils';
 
 const Home: NextPage = () => {
   const accountname = Cookies.get('accountname');

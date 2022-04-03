@@ -17,7 +17,7 @@ import {
   PRIMARY,
   SECONDARY,
 } from '../constants/colors';
-import { fetcher } from '../utils/fetcher';
+import { fetcher } from '../utils';
 
 interface EditProfileValues {
   username: string;

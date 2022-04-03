@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_900 } from '../../constants/colors';
+import { dateFormatter } from '../../utils';
 import { UserAvatar } from '../UserAvatar';
 
 interface PostProps {
@@ -69,17 +70,6 @@ export const FeedCard = ({ postData }: PostProps) => {
     }
 
     setLiked(!liked);
-  };
-
-  const dateFormatter = (createdAt: string) => {
-    const date = new Intl.DateTimeFormat('en-GB', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).format(new Date(createdAt));
-
-    const [day, month, year] = date.split('/');
-    return `${year}년 ${month}월 ${day}일`;
   };
 
   return (

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
 import { Post } from '../../types/Post';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
 import { FeedCard } from './FeedCard';
 
 export const FeedContainer = () => {
