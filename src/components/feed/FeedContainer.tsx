@@ -37,6 +37,7 @@ export const FeedContainer = () => {
           <FeedCard
             key={`feed-item-${id}`}
             postData={{
+              id,
               content,
               image,
               createdAt,

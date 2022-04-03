@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
-import { USER_AVATAR } from '../../constants';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_900 } from '../../constants/colors';
 import { UserAvatar } from '../UserAvatar';
 
 interface PostProps {
   postData: {
+    id: string;
     content: string;
     image: string;
     createdAt: string;
@@ -20,11 +24,14 @@ interface PostProps {
 }
 
 interface FeedCardProps {
-  hearted: boolean;
+  liked: boolean;
 }
 
 export const FeedCard = ({ postData }: PostProps) => {
+  const token = Cookies.get('token');
+
   const {
+    id: postID,
     content,
     image,
     createdAt,
@@ -34,6 +41,35 @@ export const FeedCard = ({ postData }: PostProps) => {
     author,
   } = postData;
   const { accountname, username, image: profileImg } = author;
+
+  const [liked, setLiked] = useState(hearted);
+  const [likeCount, setLikeCount] = useState(heartCount);
+
+  const handleBtnLike = async () => {
+    if (liked) {
+      await axios(`${API_ENDPOINT}/post/${postID}/unheart`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+
+      setLikeCount((state) => state - 1);
+    } else {
+      await axios(`${API_ENDPOINT}/post/${postID}/heart`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+
+      setLikeCount((state) => state + 1);
+    }
+
+    setLiked(!liked);
+  };
 
   return (
     <Feed>
@@ -52,10 +88,10 @@ export const FeedCard = ({ postData }: PostProps) => {
         <div>{image && <img src={image} alt="피드 이미지" />}</div>
         <ListIcons>
           <ItemIcon>
-            <BtnLike type="button" hearted={hearted}>
+            <BtnLike type="button" liked={liked} onClick={handleBtnLike}>
               <span className="sr-only">좋아요</span>
             </BtnLike>
-            <span className="count-like">{heartCount}</span>
+            <span className="count-like">{likeCount}</span>
           </ItemIcon>
           <ItemIcon>
             <BtnReply type="button">
@@ -143,15 +179,11 @@ const BtnLike = styled.button<FeedCardProps>`
   width: 20px;
   height: 20px;
   margin-right: 5px;
-  background: ${({ hearted }) =>
-    hearted
+  background: ${({ liked }) =>
+    liked
       ? `url('/icons/heart-fill.svg') no-repeat`
       : `url('/icons/heart.svg') no-repeat`};
   background-size: 100%;
-
-  &:hover {
-    background-image: url('/icons/heart-fill.svg');
-  }
 `;
 
 const BtnReply = styled.button`
