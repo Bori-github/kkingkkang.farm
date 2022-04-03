@@ -22,30 +22,24 @@ export const FollowingCard = ({ followingData }: FollowingProps) => {
   const [followed, setFollowed] = useState(isfollow);
   const token = Cookies.get('token');
   const removeFollow = async (accountname: string) => {
-    const { data } = await axios(
-      `${API_ENDPOINT}/profile/${accountname}/unfollow`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
+    await axios(`${API_ENDPOINT}/profile/${accountname}/unfollow`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
       },
-    );
+    });
     setFollowed(false);
   };
 
   const getFollow = async (accountname: string) => {
-    const { data } = await axios(
-      `${API_ENDPOINT}/profile/${accountname}/follow`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
+    await axios(`${API_ENDPOINT}/profile/${accountname}/follow`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
       },
-    );
+    });
     setFollowed(true);
   };
 
