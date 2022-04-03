@@ -71,6 +71,17 @@ export const FeedCard = ({ postData }: PostProps) => {
     setLiked(!liked);
   };
 
+  const dateFormatter = (createdAt: string) => {
+    const date = new Intl.DateTimeFormat('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date(createdAt));
+
+    const [day, month, year] = date.split('/');
+    return `${year}년 ${month}월 ${day}일`;
+  };
+
   return (
     <Feed>
       <BoxProfileImg>
@@ -100,7 +111,7 @@ export const FeedCard = ({ postData }: PostProps) => {
             <span className="count-reply">{commentCount}</span>
           </ItemIcon>
         </ListIcons>
-        <span className="create-at">{createdAt}</span>
+        <span className="create-at">{dateFormatter(createdAt)}</span>
       </ContentFeed>
     </Feed>
   );
