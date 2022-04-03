@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_900 } from '../../constants/colors';
@@ -29,6 +30,7 @@ interface FeedCardProps {
 }
 
 export const FeedCard = ({ postData }: PostProps) => {
+  const router = useRouter();
   const token = Cookies.get('token');
 
   const {
@@ -95,7 +97,10 @@ export const FeedCard = ({ postData }: PostProps) => {
             <span className="count-like">{likeCount}</span>
           </ItemIcon>
           <ItemIcon>
-            <BtnReply type="button">
+            <BtnReply
+              type="button"
+              onClick={() => router.push(`/post/${postID}`)}
+            >
               <span className="sr-only">댓글</span>
             </BtnReply>
             <span className="count-reply">{commentCount}</span>
