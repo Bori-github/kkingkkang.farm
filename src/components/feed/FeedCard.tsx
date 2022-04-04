@@ -3,6 +3,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
 import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_900 } from '../../constants/colors';
 import { dateFormatter } from '../../utils';
@@ -74,6 +76,8 @@ export const FeedCard = ({ postData }: PostProps) => {
     setLiked(!liked);
   };
 
+  const [postImgList, setPostImgList] = useState(image.split(','));
+
   return (
     <Feed>
       <BoxProfileImg>
@@ -88,7 +92,51 @@ export const FeedCard = ({ postData }: PostProps) => {
       </HeaderArticle>
       <ContentFeed>
         <TxtFeed>{content}</TxtFeed>
-        <div>{image && <img src={image} alt="피드 이미지" />}</div>
+        {postImgList[0] !== '' && (
+          <Carousel
+            showStatus={false}
+            showArrows={false}
+            showThumbs={false}
+            renderIndicator={(onClickHandler, isSelected, index) => {
+              const indicatorStyle = {
+                display: 'inline-block',
+                width: 8,
+                height: 8,
+                padding: 0,
+                margin: '0 5px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                cursor: 'pointer',
+              };
+              const style = isSelected
+                ? { ...indicatorStyle, backgroundColor: 'white' }
+                : { ...indicatorStyle };
+
+              const indicator = postImgList.length > 1 && (
+                <button
+                  type="button"
+                  style={style}
+                  onClick={onClickHandler}
+                  onKeyDown={onClickHandler}
+                  key={index}
+                  tabIndex={0}
+                >
+                  <span className="sr-only">포스트 이미지 {index + 1}</span>
+                </button>
+              );
+
+              return indicator;
+            }}
+          >
+            {postImgList.map((img) => {
+              return (
+                <ItemCarousel key={`post-item-${Math.random()}`}>
+                  <Img src={img} alt="피드 이미지" />
+                </ItemCarousel>
+              );
+            })}
+          </Carousel>
+        )}
         <ListIcons>
           <ItemIcon>
             <BtnLike type="button" liked={liked} onClick={handleBtnLike}>
@@ -167,6 +215,14 @@ const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
+`;
+
+const ItemCarousel = styled.div``;
+
+const Img = styled.img`
+  border-radius: 5px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 `;
 
 const ListIcons = styled.ul`
