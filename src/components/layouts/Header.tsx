@@ -8,10 +8,12 @@ interface HeaderProps {
 }
 
 export const HeaderFeed = ({ headerTitle }: HeaderProps) => {
+  const router = useRouter();
+
   return (
     <Header>
       <TitleHeader>{headerTitle}</TitleHeader>
-      <BtnSearchUser type="button">
+      <BtnSearchUser type="button" onClick={() => router.push('/search-user')}>
         <span className="sr-only">유저 검색하기</span>
       </BtnSearchUser>
     </Header>
