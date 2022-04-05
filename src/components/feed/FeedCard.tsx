@@ -89,7 +89,7 @@ export const FeedCard = ({ postData }: PostProps) => {
           <span className="sr-only">옵션 더 보기</span>
         </BtnMore>
       </HeaderArticle>
-      <ContentFeed>
+      <div>
         <TxtFeed>{content}</TxtFeed>
         {postImgList[0] !== '' && <ImgCarousel imgList={postImgList} />}
         <ListIcons>
@@ -109,8 +109,8 @@ export const FeedCard = ({ postData }: PostProps) => {
             <span className="count-reply">{commentCount}</span>
           </ItemIcon>
         </ListIcons>
-        <span className="create-at">{dateFormatter(createdAt)}</span>
-      </ContentFeed>
+        <TxtCreateAt>{dateFormatter(createdAt)}</TxtCreateAt>
+      </div>
     </Feed>
   );
 };
@@ -160,10 +160,8 @@ const BtnMore = styled.button`
   background-size: 100%;
 `;
 
-const ContentFeed = styled.div`
-  & .create-at {
-    font-size: 10px;
-  }
+const TxtCreateAt = styled.span`
+  font-size: 10px;
 `;
 
 const TxtFeed = styled.p`
