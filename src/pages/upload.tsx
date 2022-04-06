@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { BUTTON, USER_AVATAR } from '../constants';
 import { GRAY_400 } from '../constants/colors';
 
 const Upload: NextPage = () => {
+  const { register } = useForm({ mode: 'onChange' });
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleTextarea = () => {
@@ -16,6 +19,27 @@ const Upload: NextPage = () => {
       const { scrollHeight } = textareaRef.current;
       textareaRef.current.style.height = `${scrollHeight}px`;
     }
+  };
+
+  const [imgList, setImgList] = useState<Array<string>>([]);
+  const onUploadImgs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imgFiles = e.target.files;
+
+    if (imgFiles) {
+      for (let i = 0; i < imgFiles.length; i++) {
+        if (i + imgList.length + 1 > 3) {
+          alert('이미지는 최대 3장까지 선택할 수 있습니다.');
+          break;
+        }
+        const ImgUrl = URL.createObjectURL(imgFiles[i]);
+        setImgList((state) => [...state, ImgUrl]);
+      }
+    }
+  };
+
+  const deleteUploadImg = (idx: number) => {
+    setImgList((state) => state.filter((_, index) => index !== idx));
+    URL.revokeObjectURL(imgList[idx]);
   };
 
   return (
@@ -41,27 +65,26 @@ const Upload: NextPage = () => {
               ref={textareaRef}
               onInput={handleTextarea}
             />
+            <BtnUpload type="submit">업로드</BtnUpload>
           </form>
           <ContUploadImg>
             <ListUploadImg>
-              <ImgSlide id="slide1">
-                <img src="/example/post-img-example.png" alt="피드 이미지" />
-                <BtnCancel type="button">
-                  <span className="sr-only">이미지 업로드 취소</span>
-                </BtnCancel>
-              </ImgSlide>
-              <ImgSlide id="slide2">
-                <img src="/example/post-img-example.png" alt="피드 이미지" />
-                <BtnCancel type="button">
-                  <span className="sr-only">이미지 업로드 취소</span>
-                </BtnCancel>
-              </ImgSlide>
-              <ImgSlide id="slide3">
-                <img src="/example/post-img-example.png" alt="피드 이미지" />
-                <BtnCancel type="button">
-                  <span className="sr-only">이미지 업로드 취소</span>
-                </BtnCancel>
-              </ImgSlide>
+              {imgList.map((img, idx) => {
+                return (
+                  <ItemUploadImg
+                    id="slide1"
+                    key={`list-upload-img-${Math.random()}`}
+                  >
+                    <ImgUpload src={img} alt="피드 이미지" />
+                    <BtnCancel
+                      type="button"
+                      onClick={() => deleteUploadImg(idx)}
+                    >
+                      <span className="sr-only">업로드 이미지 삭제</span>
+                    </BtnCancel>
+                  </ItemUploadImg>
+                );
+              })}
             </ListUploadImg>
           </ContUploadImg>
         </SectionUpload>
@@ -72,7 +95,12 @@ const Upload: NextPage = () => {
           type="file"
           id="uploadImg"
           accept="image/*"
+          multiple
           className="sr-only"
+          // onLoad={(e) => revokeURL(e)}
+          {...register('image', {
+            onChange: onUploadImgs,
+          })}
         />
       </LabelUploadImg>
     </>
@@ -123,14 +151,19 @@ const ListUploadImg = styled.ul`
   -webkit-overflow-scrolling: touch;
 `;
 
-const ImgSlide = styled.li`
+const ItemUploadImg = styled.li`
   position: relative;
-  min-width: 250px;
+  min-width: 180px;
   scroll-snap-align: start;
 
   & + & {
     margin-left: 10px;
   }
+`;
+
+const ImgUpload = styled.img`
+  height: 180px;
+  object-fit: cover;
 `;
 
 const BtnCancel = styled.button`
@@ -146,10 +179,20 @@ const BtnCancel = styled.button`
 const LabelUploadImg = styled.label`
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 80px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
   background: url('/icons/img/image.svg') no-repeat 50% 50%
-    ${BUTTON.disabled_color};
+    ${BUTTON.background_color};
+`;
+
+const BtnUpload = styled.button`
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: ${GRAY_400};
 `;
