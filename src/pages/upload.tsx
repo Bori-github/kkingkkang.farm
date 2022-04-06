@@ -1,12 +1,23 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRef } from 'react';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { BUTTON, USER_AVATAR } from '../constants';
-import { SECONDARY } from '../constants/colors';
+import { GRAY_400 } from '../constants/colors';
 
 const Upload: NextPage = () => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleTextarea = () => {
+    if (textareaRef.current instanceof Element) {
+      textareaRef.current.style.height = 'auto';
+      const { scrollHeight } = textareaRef.current;
+      textareaRef.current.style.height = `${scrollHeight}px`;
+    }
+  };
+
   return (
     <>
       <Head>
@@ -21,12 +32,14 @@ const Upload: NextPage = () => {
               src="/default-profile-w.png"
             />
           </BoxProfileImg>
-          <form action="#">
+          <form>
             <p className="sr-only">게시글을 작성해주세요</p>
             <TextUpload
               name="textarea"
               id="textUpload"
               placeholder="게시글 입력하기"
+              ref={textareaRef}
+              onInput={handleTextarea}
             />
           </form>
           <ContUploadImg>
@@ -53,9 +66,15 @@ const Upload: NextPage = () => {
           </ContUploadImg>
         </SectionUpload>
       </MainUpload>
-      <BtnUploadImg type="button">
+      <LabelUploadImg htmlFor="uploadImg">
         <span className="sr-only">사진 업로드 버튼</span>
-      </BtnUploadImg>
+        <input
+          type="file"
+          id="uploadImg"
+          accept="image/*"
+          className="sr-only"
+        />
+      </LabelUploadImg>
     </>
   );
 };
@@ -65,31 +84,37 @@ export default Upload;
 const MainUpload = styled.main`
   margin-top: 49px;
 `;
+
 const SectionUpload = styled.section`
   display: grid;
   grid-template-columns: 40px auto;
   gap: 10px;
   padding: 20px;
 `;
+
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
 `;
+
 const TextUpload = styled.textarea`
   width: 100%;
-  padding: 13px 0;
+  margin-top: 13px;
+  padding: 0;
   border: 0;
   font-size: 14px;
   line-height: 1.4;
   resize: none;
 
   &::placeholder {
-    color: ${SECONDARY};
+    color: ${GRAY_400};
   }
 `;
+
 const ContUploadImg = styled.div`
   overflow: hidden;
   grid-column: 2 / 3;
 `;
+
 const ListUploadImg = styled.ul`
   overflow-x: auto;
   display: flex;
@@ -97,15 +122,17 @@ const ListUploadImg = styled.ul`
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 `;
+
 const ImgSlide = styled.li`
   position: relative;
   min-width: 250px;
   scroll-snap-align: start;
 
-  &:not(:first-of-type) {
+  & + & {
     margin-left: 10px;
   }
 `;
+
 const BtnCancel = styled.button`
   position: absolute;
   top: 8px;
@@ -115,7 +142,8 @@ const BtnCancel = styled.button`
   background: url('/icons/img/close.svg') no-repeat;
   background-size: 100%;
 `;
-const BtnUploadImg = styled.button`
+
+const LabelUploadImg = styled.label`
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -123,5 +151,5 @@ const BtnUploadImg = styled.button`
   height: 45px;
   border-radius: 50%;
   background: url('/icons/img/image.svg') no-repeat 50% 50%
-    ${BUTTON.background_color};
+    ${BUTTON.disabled_color};
 `;
