@@ -1,16 +1,18 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
-import { BUTTON, USER_AVATAR } from '../constants';
+import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../constants';
 import { GRAY_400 } from '../constants/colors';
 
 const Upload: NextPage = () => {
-  const { register } = useForm({ mode: 'onChange' });
+  const { register, getValues } = useForm({ mode: 'onChange' });
+  const token = Cookies.get('token');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleTextarea = () => {
@@ -35,6 +37,37 @@ const Upload: NextPage = () => {
         setImgList((state) => [...state, ImgUrl]);
       }
     }
+  };
+
+  const handleUpload = async () => {
+    const imgData = new FormData();
+
+    for (let i = 0; i < getValues().image.length; i++) {
+      imgData.append('image', getValues().image[i]);
+    }
+
+    await axios(
+      `${API_ENDPOINT}/image/uploadfiles
+    `,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+        data: imgData,
+      },
+    );
+
+    const fileNameList = [];
+    for (let i = 0; i < getValues().image.length; i++) {
+      fileNameList.push(`${API_ENDPOINT}/${getValues().image[i]}`);
+    }
+
+    if (fileNameList.length > 1) {
+      return fileNameList.join();
+    }
+    return fileNameList[0];
   };
 
   const deleteUploadImg = (idx: number) => {
@@ -97,7 +130,6 @@ const Upload: NextPage = () => {
           accept="image/*"
           multiple
           className="sr-only"
-          // onLoad={(e) => revokeURL(e)}
           {...register('image', {
             onChange: onUploadImgs,
           })}
