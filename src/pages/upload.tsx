@@ -3,17 +3,34 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useSWR from 'swr';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../constants';
 import { GRAY_400 } from '../constants/colors';
+import { fetcher } from '../utils/fetcher';
 
 const Upload: NextPage = () => {
-  const { register, getValues } = useForm({ mode: 'onChange' });
-  const token = Cookies.get('token');
+  const { register, handleSubmit } = useForm({ mode: 'onChange' });
+  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
+  const [imgList, setImgList] = useState<Array<string>>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
+
+  const token = Cookies.get('token');
+  const accountname = Cookies.get('accountname') || '';
+
+  const { data, error } = useSWR(
+    `${API_ENDPOINT}/profile/${accountname}`,
+    fetcher,
+  );
+
+  useEffect(() => {
+    setProfileImg(image);
+  }, [data]);
 
   const handleTextarea = () => {
     if (textareaRef.current instanceof Element) {
@@ -23,7 +40,6 @@ const Upload: NextPage = () => {
     }
   };
 
-  const [imgList, setImgList] = useState<Array<string>>([]);
   const onUploadImgs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imgFiles = e.target.files;
 
@@ -39,14 +55,19 @@ const Upload: NextPage = () => {
     }
   };
 
-  const handleUpload = async () => {
+  const deleteUploadImg = (idx: number) => {
+    setImgList((state) => state.filter((_, index) => index !== idx));
+    URL.revokeObjectURL(imgList[idx]);
+  };
+
+  const onHandleSubmit = handleSubmit(async (e) => {
     const imgData = new FormData();
 
-    for (let i = 0; i < getValues().image.length; i++) {
-      imgData.append('image', getValues().image[i]);
+    for (let i = 0; i < e.image.length; i++) {
+      imgData.append('image', e.image[i]);
     }
 
-    await axios(
+    const { data } = await axios(
       `${API_ENDPOINT}/image/uploadfiles
     `,
       {
@@ -60,20 +81,33 @@ const Upload: NextPage = () => {
     );
 
     const fileNameList = [];
-    for (let i = 0; i < getValues().image.length; i++) {
-      fileNameList.push(`${API_ENDPOINT}/${getValues().image[i]}`);
+    for (let i = 0; i < data.length; i++) {
+      fileNameList.push(`${API_ENDPOINT}/${data[i].filename}`);
     }
 
-    if (fileNameList.length > 1) {
-      return fileNameList.join();
-    }
-    return fileNameList[0];
-  };
+    const content = textareaRef.current?.value;
+    const image = fileNameList.join();
 
-  const deleteUploadImg = (idx: number) => {
-    setImgList((state) => state.filter((_, index) => index !== idx));
-    URL.revokeObjectURL(imgList[idx]);
-  };
+    await axios(`${API_ENDPOINT}/post`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+      data: JSON.stringify({
+        post: {
+          content,
+          image,
+        },
+      }),
+    });
+    router.push('/user-page');
+  });
+
+  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (error) return <div>에러가 발생했습니다.</div>;
+
+  const { image } = data.profile;
 
   return (
     <>
@@ -84,21 +118,31 @@ const Upload: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <UserAvatar
-              size={USER_AVATAR.sm.size}
-              src="/default-profile-w.png"
-            />
+            <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
           </BoxProfileImg>
-          <form>
-            <p className="sr-only">게시글을 작성해주세요</p>
+          <form onSubmit={onHandleSubmit}>
             <TextUpload
               name="textarea"
-              id="textUpload"
               placeholder="게시글 입력하기"
               ref={textareaRef}
               onInput={handleTextarea}
             />
-            <BtnUpload type="submit">업로드</BtnUpload>
+            <LabelUploadImg htmlFor="uploadImg">
+              <span className="sr-only">사진 업로드 버튼</span>
+              <input
+                type="file"
+                id="uploadImg"
+                accept="image/*"
+                multiple
+                className="sr-only"
+                {...register('image', {
+                  onChange: onUploadImgs,
+                })}
+              />
+            </LabelUploadImg>
+            <BtnUpload type="submit">
+              <span className="sr-only">업로드</span>
+            </BtnUpload>
           </form>
           <ContUploadImg>
             <ListUploadImg>
@@ -122,19 +166,6 @@ const Upload: NextPage = () => {
           </ContUploadImg>
         </SectionUpload>
       </MainUpload>
-      <LabelUploadImg htmlFor="uploadImg">
-        <span className="sr-only">사진 업로드 버튼</span>
-        <input
-          type="file"
-          id="uploadImg"
-          accept="image/*"
-          multiple
-          className="sr-only"
-          {...register('image', {
-            onChange: onUploadImgs,
-          })}
-        />
-      </LabelUploadImg>
     </>
   );
 };
@@ -226,5 +257,6 @@ const BtnUpload = styled.button`
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background-color: ${GRAY_400};
+  background: url('/icons/upload.svg') no-repeat 50% 50%
+    ${BUTTON.background_color};
 `;
