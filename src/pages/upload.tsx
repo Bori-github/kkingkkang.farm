@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
+import { Loading } from '../components/common/Loading';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../constants';
@@ -104,7 +105,7 @@ const Upload: NextPage = () => {
     router.push('/user-page');
   });
 
-  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (!data) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   const { image } = data.profile;

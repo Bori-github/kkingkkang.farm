@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import useSWR from 'swr';
+import { Loading } from '../../components/common/Loading';
 import { HeaderUserPage } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
 import {
@@ -27,7 +28,7 @@ const UserPage: NextPage = () => {
     fetcher,
   );
 
-  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (!data) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   const { followerCount, followingCount, image, intro, username } =

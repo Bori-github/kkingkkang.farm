@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
 import { Follower } from '../../types/Follower';
 import { fetcher } from '../../utils';
+import { Loading } from '../common/Loading';
 import { FollowerCard } from './FollowerCard';
 
 export const FollowerContainer = () => {
@@ -23,7 +24,7 @@ export const FollowerContainer = () => {
     }
   }, [data]);
 
-  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (!data) return <Loading />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
