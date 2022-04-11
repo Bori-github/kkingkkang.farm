@@ -6,6 +6,7 @@ export interface Post {
   updatedAt: string;
   hearted: boolean;
   heartCount: number;
+  comments: [];
   commentCount: number;
   author: {
     _id: string;
