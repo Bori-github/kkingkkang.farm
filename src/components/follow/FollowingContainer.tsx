@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
 import { Following } from '../../types/Following';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
+import { Loader } from '../common/Loader';
 import { FollowingCard } from './FollowingCard';
 
 export const FollowingContainer = () => {
@@ -23,7 +24,7 @@ export const FollowingContainer = () => {
     }
   }, [data]);
 
-  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (

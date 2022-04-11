@@ -7,6 +7,6 @@ export interface Following {
   isfollow: boolean;
   following: [];
   follower: ['접속한 사용자의 id'];
-  followerCount: 1;
-  followingCount: 0;
+  followerCount: number;
+  followingCount: number;
 }

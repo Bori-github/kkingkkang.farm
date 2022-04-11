@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
+import { Loader } from '../components/common/Loader';
 import { HeaderBtnPrev } from '../components/layouts/Header';
 import { UserAvatar } from '../components/UserAvatar';
 import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../constants';
@@ -17,7 +18,7 @@ import {
   PRIMARY,
   SECONDARY,
 } from '../constants/colors';
-import { fetcher } from '../utils/fetcher';
+import { fetcher } from '../utils';
 
 interface EditProfileValues {
   username: string;
@@ -108,7 +109,7 @@ const EditProfile: NextPage = () => {
     router.push('/user-page');
   });
 
-  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   const { accountname: accountName, image, intro, username } = data.profile;

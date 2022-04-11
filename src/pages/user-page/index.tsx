@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import useSWR from 'swr';
+import { Loader } from '../../components/common/Loader';
 import { HeaderUserPage } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
 import {
@@ -18,7 +19,7 @@ import {
   SectionUserInfo,
 } from '../../components/SectionUserInfo';
 import { API_ENDPOINT } from '../../constants';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
 
 const UserPage: NextPage = () => {
   const accountname = Cookies.get('accountname') || '';
@@ -27,7 +28,7 @@ const UserPage: NextPage = () => {
     fetcher,
   );
 
-  if (!data) return <div>잠시만 기다려주세요.</div>;
+  if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   const { followerCount, followingCount, image, intro, username } =

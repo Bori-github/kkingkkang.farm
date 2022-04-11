@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { HeaderUserPage } from '../components/layouts/Header';
-import { SectionInpReply } from '../components/SectionInput';
-import { SectionReplies } from '../components/SectionReplies';
-import { UserAvatar } from '../components/UserAvatar';
-import { USER_AVATAR } from '../constants';
-import { GRAY_900 } from '../constants/colors';
+import { HeaderUserPage } from '../../components/layouts/Header';
+import { SectionInpReply } from '../../components/SectionInput';
+import { SectionReplies } from '../../components/SectionReplies';
+import { UserAvatar } from '../../components/UserAvatar';
+import { USER_AVATAR } from '../../constants';
+import { GRAY_900 } from '../../constants/colors';
 
 const Post: NextPage = () => {
   return (
