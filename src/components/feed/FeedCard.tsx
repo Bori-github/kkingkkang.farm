@@ -75,7 +75,7 @@ export const FeedCard = ({ postData }: PostProps) => {
     setLiked(!liked);
   };
 
-  const postImgList = image.split(',');
+  const postImgList = image && image.split(',');
 
   return (
     <Feed>
@@ -91,7 +91,9 @@ export const FeedCard = ({ postData }: PostProps) => {
       </HeaderArticle>
       <div>
         <TxtFeed>{content}</TxtFeed>
-        {postImgList[0] !== '' && <ImgCarousel imgList={postImgList} />}
+        {postImgList && postImgList[0] !== '' && (
+          <ImgCarousel imgList={postImgList} />
+        )}
         <ListIcons>
           <ItemIcon>
             <BtnLike type="button" liked={liked} onClick={handleBtnLike}>
