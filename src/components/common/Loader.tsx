@@ -2,9 +2,13 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { PRIMARY } from '../../constants/colors';
 
-export const Loading = () => {
+type LoaderProps = {
+  height: string;
+};
+
+export const Loader = ({ height }: LoaderProps) => {
   return (
-    <Section>
+    <Section height={height}>
       <h2 className="sr-only">잠시만 기다려주세요.</h2>
       <ContainerSpinner>
         <BorderCircle>
@@ -24,12 +28,13 @@ const spin = keyframes`
   }
 `;
 
-const Section = styled.section`
+const Section = styled.section<LoaderProps>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: calc(100vh - 109px);
+  height: ${(props) => props && props.height};
+  /* height: calc(100vh - 109px); */
 `;
 
 const ContainerSpinner = styled.div`
