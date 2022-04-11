@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { Loading } from '../../components/common/Loading';
+import { Loader } from '../../components/common/Loader';
 import { HeaderUserPage } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
 import {
@@ -23,7 +23,7 @@ const MyProfile: NextPage = () => {
   const { id } = router.query;
   const { data, error } = useSWR(`${API_ENDPOINT}/profile/${id}`, fetcher);
 
-  if (!data) return <Loading />;
+  if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   const { followerCount, followingCount, image, intro, username } =
