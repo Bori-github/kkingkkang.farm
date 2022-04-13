@@ -10,7 +10,10 @@ import { UserAvatar } from '../UserAvatar';
 export const PostCard = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data, error } = useSWR(`${API_ENDPOINT}/post/${id}`, fetcher);
+  const { data, error } = useSWR(
+    id ? `${API_ENDPOINT}/post/${id}` : null,
+    fetcher,
+  );
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
