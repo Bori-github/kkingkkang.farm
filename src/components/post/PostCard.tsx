@@ -1,82 +1,113 @@
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
 import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_900 } from '../../constants/colors';
-import { fetcher } from '../../utils';
-import { Loader } from '../common/Loader';
+import { dateFormatter } from '../../utils';
+import { ImgCarousel } from '../feed/ImgCarousel';
 import { UserAvatar } from '../UserAvatar';
 
-export const PostCard = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data, error } = useSWR(
-    id ? `${API_ENDPOINT}/post/${id}` : null,
-    fetcher,
-  );
+interface PostProps {
+  postData: {
+    id: string;
+    content: string;
+    image: string;
+    createdAt: string;
+    hearted: boolean;
+    heartCount: number;
+    commentCount: number;
+    author: {
+      username: string;
+      accountname: string;
+      image: string;
+    };
+  };
+}
 
-  if (!data) return <Loader height="calc(100vh - 109px)" />;
-  if (error) return <div>에러가 발생했습니다.</div>;
+interface FeedCardProps {
+  liked: boolean;
+}
+
+export const PostCard = ({ postData }: PostProps) => {
+  const token = Cookies.get('token');
+
+  const {
+    id: postID,
+    content,
+    image,
+    createdAt,
+    hearted,
+    heartCount,
+    commentCount,
+    author,
+  } = postData;
+  const { accountname, username, image: profileImg } = author;
+
+  const [liked, setLiked] = useState(hearted);
+  const [likeCount, setLikeCount] = useState(heartCount);
+
+  const handleBtnLike = async () => {
+    if (liked) {
+      await axios(`${API_ENDPOINT}/post/${postID}/unheart`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+
+      setLikeCount((state) => state - 1);
+    } else {
+      await axios(`${API_ENDPOINT}/post/${postID}/heart`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+
+      setLikeCount((state) => state + 1);
+    }
+
+    setLiked(!liked);
+  };
+  const postImgList = image && image.split(',');
 
   return (
     <Feed>
       <h2 className="sr-only">피드 보기</h2>
       <BoxProfileImg>
-        <UserAvatar size={USER_AVATAR.sm.size} src="/default-profile-w.png" />
+        <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
       </BoxProfileImg>
       <HeaderArticle>
-        <UserName>애월읍 위니브 농장</UserName>
-        <UserId>@weniv_Mandarin</UserId>
+        <UserName>{username}</UserName>
+        <UserId>@{accountname}</UserId>
         <BtnMore type="button">
           <span className="sr-only">옵션 더 보기</span>
         </BtnMore>
       </HeaderArticle>
-      <ContentFeed>
-        <TxtFeed>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
-          이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할 넣는 풍부하게
-          뛰노는 인생의 힘있다.
-        </TxtFeed>
-        <ContCarousel>
-          <Carousel>
-            <CarouselSlide id="slide1">
-              <img src="/example/post-img-example.png" alt="피드 이미지" />
-            </CarouselSlide>
-            <CarouselSlide id="slide2">
-              <img src="/example/post-img-example.png" alt="피드 이미지" />
-            </CarouselSlide>
-            <CarouselSlide id="slide3">
-              <img src="/example/post-img-example.png" alt="피드 이미지" />
-            </CarouselSlide>
-          </Carousel>
-          <CarouselNav>
-            <a href="#slide1">
-              <span className="sr-only">1</span>
-            </a>
-            <a href="#slide2">
-              <span className="sr-only">2</span>
-            </a>
-            <a href="#slide3">
-              <span className="sr-only">3</span>
-            </a>
-          </CarouselNav>
-        </ContCarousel>
+      <div>
+        <TxtFeed>{content}</TxtFeed>
+        {postImgList && postImgList[0] !== '' && (
+          <ImgCarousel imgList={postImgList} />
+        )}
         <ListIcons>
           <ItemIcon>
-            <BtnLike type="button">
+            <BtnLike type="button" liked={liked} onClick={handleBtnLike}>
               <span className="sr-only">좋아요</span>
             </BtnLike>
-            <span className="count-like">58</span>
+            <span>{likeCount}</span>
           </ItemIcon>
           <ItemIcon>
             <BtnReply type="button">
               <span className="sr-only">댓글</span>
             </BtnReply>
-            <span className="count-reply">12</span>
+            <span>{commentCount}</span>
           </ItemIcon>
         </ListIcons>
-        <span className="create-at">2022년 01월 16일</span>
-      </ContentFeed>
+        <TxtCreateAt>{dateFormatter(createdAt)}</TxtCreateAt>
+      </div>
     </Feed>
   );
 };
@@ -88,10 +119,12 @@ const Feed = styled.section`
   gap: 10px;
   padding: 20px;
 `;
+
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
 `;
+
 const HeaderArticle = styled.header`
   grid-column: 2 / 3;
   display: grid;
@@ -100,16 +133,19 @@ const HeaderArticle = styled.header`
   width: 100%;
   padding: 4px 0;
 `;
+
 const UserName = styled.span`
   grid-column: 1 / 2;
   color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;
+
 const UserId = styled.span`
   grid-column: 1 / 2;
   font-size: 12px;
 `;
+
 const BtnMore = styled.button`
   grid-column: 2 / 3;
   grid-row: 1 / 3;
@@ -120,74 +156,39 @@ const BtnMore = styled.button`
   background-size: 100%;
 `;
 
-const ContentFeed = styled.div`
-  & .create-at {
-    font-size: 10px;
-  }
+const TxtCreateAt = styled.span`
+  font-size: 10px;
 `;
-const ContCarousel = styled.div`
-  position: relative;
-`;
-const Carousel = styled.ul`
-  overflow-x: auto;
-  display: flex;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-`;
-const CarouselSlide = styled.li`
-  min-width: 100%;
-  scroll-snap-align: center;
 
-  &:not(:first-of-type) {
-    margin-left: 10px;
-  }
-`;
-const CarouselNav = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
-
-  & a {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: 0 3px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-`;
 const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
 `;
+
 const ListIcons = styled.ul`
   display: flex;
   margin: 10px 0;
   font-size: 12px;
 `;
+
 const ItemIcon = styled.li`
   display: flex;
   align-items: center;
   margin-right: 15px;
 `;
-const BtnLike = styled.button`
+
+const BtnLike = styled.button<FeedCardProps>`
   width: 20px;
   height: 20px;
   margin-right: 5px;
-  background: url('/icons/heart.svg') no-repeat;
+  background: ${({ liked }) =>
+    liked
+      ? `url('/icons/heart-fill.svg') no-repeat`
+      : `url('/icons/heart.svg') no-repeat`};
   background-size: 100%;
-
-  &:hover,
-  &.active {
-    background-image: url('/icons/heart-fill.svg');
-  }
 `;
+
 const BtnReply = styled.button`
   width: 20px;
   height: 20px;
