@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_900 } from '../../constants/colors';
 import { dateFormatter } from '../../utils';
+import { ImgCarousel } from '../feed/ImgCarousel';
 import { UserAvatar } from '../UserAvatar';
-import { ImgCarousel } from './ImgCarousel';
 
 interface PostProps {
   postData: {
@@ -30,8 +29,7 @@ interface FeedCardProps {
   liked: boolean;
 }
 
-export const FeedCard = ({ postData }: PostProps) => {
-  const router = useRouter();
+export const PostCard = ({ postData }: PostProps) => {
   const token = Cookies.get('token');
 
   const {
@@ -74,11 +72,11 @@ export const FeedCard = ({ postData }: PostProps) => {
 
     setLiked(!liked);
   };
-
   const postImgList = image && image.split(',');
 
   return (
     <Feed>
+      <h2 className="sr-only">피드 보기</h2>
       <BoxProfileImg>
         <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
       </BoxProfileImg>
@@ -102,10 +100,7 @@ export const FeedCard = ({ postData }: PostProps) => {
             <span>{likeCount}</span>
           </ItemIcon>
           <ItemIcon>
-            <BtnReply
-              type="button"
-              onClick={() => router.push(`/post/${postID}`)}
-            >
+            <BtnReply type="button">
               <span className="sr-only">댓글</span>
             </BtnReply>
             <span>{commentCount}</span>
@@ -117,13 +112,12 @@ export const FeedCard = ({ postData }: PostProps) => {
   );
 };
 
-const Feed = styled.article`
+const Feed = styled.section`
   display: grid;
   grid-template-columns: 42px auto;
   grid-template-rows: 42px auto;
   gap: 10px;
-  margin: 20px 0;
-  padding: 0 16px;
+  padding: 20px;
 `;
 
 const BoxProfileImg = styled.div`
