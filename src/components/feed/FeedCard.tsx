@@ -99,7 +99,7 @@ export const FeedCard = ({ postData }: PostProps) => {
             <BtnLike type="button" liked={liked} onClick={handleBtnLike}>
               <span className="sr-only">좋아요</span>
             </BtnLike>
-            <span className="count-like">{likeCount}</span>
+            <span>{likeCount}</span>
           </ItemIcon>
           <ItemIcon>
             <BtnReply
@@ -108,7 +108,7 @@ export const FeedCard = ({ postData }: PostProps) => {
             >
               <span className="sr-only">댓글</span>
             </BtnReply>
-            <span className="count-reply">{commentCount}</span>
+            <span>{commentCount}</span>
           </ItemIcon>
         </ListIcons>
         <TxtCreateAt>{dateFormatter(createdAt)}</TxtCreateAt>
