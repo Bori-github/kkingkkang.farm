@@ -55,7 +55,7 @@ const Post: NextPage = () => {
             author,
           }}
         />
-        <SectionReplies />
+        <SectionReplies postData={{ id: postID }} />
         <SectionInpReply />
       </MainPost>
     </>

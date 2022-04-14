@@ -1,48 +1,57 @@
 import styled from '@emotion/styled';
-import { BORDER, USER_AVATAR } from '../constants';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { API_ENDPOINT, BORDER, USER_AVATAR } from '../constants';
 import { GRAY_900 } from '../constants/colors';
+import { Comments } from '../types/Comments';
+import { dateFormatter, fetcher } from '../utils';
+import { Loader } from './common/Loader';
 import { UserAvatar } from './UserAvatar';
 
-export const SectionReplies = () => {
+interface RepliesProps {
+  postData: {
+    id: string;
+  };
+}
+
+export const SectionReplies = ({ postData }: RepliesProps) => {
+  const { id: postID } = postData;
+  const { data, error } = useSWR(
+    postID ? `${API_ENDPOINT}/post/${postID}/comments/?limit=1000` : null,
+    fetcher,
+  );
+
+  const [commentsList, setCommentsList] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setCommentsList(data.comments);
+    }
+  });
+
+  if (!data) return <Loader height="calc(100vh - 109px)" />;
+  if (error) return <div>에러가 발생했습니다.</div>;
+
   return (
     <Container>
       <h2 className="sr-only">댓글 보기</h2>
-      <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
-        <User>
-          <UserName>서귀포시 농장</UserName>
-          <Timestamp>5분 전</Timestamp>
-          <BtnMore type="button">
-            <span className="sr-only">더 보기</span>
-          </BtnMore>
-        </User>
-        <TxtReply>게시글 답글~~!! 쵝오</TxtReply>
-      </UserReply>
-      <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
-        <User>
-          <UserName>감귤러버</UserName>
-          <Timestamp>15분 전</Timestamp>
-          <BtnMore type="button">
-            <span className="sr-only">더 보기</span>
-          </BtnMore>
-        </User>
-        <TxtReply>
-          안녕하세요. 사진이 너무 멋있어요. 한라봉 언제 먹을 수 있나요? 기다리기
-          지쳤어요 땡뻘땡뻘...
-        </TxtReply>
-      </UserReply>
-      <UserReply>
-        <UserAvatar size={USER_AVATAR.xs.size} src="/default-profile-w.png" />
-        <User>
-          <UserName>서귀포시 농장</UserName>
-          <Timestamp>20분 전</Timestamp>
-          <BtnMore type="button">
-            <span className="sr-only">더 보기</span>
-          </BtnMore>
-        </User>
-        <TxtReply>게시글 답글~~!! 쵝오</TxtReply>
-      </UserReply>
+      {commentsList.map((commentsData: Comments) => {
+        const { id, content, createdAt, author } = commentsData;
+        const { username, image } = author;
+        return (
+          <UserReply key={`comments-list-${id}`}>
+            <UserAvatar size={USER_AVATAR.xs.size} src={image} />
+            <User>
+              <UserName>{username}</UserName>
+              <Timestamp>{dateFormatter(createdAt)}</Timestamp>
+              <BtnMore type="button">
+                <span className="sr-only">더 보기</span>
+              </BtnMore>
+            </User>
+            <TxtReply>{content}</TxtReply>
+          </UserReply>
+        );
+      })}
     </Container>
   );
 };
@@ -51,6 +60,7 @@ const Container = styled.section`
   padding: 20px 16px;
   border-top: ${BORDER.basic};
 `;
+
 const UserReply = styled.div`
   display: grid;
   grid-template-columns: 36px auto;
@@ -59,14 +69,17 @@ const UserReply = styled.div`
     margin-top: 16px;
   }
 `;
+
 const User = styled.div`
   position: relative;
   padding-top: 8px;
 `;
+
 const UserName = styled.span`
   color: ${GRAY_900};
   font-size: 14px;
 `;
+
 const Timestamp = styled.span`
   font-size: 10px;
   &::before {
@@ -74,6 +87,7 @@ const Timestamp = styled.span`
     margin: 0 10px;
   }
 `;
+
 const BtnMore = styled.button`
   position: absolute;
   top: 6px;
@@ -83,6 +97,7 @@ const BtnMore = styled.button`
   background: url('/icons/more-sm.svg') no-repeat;
   background-size: 100%;
 `;
+
 const TxtReply = styled.p`
   grid-column: 2 / 3;
   color: ${GRAY_900};
