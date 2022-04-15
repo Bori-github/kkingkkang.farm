@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { API_ENDPOINT, BORDER, USER_AVATAR } from '../constants';
-import { GRAY_900 } from '../constants/colors';
-import { Comments } from '../types/Comments';
-import { dateFormatter, fetcher } from '../utils';
-import { Loader } from './common/Loader';
-import { UserAvatar } from './UserAvatar';
+import { API_ENDPOINT, BORDER, USER_AVATAR } from '../../constants';
+import { GRAY_900 } from '../../constants/colors';
+import { Comments } from '../../types/Comments';
+import { dateFormatter, fetcher } from '../../utils';
+import { Loader } from '../common/Loader';
+import { UserAvatar } from '../UserAvatar';
 
 interface RepliesProps {
   postData: {
@@ -38,6 +38,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
       {commentsList.map((commentsData: Comments) => {
         const { id, content, createdAt, author } = commentsData;
         const { username, image } = author;
+
         return (
           <UserReply key={`comments-list-${id}`}>
             <UserAvatar size={USER_AVATAR.xs.size} src={image} />

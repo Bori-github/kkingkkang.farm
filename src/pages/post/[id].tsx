@@ -7,7 +7,7 @@ import { Loader } from '../../components/common/Loader';
 import { HeaderUserPage } from '../../components/layouts/Header';
 import { PostCard } from '../../components/post/PostCard';
 import { SectionInpReply } from '../../components/SectionInput';
-import { SectionReplies } from '../../components/SectionReplies';
+import { SectionReplies } from '../../components/post/SectionReplies';
 import { API_ENDPOINT } from '../../constants';
 import { fetcher } from '../../utils';
 
