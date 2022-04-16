@@ -59,7 +59,9 @@ export const SectionInpReply = ({ postData }: PostProps) => {
         <InpTxt
           type="text"
           placeholder="댓글 달기..."
-          {...register('comment')}
+          {...register('comment', {
+            required: true,
+          })}
         />
         <BtnSend type="submit" disabled={!isValid}>
           게시
