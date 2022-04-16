@@ -56,7 +56,7 @@ const Post: NextPage = () => {
           }}
         />
         <SectionReplies postData={{ id: postID }} />
-        <SectionInpReply />
+        <SectionInpReply postData={{ id: postID }} />
       </MainPost>
     </>
   );
