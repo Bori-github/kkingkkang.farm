@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import { FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../constants';
@@ -19,6 +21,8 @@ interface PostProps {
 export const SectionInpReply = ({ postData }: PostProps) => {
   const { id: postID } = postData;
   const accountname = Cookies.get('accountname');
+  const token = Cookies.get('token');
+  const router = useRouter();
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
     fetcher,
@@ -30,8 +34,13 @@ export const SectionInpReply = ({ postData }: PostProps) => {
     formState: { isValid },
   } = useForm({ mode: 'onChange' });
 
+  const handleTextarea = (e: FormEvent<HTMLTextAreaElement>) => {
+    e.currentTarget.style.height = 'auto';
+    const { scrollHeight } = e.currentTarget;
+    e.currentTarget.style.height = `${scrollHeight - 10}px`;
+  };
+
   const handleComment = handleSubmit(async () => {
-    const token = Cookies.get('token');
     const { comment } = getValues();
 
     await axios(`${API_ENDPOINT}/post/${postID}/comments`, {
@@ -46,6 +55,7 @@ export const SectionInpReply = ({ postData }: PostProps) => {
         },
       }),
     });
+    router.push(`/post/${postID}`);
   });
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
@@ -56,9 +66,10 @@ export const SectionInpReply = ({ postData }: PostProps) => {
       <h3 className="sr-only">댓글 입력</h3>
       <UserAvatar size={USER_AVATAR.sm.size} src={data.profile.image} />
       <Form onSubmit={handleComment}>
-        <InpTxt
-          type="text"
-          placeholder="댓글 달기..."
+        <TextArea
+          rows={1}
+          placeholder={`${data.profile.username}(으)로 댓글 달기...`}
+          onInput={handleTextarea}
           {...register('comment', {
             required: true,
           })}
@@ -111,6 +122,12 @@ const InpTxt = styled.input`
   padding: 5px 0;
   border: 0;
   background: none;
+`;
+
+const TextArea = styled.textarea`
+  padding: 5px 0;
+  border: 0;
+  resize: none;
 `;
 
 const BtnSend = styled.button`
