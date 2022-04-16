@@ -15,10 +15,10 @@ export const dateFormatter = (createdAt: string) => {
     return '방금 전';
   }
   if (minTimeGap < 60) {
-    return `${minTimeGap}분 전`;
+    return `${Math.floor(minTimeGap)}분 전`;
   }
   if (minTimeGap / 24 < 24) {
-    return `${minTimeGap / 24}시간 전`;
+    return `${Math.floor(minTimeGap / 24)}시간 전`;
   }
 
   return `${year}년 ${month}월 ${day}일`;
