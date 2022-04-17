@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import {
   API_ENDPOINT,
   BORDER,
@@ -28,7 +27,6 @@ export const SectionInpReply = ({ postData }: PostProps) => {
   const { id: postID } = postData;
   const accountname = Cookies.get('accountname');
   const token = Cookies.get('token');
-  const router = useRouter();
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
     fetcher,
@@ -36,6 +34,7 @@ export const SectionInpReply = ({ postData }: PostProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     getValues,
     formState: { isValid },
   } = useForm({ mode: 'onChange' });
@@ -49,19 +48,26 @@ export const SectionInpReply = ({ postData }: PostProps) => {
   const handleComment = handleSubmit(async () => {
     const { comment } = getValues();
 
-    await axios(`${API_ENDPOINT}/post/${postID}/comments`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        comment: {
-          content: comment,
+    const { data } = await axios(
+      `${API_ENDPOINT}/post/${postID}/comments/?limit=1000`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
         },
-      }),
-    });
-    router.push(`/post/${postID}`);
+        data: JSON.stringify({
+          comment: {
+            content: comment,
+          },
+        }),
+      },
+    );
+
+    if (data.comment !== []) {
+      mutate(`${API_ENDPOINT}/post/${postID}/comments/?limit=1000`);
+      setValue('comment', '');
+    }
   });
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
