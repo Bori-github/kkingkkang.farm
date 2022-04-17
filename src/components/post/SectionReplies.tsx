@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { API_ENDPOINT, BORDER, USER_AVATAR } from '../../constants';
-import { GRAY_900 } from '../../constants/colors';
+import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
+import { GRAY_300, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
 import { Comments } from '../../types/Comments';
 import { dateFormatter, fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
@@ -16,18 +18,38 @@ interface RepliesProps {
 
 export const SectionReplies = ({ postData }: RepliesProps) => {
   const { id: postID } = postData;
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     postID ? `${API_ENDPOINT}/post/${postID}/comments/?limit=1000` : null,
     fetcher,
   );
 
   const [commentsList, setCommentsList] = useState([]);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     if (data) {
       setCommentsList(data.comments);
     }
   });
+
+  const handleDeleteComment = async (commentID: string) => {
+    const token = Cookies.get('token');
+    const { data } = await axios(
+      `${API_ENDPOINT}/post/${postID}/comments/${commentID}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      },
+    );
+
+    if (data.message === '댓글이 삭제되었습니다.') {
+      setIsShowModal(false);
+      mutate();
+    }
+  };
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
@@ -40,17 +62,44 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
         const { username, image } = author;
 
         return (
-          <UserReply key={`comments-list-${id}`}>
-            <UserAvatar size={USER_AVATAR.xs.size} src={image} />
-            <User>
-              <UserName>{username}</UserName>
-              <Timestamp>{dateFormatter(createdAt)}</Timestamp>
-              <BtnMore type="button">
-                <span className="sr-only">더 보기</span>
-              </BtnMore>
-            </User>
-            <TxtReply>{content}</TxtReply>
-          </UserReply>
+          <>
+            <UserReply key={`comments-list-${id}`}>
+              <UserAvatar size={USER_AVATAR.xs.size} src={image} />
+              <User>
+                <UserName>{username}</UserName>
+                <Timestamp>{dateFormatter(createdAt)}</Timestamp>
+                <BtnMore type="button" onClick={() => setIsShowModal(true)}>
+                  <span className="sr-only">더 보기</span>
+                </BtnMore>
+              </User>
+              <TxtReply>{content}</TxtReply>
+            </UserReply>
+            {isShowModal && (
+              <BgPopup>
+                <Popup>
+                  <TxtLogout>댓글을 삭제할까요?</TxtLogout>
+                  <ListModalBtns>
+                    <li>
+                      <BtnCancel
+                        type="button"
+                        onClick={() => setIsShowModal(false)}
+                      >
+                        취소
+                      </BtnCancel>
+                    </li>
+                    <li>
+                      <BtnDelete
+                        type="button"
+                        onClick={() => handleDeleteComment(id)}
+                      >
+                        삭제
+                      </BtnDelete>
+                    </li>
+                  </ListModalBtns>
+                </Popup>
+              </BgPopup>
+            )}
+          </>
         );
       })}
     </Container>
@@ -104,4 +153,57 @@ const TxtReply = styled.p`
   color: ${GRAY_900};
   font-size: 14px;
   line-height: 1.4;
+`;
+
+const BgPopup = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: ${Z_INDEX.popup};
+  background-color: rgba(0, 0, 0, 0.5);
+  color: ${GRAY_900};
+`;
+
+const Popup = styled.div`
+  position: absolute;
+  top: calc(50% - 30px);
+  left: 50%;
+  border-radius: 10px;
+  background-color: ${WHITE};
+  text-align: center;
+  transform: translate(-50%, -50%);
+`;
+
+const TxtLogout = styled.p`
+  padding: 20px 0;
+  border-bottom: ${BORDER.basic};
+`;
+
+const ListModalBtns = styled.ul`
+  display: flex;
+  font-size: 14px;
+`;
+
+const BtnCancel = styled.button`
+  position: relative;
+  width: 126px;
+  padding: 15px 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: ${GRAY_300};
+  }
+`;
+
+const BtnDelete = styled.button`
+  width: 126px;
+  padding: 15px 0;
+  color: ${PRIMARY};
 `;
