@@ -5,7 +5,13 @@ import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
-import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../constants';
+import {
+  API_ENDPOINT,
+  BORDER,
+  BUTTON,
+  USER_AVATAR,
+  Z_INDEX,
+} from '../constants';
 import { WHITE } from '../constants/colors';
 import { fetcher } from '../utils';
 import { BtnImgUpload } from './BtnImgUpload';
@@ -105,7 +111,7 @@ const Contaioner = styled.article`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: ${Z_INDEX.header};
   padding: 5px;
   border-top: ${BORDER.basic};
   background-color: ${WHITE};
