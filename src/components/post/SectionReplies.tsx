@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
@@ -16,6 +16,10 @@ interface RepliesProps {
   };
 }
 
+interface ModalProps {
+  isShowModal: boolean;
+}
+
 export const SectionReplies = ({ postData }: RepliesProps) => {
   const { id: postID } = postData;
   const { data, error, mutate } = useSWR(
@@ -24,13 +28,24 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
   );
 
   const [commentsList, setCommentsList] = useState([]);
+  const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const modalRef = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     if (data) {
       setCommentsList(data.comments);
     }
   });
+
+  const handleCloseModal = (e: MouseEvent<HTMLElement>) => {
+    modalRef.current.forEach((el) => {
+      if (el === e.target) {
+        setIsShowModal(false);
+        setIsShowPopup(false);
+      }
+    });
+  };
 
   const handleDeleteComment = async (commentID: string) => {
     const token = Cookies.get('token');
@@ -46,7 +61,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
     );
 
     if (data.message === '댓글이 삭제되었습니다.') {
-      setIsShowModal(false);
+      setIsShowPopup(false);
       mutate();
     }
   };
@@ -75,28 +90,46 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
               <TxtReply>{content}</TxtReply>
             </UserReply>
             {isShowModal && (
-              <BgPopup>
-                <Popup>
-                  <TxtLogout>댓글을 삭제할까요?</TxtLogout>
-                  <ListModalBtns>
-                    <li>
-                      <BtnCancel
-                        type="button"
-                        onClick={() => setIsShowModal(false)}
-                      >
-                        취소
-                      </BtnCancel>
-                    </li>
-                    <li>
-                      <BtnDelete
-                        type="button"
-                        onClick={() => handleDeleteComment(id)}
-                      >
-                        삭제
-                      </BtnDelete>
-                    </li>
-                  </ListModalBtns>
-                </Popup>
+              <BgPopup
+                ref={(el) => {
+                  modalRef.current[0] = el;
+                }}
+                onClick={handleCloseModal}
+              >
+                {!isShowPopup ? (
+                  <ModalPopup isShowModal={isShowModal}>
+                    <ul>
+                      <ItemMore onClick={() => setIsShowPopup(true)}>
+                        <button type="button">삭제</button>
+                      </ItemMore>
+                    </ul>
+                  </ModalPopup>
+                ) : (
+                  <Popup>
+                    <TxtLogout>댓글을 삭제할까요?</TxtLogout>
+                    <ListModalBtns>
+                      <li>
+                        <BtnCancel
+                          type="button"
+                          ref={(el) => {
+                            modalRef.current[1] = el;
+                          }}
+                          onClick={handleCloseModal}
+                        >
+                          취소
+                        </BtnCancel>
+                      </li>
+                      <li>
+                        <BtnDelete
+                          type="button"
+                          onClick={() => handleDeleteComment(id)}
+                        >
+                          삭제
+                        </BtnDelete>
+                      </li>
+                    </ListModalBtns>
+                  </Popup>
+                )}
               </BgPopup>
             )}
           </>
@@ -164,6 +197,37 @@ const BgPopup = styled.div`
   z-index: ${Z_INDEX.popup};
   background-color: rgba(0, 0, 0, 0.5);
   color: ${GRAY_900};
+`;
+
+const ModalPopup = styled.div<ModalProps>`
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 36px 0 10px;
+  border-radius: 20px 20px 0 0;
+  background-color: ${WHITE};
+  transform: ${(isShowModal) =>
+    isShowModal ? 'translateY(0)' : 'translateY(100%)'};
+  transition: transform 0.1s;
+  will-change: transform;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 50px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: ${GRAY_300};
+    transform: translateX(-50%);
+  }
+`;
+
+const ItemMore = styled.li`
+  padding: 14px 25px;
+  font-size: 14px;
 `;
 
 const Popup = styled.div`
