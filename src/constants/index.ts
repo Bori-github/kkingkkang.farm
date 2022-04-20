@@ -28,3 +28,9 @@ export const USER_AVATAR = {
     size: '110px',
   },
 };
+
+export const Z_INDEX = {
+  header: 10,
+  popup: 100,
+  splash_screen: 1000,
+};

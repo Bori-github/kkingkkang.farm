@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { BORDER } from '../../constants';
+import { BORDER, Z_INDEX } from '../../constants';
 import { WHITE } from '../../constants/colors';
 
 export const Navigation = () => {
@@ -62,7 +62,7 @@ const Nav = styled.nav`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: ${Z_INDEX.header};
   border-top: ${BORDER.basic};
   background-color: ${WHITE};
 `;

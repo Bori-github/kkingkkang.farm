@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { BORDER } from '../../constants';
+import { BORDER, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_50, GRAY_900, WHITE } from '../../constants/colors';
 
 interface HeaderProps {
@@ -85,7 +85,7 @@ const Header = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  z-index: 10;
+  z-index: ${Z_INDEX.header};
   padding: 12px 16px;
   border-bottom: ${BORDER.basic};
   background-color: ${WHITE};
