@@ -21,6 +21,8 @@ interface ModalProps {
 }
 
 export const SectionReplies = ({ postData }: RepliesProps) => {
+  const accountname = Cookies.get('accountname');
+  const token = Cookies.get('token');
   const { id: postID } = postData;
   const { data, error, mutate } = useSWR(
     postID ? `${API_ENDPOINT}/post/${postID}/comments/?limit=1000` : null,
@@ -48,7 +50,6 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
   };
 
   const handleDeleteComment = async (commentID: string) => {
-    const token = Cookies.get('token');
     const { data } = await axios(
       `${API_ENDPOINT}/post/${postID}/comments/${commentID}`,
       {
@@ -66,6 +67,22 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
     }
   };
 
+  const handleReportComment = async () => {
+    const { data } = await axios(`${API_ENDPOINT}/post/${postID}/report`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+
+    if (data.report.post === postID) {
+      setIsShowModal(false);
+      setIsShowPopup(false);
+      console.log('신고 성공');
+    }
+  };
+
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
@@ -74,7 +91,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
       <h2 className="sr-only">댓글 보기</h2>
       {commentsList.map((commentsData: Comments) => {
         const { id, content, createdAt, author } = commentsData;
-        const { username, image } = author;
+        const { username, image, accountname: authorAccountname } = author;
 
         return (
           <>
@@ -99,14 +116,24 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
                 {!isShowPopup ? (
                   <ModalPopup isShowModal={isShowModal}>
                     <ul>
-                      <ItemMore onClick={() => setIsShowPopup(true)}>
-                        <button type="button">삭제</button>
-                      </ItemMore>
+                      {authorAccountname === accountname ? (
+                        <ItemMore onClick={() => setIsShowPopup(true)}>
+                          <button type="button">삭제</button>
+                        </ItemMore>
+                      ) : (
+                        <ItemMore onClick={() => setIsShowPopup(true)}>
+                          <button type="button">신고하기</button>
+                        </ItemMore>
+                      )}
                     </ul>
                   </ModalPopup>
                 ) : (
                   <Popup>
-                    <TxtLogout>댓글을 삭제할까요?</TxtLogout>
+                    {authorAccountname === accountname ? (
+                      <TxtLogout>댓글을 삭제할까요?</TxtLogout>
+                    ) : (
+                      <TxtLogout>댓글을 신고할까요?</TxtLogout>
+                    )}
                     <ListModalBtns>
                       <li>
                         <BtnCancel
@@ -120,12 +147,21 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
                         </BtnCancel>
                       </li>
                       <li>
-                        <BtnDelete
-                          type="button"
-                          onClick={() => handleDeleteComment(id)}
-                        >
-                          삭제
-                        </BtnDelete>
+                        {authorAccountname === accountname ? (
+                          <BtnDelete
+                            type="button"
+                            onClick={() => handleDeleteComment(id)}
+                          >
+                            삭제
+                          </BtnDelete>
+                        ) : (
+                          <BtnDelete
+                            type="button"
+                            onClick={handleReportComment}
+                          >
+                            신고
+                          </BtnDelete>
+                        )}
                       </li>
                     </ListModalBtns>
                   </Popup>
