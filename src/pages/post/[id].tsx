@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { HeaderUserPage } from '../../components/layouts/Header';
 import { PostCard } from '../../components/post/PostCard';
-import { SectionInpReply } from '../../components/SectionInput';
+import { SectionInputReply } from '../../components/post/SectionInputReply';
 import { SectionReplies } from '../../components/post/SectionReplies';
 import { API_ENDPOINT } from '../../constants';
 import { fetcher } from '../../utils';
@@ -56,7 +56,7 @@ const Post: NextPage = () => {
           }}
         />
         <SectionReplies postData={{ id: postID }} />
-        <SectionInpReply postData={{ id: postID }} />
+        <SectionInputReply postData={{ id: postID }} />
       </MainPost>
     </>
   );
