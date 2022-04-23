@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { BORDER, USER_AVATAR } from '../constants';
 import { GRAY_900, WHITE } from '../constants/colors';
+import { UserFeedContainer } from './feed/UserFeedContainer';
 import { UserAvatar } from './UserAvatar';
 
 export const SectionFeed = () => {
   return (
-    <Container>
+    <Section>
       <h2 className="sr-only">피드 보기</h2>
       <Toolbar>
         <BtnListType type="button" className="active">
@@ -15,7 +16,8 @@ export const SectionFeed = () => {
           <span className="sr-only">앨범 형</span>
         </BtnAlbumType>
       </Toolbar>
-      <Feed>
+      <UserFeedContainer />
+      {/* <Feed>
         <BoxProfileImg>
           <UserAvatar size={USER_AVATAR.md.size} src="/default-profile-w.png" />
         </BoxProfileImg>
@@ -51,21 +53,22 @@ export const SectionFeed = () => {
           </ListIcons>
           <span className="create-at">2022년 01월 16일</span>
         </ContentFeed>
-      </Feed>
-    </Container>
+      </Feed> */}
+    </Section>
   );
 };
 
-const Container = styled.section`
-  /* display: none; */
+const Section = styled.section`
   margin-top: 10px;
   background-color: ${WHITE};
 `;
+
 const Toolbar = styled.div`
   padding: 6px 20px;
   border-bottom: ${BORDER.basic};
   text-align: right;
 `;
+
 const BtnListType = styled.button`
   width: 26px;
   height: 26px;
@@ -75,6 +78,7 @@ const BtnListType = styled.button`
     background-image: url('/icons/post/post-list-on.svg');
   }
 `;
+
 const BtnAlbumType = styled.button`
   width: 26px;
   height: 26px;
@@ -86,6 +90,7 @@ const BtnAlbumType = styled.button`
     background-image: url('/icons/post/post-album-on.svg');
   }
 `;
+
 const Feed = styled.article`
   display: grid;
   grid-template-columns: 50px auto;
@@ -93,10 +98,12 @@ const Feed = styled.article`
   gap: 10px;
   padding: 20px;
 `;
+
 const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
   grid-row: 1 / 3;
 `;
+
 const HeaderArticle = styled.header`
   grid-column: 2 / 3;
   display: grid;
@@ -105,16 +112,19 @@ const HeaderArticle = styled.header`
   width: 100%;
   padding: 4px 0;
 `;
+
 const UserName = styled.span`
   grid-column: 1 / 2;
   color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
 `;
+
 const UserId = styled.span`
   grid-column: 1 / 2;
   font-size: 12px;
 `;
+
 const BtnMore = styled.button`
   grid-column: 2 / 3;
   grid-row: 1 / 3;
@@ -130,22 +140,27 @@ const ContentFeed = styled.div`
     font-size: 10px;
   }
 `;
+
 const ContainerImg = styled.div``;
+
 const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
 `;
+
 const ListIcons = styled.ul`
   display: flex;
   margin: 10px 0;
   font-size: 12px;
 `;
+
 const ItemIcon = styled.li`
   display: flex;
   align-items: center;
   margin-right: 15px;
 `;
+
 const BtnLike = styled.button`
   width: 20px;
   height: 20px;
@@ -158,6 +173,7 @@ const BtnLike = styled.button`
     background-image: url('/icons/heart-fill.svg');
   }
 `;
+
 const BtnReply = styled.button`
   width: 20px;
   height: 20px;

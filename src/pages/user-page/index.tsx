@@ -54,7 +54,7 @@ const UserPage: NextPage = () => {
           }}
         />
         {/* <SectionProducts /> */}
-        {/* <SectionFeed /> */}
+        <SectionFeed />
       </MainMyPage>
       {/* <PopupPost />
       <PopupPostDelete />
