@@ -114,6 +114,22 @@ export const FeedCard = ({ postData }: PostProps) => {
     }
   };
 
+  const handleReportPost = async () => {
+    const { data } = await axios(`${API_ENDPOINT}/post/${postID}/report`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+
+    if (data.report.post === postID) {
+      setIsShowModal(false);
+      setIsShowPopup(false);
+      alert('해당 게시글은 신고 처리 되었습니다.');
+    }
+  };
+
   return (
     <>
       <Feed>
@@ -177,8 +193,10 @@ export const FeedCard = ({ postData }: PostProps) => {
                     </ItemMore>
                   </>
                 ) : (
-                  <ItemMore onClick={() => setIsShowPopup(true)}>
-                    <button type="button">신고하기</button>
+                  <ItemMore>
+                    <button type="button" onClick={() => setIsShowPopup(true)}>
+                      신고하기
+                    </button>
                   </ItemMore>
                 )}
               </ul>
@@ -208,10 +226,7 @@ export const FeedCard = ({ postData }: PostProps) => {
                       삭제
                     </BtnDelete>
                   ) : (
-                    <BtnDelete
-                      type="button"
-                      // onClick={handleReportPost}
-                    >
+                    <BtnDelete type="button" onClick={handleReportPost}>
                       신고
                     </BtnDelete>
                   )}
