@@ -184,15 +184,16 @@ const Container = styled.section`
   border-top: ${BORDER.basic};
 `;
 
-const CommentContainer = styled.div``;
+const CommentContainer = styled.div`
+  & + & {
+    margin-top: 16px;
+  }
+`;
 
 const UserReply = styled.div`
   display: grid;
   grid-template-columns: 36px auto;
   column-gap: 10px;
-  &:not(:first-of-type) {
-    margin-top: 16px;
-  }
 `;
 
 const User = styled.div`
