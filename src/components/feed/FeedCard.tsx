@@ -189,7 +189,12 @@ export const FeedCard = ({ postData }: PostProps) => {
                       </button>
                     </ItemMore>
                     <ItemMore>
-                      <button type="button">수정</button>
+                      <button
+                        type="button"
+                        onClick={() => router.push('/edit-post')}
+                      >
+                        수정
+                      </button>
                     </ItemMore>
                   </>
                 ) : (
@@ -246,7 +251,7 @@ const Feed = styled.article`
   grid-template-rows: 42px auto;
   gap: 10px;
   margin: 20px 0;
-  padding: 0 16px;
+  padding: 0 16px 20px;
 `;
 
 const BoxProfileImg = styled.div`
@@ -293,6 +298,7 @@ const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
+  word-break: break-word;
 `;
 
 const ListIcons = styled.ul`
