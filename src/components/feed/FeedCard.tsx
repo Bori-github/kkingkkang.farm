@@ -298,7 +298,8 @@ const TxtFeed = styled.p`
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
-  word-break: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 const ListIcons = styled.ul`
