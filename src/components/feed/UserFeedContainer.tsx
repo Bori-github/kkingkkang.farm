@@ -13,31 +13,21 @@ const PAGE_SIZE = 10;
 export const UserFeedContainer = () => {
   const accountname = Cookies.get('accountname');
 
-  const [postList, setPostList] = useState<Array<Post>>([]);
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
     data: myFeedData,
     error,
-    size,
     setSize,
   } = useSWRInfinite(
     (index) =>
-      `${API_ENDPOINT}/post/${accountname}/userpost/?limit=10&skip=${
+      `${API_ENDPOINT}/post/${accountname}/userpost/?limit=${PAGE_SIZE}&skip=${
         index * PAGE_SIZE
       }`,
     fetcher,
+    { revalidateAll: true },
   );
-
-  useEffect(() => {
-    if (myFeedData) {
-      myFeedData.map((data) => {
-        return setPostList([...postList, ...data.post]);
-      });
-    }
-    setIsLoading(true);
-  }, [myFeedData]);
 
   const isEmpty = myFeedData?.[0]?.length === 0;
   const isReachingEnd =
@@ -66,34 +56,36 @@ export const UserFeedContainer = () => {
 
   return (
     <SectionFeed>
-      {postList ? (
-        postList.map((postData: Post) => {
-          const {
-            id,
-            content,
-            image,
-            createdAt,
-            hearted,
-            heartCount,
-            commentCount,
-            author,
-          } = postData;
+      {myFeedData ? (
+        myFeedData.map((data) => {
+          return data.post.map((postData: Post) => {
+            const {
+              id,
+              content,
+              image,
+              createdAt,
+              hearted,
+              heartCount,
+              commentCount,
+              author,
+            } = postData;
 
-          return (
-            <FeedCard
-              key={`myfeed-item-${id}-${Math.random()}`}
-              postData={{
-                id,
-                content,
-                image,
-                createdAt,
-                hearted,
-                heartCount,
-                commentCount,
-                author,
-              }}
-            />
-          );
+            return (
+              <FeedCard
+                key={`myfeed-item-${id}`}
+                postData={{
+                  id,
+                  content,
+                  image,
+                  createdAt,
+                  hearted,
+                  heartCount,
+                  commentCount,
+                  author,
+                }}
+              />
+            );
+          });
         })
       ) : (
         <Loader height="calc(100vh - 109px)" />
