@@ -189,7 +189,7 @@ export const PostCard = ({ postData }: PostProps) => {
                     <ItemMore>
                       <button
                         type="button"
-                        onClick={() => router.push('/edit-post')}
+                        onClick={() => router.push(`/post/${postID}/edit-post`)}
                       >
                         수정
                       </button>
