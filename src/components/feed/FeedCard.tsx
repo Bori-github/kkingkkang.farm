@@ -110,7 +110,7 @@ export const FeedCard = ({ postData }: PostProps) => {
     if (data.message === '삭제되었습니다.') {
       setIsShowModal(false);
       setIsShowPopup(false);
-      // router.push('/user-page');
+      router.reload();
     }
   };
 
