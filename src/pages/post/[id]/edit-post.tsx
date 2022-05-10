@@ -16,7 +16,6 @@ import { fetcher } from '../../../utils/fetcher';
 
 const EditPost: NextPage = () => {
   const { register, handleSubmit } = useForm({ mode: 'onChange' });
-  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
   const [imgList, setImgList] = useState<Array<string>>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -26,10 +25,6 @@ const EditPost: NextPage = () => {
     fetcher,
   );
   const token = Cookies.get('token');
-
-  useEffect(() => {
-    setProfileImg(image);
-  }, [data]);
 
   const handleTextarea = () => {
     if (textareaRef.current instanceof Element) {
@@ -106,8 +101,6 @@ const EditPost: NextPage = () => {
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
-  const { image } = data.profile;
-
   return (
     <>
       <Head>
@@ -117,7 +110,10 @@ const EditPost: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
+            <UserAvatar
+              size={USER_AVATAR.sm.size}
+              src={data.post.author.image}
+            />
           </BoxProfileImg>
           <form onSubmit={onHandleSubmit}>
             <TextUpload
