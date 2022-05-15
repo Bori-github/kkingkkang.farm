@@ -1,7 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
-import { BORDER, USER_AVATAR } from '../constants';
+import { useState } from 'react';
+import { API_ENDPOINT, BORDER, USER_AVATAR } from '../constants';
 import { GRAY_900, PRIMARY, WHITE } from '../constants/colors';
 import { UserAvatar } from './UserAvatar';
 
@@ -27,8 +30,30 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
     isfollow,
     username,
   } = userInfoData;
+  const [followed, setFollowed] = useState(isfollow);
 
-  console.log(userInfoData);
+  const token = Cookies.get('token');
+  const removeFollow = async (accountname: string | string[] | undefined) => {
+    await axios(`${API_ENDPOINT}/profile/${accountname}/unfollow`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+    setFollowed(false);
+  };
+
+  const getFollow = async (accountname: string | string[] | undefined) => {
+    await axios(`${API_ENDPOINT}/profile/${accountname}/follow`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+    setFollowed(true);
+  };
 
   return (
     <Container>
@@ -58,10 +83,14 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
           </BtnMsg>
         </li>
         <li>
-          {isfollow ? (
-            <BtnCancel type="button">팔로잉</BtnCancel>
+          {followed ? (
+            <BtnCancel type="button" onClick={() => removeFollow(accountname)}>
+              팔로잉
+            </BtnCancel>
           ) : (
-            <BtnFollow type="button">팔로우</BtnFollow>
+            <BtnFollow type="button" onClick={() => getFollow(accountname)}>
+              팔로우
+            </BtnFollow>
           )}
         </li>
         <li>
@@ -191,21 +220,21 @@ const BtnMsg = styled.button`
 `;
 
 const BtnStyle = () => css`
-  align-self: center;
-  width: 100%;
-  padding: 7px 0;
-  border-radius: 30px;
+  margin: 0 10px;
+  padding: 10px 40px;
+  border: ${BORDER.basic};
+  border-radius: 32px;
 `;
 
 const BtnFollow = styled.button`
   ${BtnStyle}
+  border-color:  ${PRIMARY};
   background-color: ${PRIMARY};
   color: ${WHITE};
 `;
 
 const BtnCancel = styled.button`
   ${BtnStyle}
-  border: ${BORDER.basic};
 `;
 
 const BtnShare = styled.button`
