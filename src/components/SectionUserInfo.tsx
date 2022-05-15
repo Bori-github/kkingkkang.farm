@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { BORDER, USER_AVATAR } from '../constants';
@@ -11,13 +12,23 @@ interface UserInfoProps {
     followingCount: number;
     image: string;
     intro: string;
+    isfollow: boolean;
     username: string;
   };
 }
 
 export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
-  const { accountname, followerCount, followingCount, image, intro, username } =
-    userInfoData;
+  const {
+    accountname,
+    followerCount,
+    followingCount,
+    image,
+    intro,
+    isfollow,
+    username,
+  } = userInfoData;
+
+  console.log(userInfoData);
 
   return (
     <Container>
@@ -47,7 +58,11 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
           </BtnMsg>
         </li>
         <li>
-          <BtnFollow type="button">팔로우</BtnFollow>
+          {isfollow ? (
+            <BtnCancel type="button">팔로잉</BtnCancel>
+          ) : (
+            <BtnFollow type="button">팔로우</BtnFollow>
+          )}
         </li>
         <li>
           <BtnShare type="button">
@@ -175,12 +190,22 @@ const BtnMsg = styled.button`
   background: url('/icons/message-sm.svg') no-repeat 50% 50%;
 `;
 
+const BtnStyle = () => css`
+  align-self: center;
+  width: 100%;
+  padding: 7px 0;
+  border-radius: 30px;
+`;
+
 const BtnFollow = styled.button`
-  margin: 0 10px;
-  padding: 10px 40px;
-  border-radius: 32px;
+  ${BtnStyle}
   background-color: ${PRIMARY};
   color: ${WHITE};
+`;
+
+const BtnCancel = styled.button`
+  ${BtnStyle}
+  border: ${BORDER.basic};
 `;
 
 const BtnShare = styled.button`
