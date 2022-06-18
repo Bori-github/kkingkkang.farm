@@ -109,6 +109,8 @@ const EditPost: NextPage = () => {
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
+  const { author, image } = data.post;
+
   return (
     <>
       <Head>
@@ -118,10 +120,7 @@ const EditPost: NextPage = () => {
       <MainUpload>
         <SectionUpload>
           <BoxProfileImg>
-            <UserAvatar
-              size={USER_AVATAR.sm.size}
-              src={data.post.author.image}
-            />
+            <UserAvatar size={USER_AVATAR.sm.size} src={author.image} />
           </BoxProfileImg>
           <form onSubmit={onHandleSubmit}>
             <TextUpload
@@ -149,7 +148,7 @@ const EditPost: NextPage = () => {
           </form>
           <ContUploadImg>
             <ListUploadImg>
-              {[...data.post.image.split(','), ...imgList].map((img, idx) => {
+              {[...image.split(','), ...imgList].map((img, idx) => {
                 return (
                   <ItemUploadImg
                     id="slide1"
