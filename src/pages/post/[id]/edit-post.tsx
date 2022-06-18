@@ -15,7 +15,9 @@ import { GRAY_400 } from '../../../constants/colors';
 import { fetcher } from '../../../utils/fetcher';
 
 const EditPost: NextPage = () => {
-  const { register, handleSubmit } = useForm({ mode: 'onChange' });
+  const { register, handleSubmit } = useForm({
+    mode: 'onChange',
+  });
   const [imgList, setImgList] = useState<Array<string>>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
@@ -25,6 +27,12 @@ const EditPost: NextPage = () => {
     fetcher,
   );
   const token = Cookies.get('token');
+
+  useEffect(() => {
+    if (textareaRef.current instanceof Element) {
+      textareaRef.current.value = data.post.content;
+    }
+  }, [data]);
 
   const handleTextarea = () => {
     if (textareaRef.current instanceof Element) {
