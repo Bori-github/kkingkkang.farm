@@ -36,9 +36,9 @@ const EditPost: NextPage = () => {
 
   const handleTextarea = () => {
     if (textareaRef.current instanceof Element) {
-      textareaRef.current.style.height = 'auto';
-      const { scrollHeight } = textareaRef.current;
-      textareaRef.current.style.height = `${scrollHeight}px`;
+      const { scrollHeight, style } = textareaRef.current;
+      style.height = 'auto';
+      style.height = `${scrollHeight}px`;
     }
   };
 
