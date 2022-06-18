@@ -149,7 +149,7 @@ const EditPost: NextPage = () => {
           </form>
           <ContUploadImg>
             <ListUploadImg>
-              {imgList.map((img, idx) => {
+              {[...data.post.image.split(','), ...imgList].map((img, idx) => {
                 return (
                   <ItemUploadImg
                     id="slide1"
