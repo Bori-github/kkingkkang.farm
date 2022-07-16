@@ -14,7 +14,7 @@ import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../constants';
 import { GRAY_400 } from '../../constants/colors';
 import { fetcher } from '../../utils/fetcher';
 
-const Upload: NextPage = () => {
+const UploadPostPage: NextPage = () => {
   const { register, handleSubmit } = useForm({ mode: 'onChange' });
   const [profileImg, setProfileImg] = useState('/default-profile-w.png');
   const [imgList, setImgList] = useState<Array<string>>([]);
@@ -113,22 +113,20 @@ const Upload: NextPage = () => {
   return (
     <>
       <Head>
-        <title>게시글 업로드ㅣ낑깡팜</title>
+        <title>새 게시글ㅣ낑깡팜</title>
       </Head>
       <HeaderBtnPrev headerTitle="새 게시물" />
-      <MainUpload>
-        <SectionUpload>
-          <BoxProfileImg>
-            <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
-          </BoxProfileImg>
+      <Main>
+        <Section>
+          <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
           <form onSubmit={onHandleSubmit}>
-            <TextUpload
+            <Textarea
               name="textarea"
               placeholder="게시글 입력하기"
               ref={textareaRef}
               onInput={handleTextarea}
             />
-            <LabelUploadImg htmlFor="uploadImg">
+            <Label htmlFor="uploadImg">
               <span className="sr-only">사진 업로드 버튼</span>
               <input
                 type="file"
@@ -140,55 +138,51 @@ const Upload: NextPage = () => {
                   onChange: onUploadImgs,
                 })}
               />
-            </LabelUploadImg>
-            <BtnUpload type="submit">
+            </Label>
+            <SubmitButton type="submit">
               <span className="sr-only">업로드</span>
-            </BtnUpload>
+            </SubmitButton>
           </form>
-          <ContUploadImg>
-            <ListUploadImg>
+          <ImageContainer>
+            <ImageList>
               {imgList.map((img, idx) => {
                 return (
-                  <ItemUploadImg
+                  <ImageItem
                     id="slide1"
                     key={`list-upload-img-${Math.random()}`}
                   >
-                    <ImgUpload src={img} alt="피드 이미지" />
-                    <BtnCancel
+                    <Image src={img} alt="피드 이미지" />
+                    <DeleteButton
                       type="button"
                       onClick={() => deleteUploadImg(idx)}
                     >
                       <span className="sr-only">업로드 이미지 삭제</span>
-                    </BtnCancel>
-                  </ItemUploadImg>
+                    </DeleteButton>
+                  </ImageItem>
                 );
               })}
-            </ListUploadImg>
-          </ContUploadImg>
-        </SectionUpload>
-      </MainUpload>
+            </ImageList>
+          </ImageContainer>
+        </Section>
+      </Main>
     </>
   );
 };
 
-export default Upload;
+export default UploadPostPage;
 
-const MainUpload = styled.main`
+const Main = styled.main`
   margin-top: 49px;
 `;
 
-const SectionUpload = styled.section`
+const Section = styled.section`
   display: grid;
-  grid-template-columns: 40px auto;
+  grid-template-columns: 42px auto;
   gap: 10px;
   padding: 20px;
 `;
 
-const BoxProfileImg = styled.div`
-  grid-column: 1 / 2;
-`;
-
-const TextUpload = styled.textarea`
+const Textarea = styled.textarea`
   width: 100%;
   margin-top: 13px;
   padding: 0;
@@ -202,12 +196,12 @@ const TextUpload = styled.textarea`
   }
 `;
 
-const ContUploadImg = styled.div`
+const ImageContainer = styled.div`
   overflow: hidden;
   grid-column: 2 / 3;
 `;
 
-const ListUploadImg = styled.ul`
+const ImageList = styled.ul`
   overflow-x: auto;
   display: flex;
   scroll-behavior: smooth;
@@ -215,7 +209,7 @@ const ListUploadImg = styled.ul`
   -webkit-overflow-scrolling: touch;
 `;
 
-const ItemUploadImg = styled.li`
+const ImageItem = styled.li`
   position: relative;
   min-width: 180px;
   scroll-snap-align: start;
@@ -225,12 +219,12 @@ const ItemUploadImg = styled.li`
   }
 `;
 
-const ImgUpload = styled.img`
+const Image = styled.img`
   height: 180px;
   object-fit: cover;
 `;
 
-const BtnCancel = styled.button`
+const DeleteButton = styled.button`
   position: absolute;
   top: 8px;
   right: 8px;
@@ -240,7 +234,7 @@ const BtnCancel = styled.button`
   background-size: 100%;
 `;
 
-const LabelUploadImg = styled.label`
+const Label = styled.label`
   position: absolute;
   right: 20px;
   bottom: 80px;
@@ -251,7 +245,7 @@ const LabelUploadImg = styled.label`
     ${BUTTON.background_color};
 `;
 
-const BtnUpload = styled.button`
+const SubmitButton = styled.button`
   position: absolute;
   right: 20px;
   bottom: 20px;
