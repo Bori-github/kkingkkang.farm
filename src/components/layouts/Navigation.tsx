@@ -31,9 +31,9 @@ export const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link href="/upload" passHref>
+          <Link href="/post" passHref>
             <LinkMenu
-              className={router.pathname === '/upload' ? 'post active' : 'post'}
+              className={router.pathname === '/post' ? 'post active' : 'post'}
             >
               <span>게시물 작성</span>
             </LinkMenu>
