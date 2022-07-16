@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { API_ENDPOINT } from '../../constants';
-import { Post } from '../../types/Post';
+import { PostData } from '../../types';
 import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { FeedCard } from './FeedCard';
@@ -58,7 +58,7 @@ export const UserFeedContainer = () => {
     <SectionFeed>
       {myFeedData ? (
         myFeedData.map((data) => {
-          return data.post.map((postData: Post) => {
+          return data.post.map((postData: PostData) => {
             const {
               id,
               content,

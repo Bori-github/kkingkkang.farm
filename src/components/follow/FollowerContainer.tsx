@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT } from '../../constants';
-import { Follower } from '../../types/Follower';
+import { FollowerData } from '../../types';
 import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { FollowerCard } from './FollowerCard';
@@ -29,7 +29,7 @@ export const FollowerContainer = () => {
 
   return (
     <ListFollower>
-      {followerList.map((followerData: Follower) => {
+      {followerList.map((followerData: FollowerData) => {
         const { _id, username, accountname, image, isfollow } = followerData;
         return (
           <FollowerCard

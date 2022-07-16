@@ -1,12 +1,17 @@
-export interface Comments {
+export interface PostData {
   id: string;
   content: string;
+  image: string;
   createdAt: string;
+  updatedAt: string;
+  hearted: boolean;
+  heartCount: number;
+  comments: [];
+  commentCount: number;
   author: {
     _id: string;
     username: string;
     accountname: string;
-    intro: string;
     image: string;
     following: [];
     follower: [];

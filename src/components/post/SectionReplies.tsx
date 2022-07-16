@@ -5,7 +5,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
-import { Comments } from '../../types/Comments';
+import { CommentData } from '../../types';
 import { dateFormatter, fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { UserAvatar } from '../UserAvatar';
@@ -93,7 +93,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
   return (
     <Container>
       <h2 className="sr-only">댓글 보기</h2>
-      {commentsList.map((commentsData: Comments) => {
+      {commentsList.map((commentsData: CommentData) => {
         const { id, content, createdAt, author } = commentsData;
         const { username, image, accountname: authorAccountname } = author;
 

@@ -12,10 +12,11 @@ import { HeaderBtnPrev } from '../../../components/layouts/Header';
 import { UserAvatar } from '../../../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../../constants';
 import { GRAY_400 } from '../../../constants/colors';
+import { PostData } from '../../../types';
 import { fetcher } from '../../../utils/fetcher';
 
 const EditPost: NextPage = () => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm<PostData>({
     mode: 'onChange',
   });
   const [imgList, setImgList] = useState<Array<string>>([]);
@@ -29,9 +30,11 @@ const EditPost: NextPage = () => {
   const token = Cookies.get('token');
 
   useEffect(() => {
-    if (textareaRef.current instanceof Element) {
-      textareaRef.current.value = data.post.content;
-    }
+    // if (textareaRef.current instanceof Element) {
+    //   textareaRef.current.value = data.post.content;
+    // }
+
+    reset(data);
   }, [data]);
 
   const handleTextarea = () => {
@@ -124,9 +127,10 @@ const EditPost: NextPage = () => {
           </BoxProfileImg>
           <form onSubmit={onHandleSubmit}>
             <TextUpload
-              name="textarea"
+              // name="textarea"
               placeholder="게시글 입력하기"
-              ref={textareaRef}
+              // ref={textareaRef}
+              {...register('content')}
               onInput={handleTextarea}
             />
             <LabelUploadImg htmlFor="uploadImg">
@@ -148,22 +152,23 @@ const EditPost: NextPage = () => {
           </form>
           <ContUploadImg>
             <ListUploadImg>
-              {[...image.split(','), ...imgList].map((img, idx) => {
-                return (
-                  <ItemUploadImg
-                    id="slide1"
-                    key={`list-upload-img-${Math.random()}`}
-                  >
-                    <ImgUpload src={img} alt="피드 이미지" />
-                    <BtnCancel
-                      type="button"
-                      onClick={() => deleteUploadImg(idx)}
+              {image &&
+                [...image.split(','), ...imgList].map((img, idx) => {
+                  return (
+                    <ItemUploadImg
+                      id="slide1"
+                      key={`list-upload-img-${Math.random()}`}
                     >
-                      <span className="sr-only">업로드 이미지 삭제</span>
-                    </BtnCancel>
-                  </ItemUploadImg>
-                );
-              })}
+                      <ImgUpload src={img} alt="피드 이미지" />
+                      <BtnCancel
+                        type="button"
+                        onClick={() => deleteUploadImg(idx)}
+                      >
+                        <span className="sr-only">업로드 이미지 삭제</span>
+                      </BtnCancel>
+                    </ItemUploadImg>
+                  );
+                })}
             </ListUploadImg>
           </ContUploadImg>
         </SectionUpload>
