@@ -31,7 +31,7 @@ const UserPage: NextPage = () => {
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
-  const { followerCount, followingCount, image, intro, username } =
+  const { followerCount, followingCount, image, intro, username, isfollow } =
     data.profile;
 
   return (
@@ -51,6 +51,7 @@ const UserPage: NextPage = () => {
             image,
             intro,
             username,
+            isfollow,
           }}
         />
         {/* <SectionProducts /> */}
