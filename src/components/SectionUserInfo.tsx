@@ -1,6 +1,10 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
-import { BORDER, USER_AVATAR } from '../constants';
+import { useState } from 'react';
+import { API_ENDPOINT, BORDER, USER_AVATAR } from '../constants';
 import { GRAY_900, PRIMARY, WHITE } from '../constants/colors';
 import { UserAvatar } from './UserAvatar';
 
@@ -11,13 +15,45 @@ interface UserInfoProps {
     followingCount: number;
     image: string;
     intro: string;
+    isfollow: boolean;
     username: string;
   };
 }
 
 export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
-  const { accountname, followerCount, followingCount, image, intro, username } =
-    userInfoData;
+  const {
+    accountname,
+    followerCount,
+    followingCount,
+    image,
+    intro,
+    isfollow,
+    username,
+  } = userInfoData;
+  const [followed, setFollowed] = useState(isfollow);
+
+  const token = Cookies.get('token');
+  const removeFollow = async (accountname: string | string[] | undefined) => {
+    await axios(`${API_ENDPOINT}/profile/${accountname}/unfollow`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+    setFollowed(false);
+  };
+
+  const getFollow = async (accountname: string | string[] | undefined) => {
+    await axios(`${API_ENDPOINT}/profile/${accountname}/follow`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    });
+    setFollowed(true);
+  };
 
   return (
     <Container>
@@ -47,7 +83,15 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
           </BtnMsg>
         </li>
         <li>
-          <BtnFollow type="button">팔로우</BtnFollow>
+          {followed ? (
+            <BtnCancel type="button" onClick={() => removeFollow(accountname)}>
+              팔로잉
+            </BtnCancel>
+          ) : (
+            <BtnFollow type="button" onClick={() => getFollow(accountname)}>
+              팔로우
+            </BtnFollow>
+          )}
         </li>
         <li>
           <BtnShare type="button">
@@ -175,12 +219,22 @@ const BtnMsg = styled.button`
   background: url('/icons/message-sm.svg') no-repeat 50% 50%;
 `;
 
-const BtnFollow = styled.button`
+const BtnStyle = () => css`
   margin: 0 10px;
   padding: 10px 40px;
+  border: ${BORDER.basic};
   border-radius: 32px;
+`;
+
+const BtnFollow = styled.button`
+  ${BtnStyle}
+  border-color:  ${PRIMARY};
   background-color: ${PRIMARY};
   color: ${WHITE};
+`;
+
+const BtnCancel = styled.button`
+  ${BtnStyle}
 `;
 
 const BtnShare = styled.button`

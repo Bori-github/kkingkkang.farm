@@ -3,13 +3,13 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { Loader } from '../../components/common/Loader';
-import { HeaderUserPage } from '../../components/layouts/Header';
-import { PostCard } from '../../components/post/PostCard';
-import { SectionInputReply } from '../../components/post/SectionInputReply';
-import { SectionReplies } from '../../components/post/SectionReplies';
-import { API_ENDPOINT } from '../../constants';
-import { fetcher } from '../../utils';
+import { Loader } from '../../../components/common/Loader';
+import { HeaderUserPage } from '../../../components/layouts/Header';
+import { PostCard } from '../../../components/post/PostCard';
+import { SectionInputReply } from '../../../components/post/SectionInputReply';
+import { SectionReplies } from '../../../components/post/SectionReplies';
+import { API_ENDPOINT } from '../../../constants';
+import { fetcher } from '../../../utils';
 
 const Post: NextPage = () => {
   const router = useRouter();

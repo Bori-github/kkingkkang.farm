@@ -1,10 +1,13 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { BUTTON } from '../constants';
 import { WHITE } from '../constants/colors';
 
 const Page404: NextPage = () => {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -13,7 +16,9 @@ const Page404: NextPage = () => {
       <Main404>
         <Img404 src="/logo/logo-404.png" alt="404" />
         <Txt404>페이지를 찾을 수 없습니다 :&#40;</Txt404>
-        <BtnPrev type="button">이전 페이지</BtnPrev>
+        <BtnPrev type="button" onClick={() => router.back()}>
+          이전 페이지
+        </BtnPrev>
       </Main404>
     </>
   );

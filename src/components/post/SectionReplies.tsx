@@ -63,23 +63,27 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
 
     if (data.message === '댓글이 삭제되었습니다.') {
       setIsShowPopup(false);
+      setIsShowModal(false);
       mutate();
     }
   };
 
-  const handleReportComment = async () => {
-    const { data } = await axios(`${API_ENDPOINT}/post/${postID}/report`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-type': 'application/json',
+  const handleReportComment = async (commentID: string) => {
+    const { data } = await axios(
+      `${API_ENDPOINT}/post/${postID}/comments/${commentID}/report`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
       },
-    });
+    );
 
-    if (data.report.post === postID) {
+    if (data.report.comment === commentID) {
       setIsShowModal(false);
       setIsShowPopup(false);
-      console.log('신고 성공');
+      alert('해당 댓글은 신고 처리 되었습니다.');
     }
   };
 
@@ -94,8 +98,8 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
         const { username, image, accountname: authorAccountname } = author;
 
         return (
-          <>
-            <UserReply key={`comments-list-${id}`}>
+          <CommentContainer key={`comments-list-${id}`}>
+            <UserReply>
               <UserAvatar size={USER_AVATAR.xs.size} src={image} />
               <User>
                 <UserName>{username}</UserName>
@@ -157,7 +161,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
                         ) : (
                           <BtnDelete
                             type="button"
-                            onClick={handleReportComment}
+                            onClick={() => handleReportComment(id)}
                           >
                             신고
                           </BtnDelete>
@@ -168,7 +172,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
                 )}
               </BgPopup>
             )}
-          </>
+          </CommentContainer>
         );
       })}
     </Container>
@@ -180,13 +184,16 @@ const Container = styled.section`
   border-top: ${BORDER.basic};
 `;
 
+const CommentContainer = styled.div`
+  & + & {
+    margin-top: 16px;
+  }
+`;
+
 const UserReply = styled.div`
   display: grid;
   grid-template-columns: 36px auto;
   column-gap: 10px;
-  &:not(:first-of-type) {
-    margin-top: 16px;
-  }
 `;
 
 const User = styled.div`
