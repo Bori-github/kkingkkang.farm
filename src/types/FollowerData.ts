@@ -1,12 +1,12 @@
-export interface Follower {
+export interface FollowerData {
   _id: string;
   username: string;
   accountname: string;
   intro: string;
   image: string;
   isfollow: boolean;
-  following: [];
-  follower: ['접속한 사용자의 id'];
+  following: string[];
+  follower: string[];
   followerCount: number;
   followingCount: number;
 }

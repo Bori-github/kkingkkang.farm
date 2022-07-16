@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { API_ENDPOINT } from '../../constants';
-import { Post } from '../../types/Post';
+import { PostData } from '../../types';
 import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { FeedCard } from './FeedCard';
@@ -53,7 +53,7 @@ export const FeedContainer = () => {
     <SectionFeed>
       {feedData ? (
         feedData.map((data) => {
-          return data.posts.map((postData: Post) => {
+          return data.posts.map((postData: PostData) => {
             const {
               id,
               content,
