@@ -7,17 +7,18 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
-import { Loader } from '../components/common/Loader';
-import { HeaderBtnPrev } from '../components/layouts/Header';
-import { UserAvatar } from '../components/UserAvatar';
-import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../constants';
-import { GRAY_400 } from '../constants/colors';
-import { fetcher } from '../utils/fetcher';
+import { Loader } from '../../components/common/Loader';
+import { HeaderBtnPrev } from '../../components/layouts/Header';
+import { UserAvatar } from '../../components/UserAvatar';
+import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../constants';
+import { GRAY_400 } from '../../constants/colors';
+import { PostData } from '../../types';
+import { fetcher } from '../../utils/fetcher';
 
-const Upload: NextPage = () => {
-  const { register, handleSubmit } = useForm({ mode: 'onChange' });
+const UploadPostPage: NextPage = () => {
+  const { register, handleSubmit } = useForm<PostData>({ mode: 'onChange' });
   const [profileImg, setProfileImg] = useState('/default-profile-w.png');
-  const [imgList, setImgList] = useState<Array<string>>([]);
+  const [imageList, setImageList] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
 
@@ -41,24 +42,22 @@ const Upload: NextPage = () => {
     }
   };
 
-  const onUploadImgs = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imgFiles = e.target.files;
-
-    if (imgFiles) {
-      for (let i = 0; i < imgFiles.length; i++) {
-        if (i + imgList.length + 1 > 3) {
+  const handleImageUpload = (imageFiles: FileList) => {
+    if (imageFiles) {
+      for (let i = 0; i < imageFiles.length; i++) {
+        if (i + imageList.length >= 3) {
           alert('이미지는 최대 3장까지 선택할 수 있습니다.');
           break;
         }
-        const ImgUrl = URL.createObjectURL(imgFiles[i]);
-        setImgList((state) => [...state, ImgUrl]);
+        const imageUrl = URL.createObjectURL(imageFiles[i]);
+        setImageList((state) => [...state, imageUrl]);
       }
     }
   };
 
   const deleteUploadImg = (idx: number) => {
-    setImgList((state) => state.filter((_, index) => index !== idx));
-    URL.revokeObjectURL(imgList[idx]);
+    setImageList((state) => state.filter((_, index) => index !== idx));
+    URL.revokeObjectURL(imageList[idx]);
   };
 
   const onHandleSubmit = handleSubmit(async (e) => {
@@ -113,22 +112,21 @@ const Upload: NextPage = () => {
   return (
     <>
       <Head>
-        <title>게시글 업로드ㅣ낑깡팜</title>
+        <title>새 게시글ㅣ낑깡팜</title>
       </Head>
       <HeaderBtnPrev headerTitle="새 게시물" />
-      <MainUpload>
-        <SectionUpload>
-          <BoxProfileImg>
-            <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
-          </BoxProfileImg>
+      <Main>
+        <Section>
+          <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
           <form onSubmit={onHandleSubmit}>
-            <TextUpload
-              name="textarea"
+            <Textarea
               placeholder="게시글 입력하기"
+              {...register('content', {
+                onChange: handleTextarea,
+              })}
               ref={textareaRef}
-              onInput={handleTextarea}
             />
-            <LabelUploadImg htmlFor="uploadImg">
+            <Label htmlFor="uploadImg">
               <span className="sr-only">사진 업로드 버튼</span>
               <input
                 type="file"
@@ -137,58 +135,52 @@ const Upload: NextPage = () => {
                 multiple
                 className="sr-only"
                 {...register('image', {
-                  onChange: onUploadImgs,
+                  onChange: (e) => handleImageUpload(e.target.files),
                 })}
               />
-            </LabelUploadImg>
-            <BtnUpload type="submit">
+            </Label>
+            <SubmitButton type="submit">
               <span className="sr-only">업로드</span>
-            </BtnUpload>
+            </SubmitButton>
           </form>
-          <ContUploadImg>
-            <ListUploadImg>
-              {imgList.map((img, idx) => {
-                return (
-                  <ItemUploadImg
-                    id="slide1"
-                    key={`list-upload-img-${Math.random()}`}
-                  >
-                    <ImgUpload src={img} alt="피드 이미지" />
-                    <BtnCancel
-                      type="button"
-                      onClick={() => deleteUploadImg(idx)}
-                    >
-                      <span className="sr-only">업로드 이미지 삭제</span>
-                    </BtnCancel>
-                  </ItemUploadImg>
-                );
-              })}
-            </ListUploadImg>
-          </ContUploadImg>
-        </SectionUpload>
-      </MainUpload>
+          <ImageContainer>
+            <ImageList>
+              {imageList.length > 0 &&
+                imageList.map((img, idx) => {
+                  return (
+                    <ImageItem key={`list-upload-img-${Math.random()}`}>
+                      <Image src={img} alt="피드 이미지" />
+                      <DeleteButton
+                        type="button"
+                        onClick={() => deleteUploadImg(idx)}
+                      >
+                        <span className="sr-only">업로드 이미지 삭제</span>
+                      </DeleteButton>
+                    </ImageItem>
+                  );
+                })}
+            </ImageList>
+          </ImageContainer>
+        </Section>
+      </Main>
     </>
   );
 };
 
-export default Upload;
+export default UploadPostPage;
 
-const MainUpload = styled.main`
+const Main = styled.main`
   margin-top: 49px;
 `;
 
-const SectionUpload = styled.section`
+const Section = styled.section`
   display: grid;
-  grid-template-columns: 40px auto;
+  grid-template-columns: 42px auto;
   gap: 10px;
   padding: 20px;
 `;
 
-const BoxProfileImg = styled.div`
-  grid-column: 1 / 2;
-`;
-
-const TextUpload = styled.textarea`
+const Textarea = styled.textarea`
   width: 100%;
   margin-top: 13px;
   padding: 0;
@@ -202,12 +194,12 @@ const TextUpload = styled.textarea`
   }
 `;
 
-const ContUploadImg = styled.div`
+const ImageContainer = styled.div`
   overflow: hidden;
   grid-column: 2 / 3;
 `;
 
-const ListUploadImg = styled.ul`
+const ImageList = styled.ul`
   overflow-x: auto;
   display: flex;
   scroll-behavior: smooth;
@@ -215,7 +207,7 @@ const ListUploadImg = styled.ul`
   -webkit-overflow-scrolling: touch;
 `;
 
-const ItemUploadImg = styled.li`
+const ImageItem = styled.li`
   position: relative;
   min-width: 180px;
   scroll-snap-align: start;
@@ -225,12 +217,12 @@ const ItemUploadImg = styled.li`
   }
 `;
 
-const ImgUpload = styled.img`
+const Image = styled.img`
   height: 180px;
   object-fit: cover;
 `;
 
-const BtnCancel = styled.button`
+const DeleteButton = styled.button`
   position: absolute;
   top: 8px;
   right: 8px;
@@ -240,7 +232,7 @@ const BtnCancel = styled.button`
   background-size: 100%;
 `;
 
-const LabelUploadImg = styled.label`
+const Label = styled.label`
   position: absolute;
   right: 20px;
   bottom: 80px;
@@ -251,7 +243,7 @@ const LabelUploadImg = styled.label`
     ${BUTTON.background_color};
 `;
 
-const BtnUpload = styled.button`
+const SubmitButton = styled.button`
   position: absolute;
   right: 20px;
   bottom: 20px;
