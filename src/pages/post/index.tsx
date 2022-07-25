@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { HeaderBtnPrev } from '../../components/layouts/Header';
+import { handleTextarea } from '../../components/post/handleTextarea';
 import { UserAvatar } from '../../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../constants';
 import { GRAY_400 } from '../../constants/colors';
@@ -33,14 +34,6 @@ const UploadPostPage: NextPage = () => {
   useEffect(() => {
     setProfileImg(image);
   }, [data]);
-
-  const handleTextarea = () => {
-    if (textareaRef.current instanceof Element) {
-      textareaRef.current.style.height = 'auto';
-      const { scrollHeight } = textareaRef.current;
-      textareaRef.current.style.height = `${scrollHeight}px`;
-    }
-  };
 
   const handleImageUpload = (imageFiles: FileList) => {
     if (imageFiles) {
@@ -122,7 +115,8 @@ const UploadPostPage: NextPage = () => {
             <Textarea
               placeholder="게시글 입력하기"
               {...register('content', {
-                onChange: handleTextarea,
+                onChange: () =>
+                  handleTextarea(textareaRef.current as HTMLTextAreaElement),
               })}
               ref={textareaRef}
             />

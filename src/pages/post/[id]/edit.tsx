@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
 import { HeaderBtnPrev } from '../../../components/layouts/Header';
+import { handleTextarea } from '../../../components/post/handleTextarea';
 import { UserAvatar } from '../../../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../../constants';
 import { GRAY_400 } from '../../../constants/colors';
@@ -16,34 +17,25 @@ import { PostData } from '../../../types';
 import { fetcher } from '../../../utils/fetcher';
 
 const EditPostPage: NextPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const { register, handleSubmit, reset } = useForm<PostData>({
     mode: 'onChange',
   });
-  const [imgList, setImgList] = useState<Array<string>>([]);
+  const [imgList, setImgList] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const router = useRouter();
-  const { id } = router.query;
+  const token = Cookies.get('token');
+
   const { data, error } = useSWR(
     id ? `${API_ENDPOINT}/post/${id}` : null,
     fetcher,
   );
-  const token = Cookies.get('token');
 
   useEffect(() => {
-    // if (textareaRef.current instanceof Element) {
-    //   textareaRef.current.value = data.post.content;
-    // }
-
-    reset(data);
-  }, [data]);
-
-  const handleTextarea = () => {
-    if (textareaRef.current instanceof Element) {
-      const { scrollHeight, style } = textareaRef.current;
-      style.height = 'auto';
-      style.height = `${scrollHeight}px`;
+    if (textareaRef.current) {
+      textareaRef.current.value = data.post.content;
     }
-  };
+  }, [data]);
 
   const onUploadImgs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imgFiles = e.target.files;
@@ -111,7 +103,7 @@ const EditPostPage: NextPage = () => {
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
-  console.log(data);
+
   const { author, image } = data.post;
 
   return (
@@ -127,11 +119,12 @@ const EditPostPage: NextPage = () => {
           </BoxProfileImg>
           <form onSubmit={onHandleSubmit}>
             <Textarea
-              // name="textarea"
+              {...register('content', {
+                onChange: () =>
+                  handleTextarea(textareaRef.current as HTMLTextAreaElement),
+              })}
               placeholder="게시글 입력하기"
-              // ref={textareaRef}
-              {...register('content')}
-              onInput={handleTextarea}
+              ref={textareaRef}
             />
             <LabelUploadImg htmlFor="uploadImg">
               <span className="sr-only">사진 업로드 버튼</span>
