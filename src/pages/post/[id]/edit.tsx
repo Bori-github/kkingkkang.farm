@@ -15,7 +15,7 @@ import { GRAY_400 } from '../../../constants/colors';
 import { PostData } from '../../../types';
 import { fetcher } from '../../../utils/fetcher';
 
-const EditPost: NextPage = () => {
+const EditPostPage: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<PostData>({
     mode: 'onChange',
   });
@@ -177,7 +177,7 @@ const EditPost: NextPage = () => {
   );
 };
 
-export default EditPost;
+export default EditPostPage;
 
 const MainUpload = styled.main`
   margin-top: 49px;
