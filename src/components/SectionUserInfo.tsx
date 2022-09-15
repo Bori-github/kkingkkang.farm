@@ -59,15 +59,15 @@ export const SectionUserInfo = ({ userInfoData }: UserInfoProps) => {
     <Container>
       <h2 className="sr-only">유저 정보</h2>
       <BoxUser>
-        <Link href={`/list-followers/${accountname}`}>
-          <LinkFollowers>
+        <Link href={`/list-followers/${accountname}`} passHref>
+          <LinkFollowers href="replace">
             <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
         <UserAvatar size={USER_AVATAR.lg.size} src={image} />
-        <Link href={`/list-followings/${accountname}`}>
-          <LinkFollowings>
+        <Link href={`/list-followings/${accountname}`} passHref>
+          <LinkFollowings href="replace">
             <span className="count-followings">{followingCount}</span>
             <span>followings</span>
           </LinkFollowings>
@@ -111,15 +111,15 @@ export const SectionMyInfo = ({ userInfoData }: UserInfoProps) => {
     <Container>
       <h2 className="sr-only">{username}의 정보</h2>
       <BoxUser>
-        <Link href={`/list-followers/${accountname}`}>
-          <LinkFollowers>
+        <Link href={`/list-followers/${accountname}`} passHref>
+          <LinkFollowers href="replace">
             <span className="count-followers">{followerCount}</span>
             <span>followers</span>
           </LinkFollowers>
         </Link>
         <UserAvatar size={USER_AVATAR.lg.size} src={image} />
-        <Link href={`/list-followings/${accountname}`}>
-          <LinkFollowings>
+        <Link href={`/list-followings/${accountname}`} passHref>
+          <LinkFollowings href="replace">
             <span className="count-followings">{followingCount}</span>
             <span>followings</span>
           </LinkFollowings>
