@@ -9,41 +9,33 @@ import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
 import { HeaderBtnPrev } from '../../../components/layouts/Header';
+import { handleTextarea } from '../../../components/post/handleTextarea';
 import { UserAvatar } from '../../../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../../constants';
 import { GRAY_400 } from '../../../constants/colors';
 import { PostData } from '../../../types';
 import { fetcher } from '../../../utils/fetcher';
 
-const EditPost: NextPage = () => {
+const EditPostPage: NextPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const { register, handleSubmit, reset } = useForm<PostData>({
     mode: 'onChange',
   });
-  const [imgList, setImgList] = useState<Array<string>>([]);
+  const [imgList, setImgList] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const router = useRouter();
-  const { id } = router.query;
+  const token = Cookies.get('token');
+
   const { data, error } = useSWR(
     id ? `${API_ENDPOINT}/post/${id}` : null,
     fetcher,
   );
-  const token = Cookies.get('token');
 
   useEffect(() => {
-    // if (textareaRef.current instanceof Element) {
-    //   textareaRef.current.value = data.post.content;
-    // }
-
-    reset(data);
-  }, [data]);
-
-  const handleTextarea = () => {
-    if (textareaRef.current instanceof Element) {
-      const { scrollHeight, style } = textareaRef.current;
-      style.height = 'auto';
-      style.height = `${scrollHeight}px`;
+    if (textareaRef.current) {
+      textareaRef.current.value = data.post.content;
     }
-  };
+  }, [data]);
 
   const onUploadImgs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imgFiles = e.target.files;
@@ -120,70 +112,71 @@ const EditPost: NextPage = () => {
         <title>게시글 수정ㅣ낑깡팜</title>
       </Head>
       <HeaderBtnPrev headerTitle="게시물 수정" />
-      <MainUpload>
-        <SectionUpload>
+      <Main>
+        <Section>
           <BoxProfileImg>
             <UserAvatar size={USER_AVATAR.sm.size} src={author.image} />
           </BoxProfileImg>
           <form onSubmit={onHandleSubmit}>
-            <TextUpload
-              // name="textarea"
+            <Textarea
+              {...register('content', {
+                onChange: () =>
+                  handleTextarea(textareaRef.current as HTMLTextAreaElement),
+              })}
               placeholder="게시글 입력하기"
-              // ref={textareaRef}
-              {...register('content')}
-              onInput={handleTextarea}
+              ref={textareaRef}
             />
             <LabelUploadImg htmlFor="uploadImg">
               <span className="sr-only">사진 업로드 버튼</span>
-              <input
-                type="file"
-                id="uploadImg"
-                accept="image/*"
-                multiple
-                className="sr-only"
-                {...register('image', {
-                  onChange: onUploadImgs,
-                })}
-              />
             </LabelUploadImg>
-            <BtnUpload type="submit">
+            <input
+              type="file"
+              id="uploadImg"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              {...register('image', {
+                onChange: onUploadImgs,
+              })}
+            />
+            <SubmitButton type="submit">
               <span className="sr-only">업로드</span>
-            </BtnUpload>
+            </SubmitButton>
           </form>
-          <ContUploadImg>
-            <ListUploadImg>
+          <PreviewContainer>
+            <ImageList>
               {image &&
                 [...image.split(','), ...imgList].map((img, idx) => {
                   return (
-                    <ItemUploadImg
+                    <ImageItem
                       id="slide1"
                       key={`list-upload-img-${Math.random()}`}
                     >
-                      <ImgUpload src={img} alt="피드 이미지" />
-                      <BtnCancel
+                      <Image src={img} alt="피드 이미지" />
+                      <DeleteButton
                         type="button"
                         onClick={() => deleteUploadImg(idx)}
                       >
                         <span className="sr-only">업로드 이미지 삭제</span>
-                      </BtnCancel>
-                    </ItemUploadImg>
+                      </DeleteButton>
+                    </ImageItem>
                   );
                 })}
-            </ListUploadImg>
-          </ContUploadImg>
-        </SectionUpload>
-      </MainUpload>
+            </ImageList>
+          </PreviewContainer>
+        </Section>
+      </Main>
     </>
   );
 };
 
-export default EditPost;
+export default EditPostPage;
 
-const MainUpload = styled.main`
+const Main = styled.main`
   margin-top: 49px;
 `;
 
-const SectionUpload = styled.section`
+const Section = styled.section`
   display: grid;
   grid-template-columns: 40px auto;
   gap: 10px;
@@ -194,7 +187,7 @@ const BoxProfileImg = styled.div`
   grid-column: 1 / 2;
 `;
 
-const TextUpload = styled.textarea`
+const Textarea = styled.textarea`
   width: 100%;
   margin-top: 13px;
   padding: 0;
@@ -208,12 +201,12 @@ const TextUpload = styled.textarea`
   }
 `;
 
-const ContUploadImg = styled.div`
+const PreviewContainer = styled.div`
   overflow: hidden;
   grid-column: 2 / 3;
 `;
 
-const ListUploadImg = styled.ul`
+const ImageList = styled.ul`
   overflow-x: auto;
   display: flex;
   scroll-behavior: smooth;
@@ -221,7 +214,7 @@ const ListUploadImg = styled.ul`
   -webkit-overflow-scrolling: touch;
 `;
 
-const ItemUploadImg = styled.li`
+const ImageItem = styled.li`
   position: relative;
   min-width: 180px;
   scroll-snap-align: start;
@@ -231,12 +224,12 @@ const ItemUploadImg = styled.li`
   }
 `;
 
-const ImgUpload = styled.img`
+const Image = styled.img`
   height: 180px;
   object-fit: cover;
 `;
 
-const BtnCancel = styled.button`
+const DeleteButton = styled.button`
   position: absolute;
   top: 8px;
   right: 8px;
@@ -257,7 +250,7 @@ const LabelUploadImg = styled.label`
     ${BUTTON.background_color};
 `;
 
-const BtnUpload = styled.button`
+const SubmitButton = styled.button`
   position: absolute;
   right: 20px;
   bottom: 20px;
