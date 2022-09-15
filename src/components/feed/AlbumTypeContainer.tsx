@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { API_ENDPOINT } from '../../constants';
@@ -57,11 +58,17 @@ export const AlbumTypeContainer = () => {
     <PostList>
       {myFeedData.map((data) => {
         return data.post.map((postData: PostData) => {
-          const { id, image } = postData;
+          const { id: postId, image } = postData;
+          const imageList = image.split(',');
+
           return (
-            image && (
-              <li key={`post-item-${id}`}>
-                <Image src={image} alt="" />
+            imageList[0].length > 0 && (
+              <li key={`post-item-${postId}`}>
+                <Link href={`/post/${postId}`}>
+                  <a href="replace">
+                    <Image src={imageList[0]} alt="" />
+                  </a>
+                </Link>
               </li>
             )
           );
@@ -74,6 +81,8 @@ export const AlbumTypeContainer = () => {
 const PostList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 8px;
 `;
 
 const Image = styled.img`
