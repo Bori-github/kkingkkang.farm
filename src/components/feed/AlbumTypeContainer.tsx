@@ -56,24 +56,31 @@ export const AlbumTypeContainer = () => {
 
   return (
     <PostList>
-      {myFeedData.map((data) => {
-        return data.post.map((postData: PostData) => {
-          const { id: postId, image } = postData;
-          const imageList = image.split(',');
+      {myFeedData ? (
+        myFeedData.map((data) => {
+          return data.post.map((postData: PostData) => {
+            const { id: postId, image } = postData;
+            const imageList = image.split(',');
 
-          return (
-            imageList[0].length > 0 && (
-              <li key={`post-item-${postId}`}>
-                <Link href={`/post/${postId}`}>
-                  <Anchor href="replace" multiImages={imageList.length > 1}>
-                    <Image src={imageList[0]} alt="" />
-                  </Anchor>
-                </Link>
-              </li>
-            )
-          );
-        });
-      })}
+            return (
+              imageList[0].length > 0 && (
+                <li key={`post-item-${postId}`}>
+                  <Link href={`/post/${postId}`}>
+                    <Anchor href="replace" multiImages={imageList.length > 1}>
+                      <Image src={imageList[0]} alt="" />
+                    </Anchor>
+                  </Link>
+                </li>
+              )
+            );
+          });
+        })
+      ) : (
+        <Loader height="calc(100vh - 109px)" />
+      )}
+      <TargetElement ref={setTarget}>
+        {isLoading && !isReachingEnd && <Loader height="auto" />}
+      </TargetElement>
     </PostList>
   );
 };
@@ -81,8 +88,8 @@ export const AlbumTypeContainer = () => {
 const PostList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 8px;
+  gap: 5px;
+  padding: 5px;
 `;
 
 const Anchor = styled.a<{ multiImages: boolean }>`
@@ -105,4 +112,8 @@ const Image = styled.img`
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+`;
+
+const TargetElement = styled.div`
+  width: 100%;
 `;
