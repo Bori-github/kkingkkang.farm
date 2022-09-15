@@ -29,14 +29,15 @@ const Home: NextPage = () => {
       </Head>
       <HeaderFeed headerTitle="낑깡팜 피드" />
       <MainHome>
-        {data.profile.followerCount < 1 && (
+        {data.profile.followingCount < 1 ? (
           <SectionHome>
             <ImgLogoGray src="/logo/logo-gray.png" alt="낑깡팜 로고" />
             <p>유저를 검색해 팔로우 해보세요!</p>
             <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
           </SectionHome>
+        ) : (
+          <FeedContainer />
         )}
-        <FeedContainer />
       </MainHome>
       <Navigation />
       <SplashScreen />
