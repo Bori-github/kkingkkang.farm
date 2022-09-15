@@ -65,9 +65,9 @@ export const AlbumTypeContainer = () => {
             imageList[0].length > 0 && (
               <li key={`post-item-${postId}`}>
                 <Link href={`/post/${postId}`}>
-                  <a href="replace">
+                  <Anchor href="replace" multiImages={imageList.length > 1}>
                     <Image src={imageList[0]} alt="" />
-                  </a>
+                  </Anchor>
                 </Link>
               </li>
             )
@@ -83,6 +83,21 @@ const PostList = styled.ul`
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   padding: 8px;
+`;
+
+const Anchor = styled.a<{ multiImages: boolean }>`
+  position: relative;
+
+  &::after {
+    content: '';
+    display: ${({ multiImages }) => (multiImages ? 'block' : 'none')};
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 20px;
+    height: 20px;
+    background: url('/icons/img/img-layers.svg') no-repeat center center;
+  }
 `;
 
 const Image = styled.img`
