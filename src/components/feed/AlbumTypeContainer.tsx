@@ -58,7 +58,7 @@ export const AlbumTypeContainer = ({
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
-    <PostList>
+    <SectionFeed>
       {myFeedData ? (
         myFeedData.map((data) => {
           return data.post.map((postData: PostData) => {
@@ -67,13 +67,13 @@ export const AlbumTypeContainer = ({
 
             return (
               imageList[0].length > 0 && (
-                <li key={`post-item-${postId}`}>
+                <div key={`post-item-${postId}`}>
                   <Link href={`/post/${postId}`}>
                     <Anchor href="replace" multiImages={imageList.length > 1}>
                       <Image src={imageList[0]} alt="" />
                     </Anchor>
                   </Link>
-                </li>
+                </div>
               )
             );
           });
@@ -84,19 +84,20 @@ export const AlbumTypeContainer = ({
       <TargetElement ref={setTarget}>
         {isLoading && !isReachingEnd && <Loader height="auto" />}
       </TargetElement>
-    </PostList>
+    </SectionFeed>
   );
 };
 
-const PostList = styled.ul`
+const SectionFeed = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  padding: 5px;
+  column-gap: 5px;
 `;
 
 const Anchor = styled.a<{ multiImages: boolean }>`
   position: relative;
+  display: block;
+  margin: 5px 0;
 
   &::after {
     content: '';

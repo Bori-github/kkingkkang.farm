@@ -41,6 +41,7 @@ export const SectionFeed = ({ accountname }: SectionFeedProps) => {
 };
 
 const Section = styled.section`
+  min-height: calc(100vh - 433px);
   margin-top: 10px;
   background-color: ${WHITE};
 `;

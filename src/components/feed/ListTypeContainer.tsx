@@ -100,9 +100,9 @@ export const ListTypeContainer = ({ accountname }: ListTypeContainerProps) => {
 
 const SectionFeed = styled.section`
   width: 100%;
+  min-height: calc(100vh - 493px);
 `;
 
 const TargetElement = styled.div`
   width: 100%;
-  margin-bottom: 10px;
 `;
