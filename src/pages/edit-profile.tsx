@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../components/common/Loader';
-import { HeaderBtnPrev } from '../components/layouts/Header';
+import { ToolBar } from '../components/layouts/ToolBar';
 import { UserAvatar } from '../components/UserAvatar';
 import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../constants';
 import {
@@ -119,7 +119,7 @@ const EditProfile: NextPage = () => {
       <Head>
         <title>내 프로필 편집ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnPrev headerTitle="내 프로필 편집" />
+      <ToolBar title="내 프로필 편집" />
       <MainEditProfile>
         <h2 className="sr-only">내 프로필 편집</h2>
         <BoxProfileImg>

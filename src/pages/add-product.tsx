@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { HeaderBtnPrev } from '../components/layouts/Header';
+import { ToolBar } from '../components/layouts/ToolBar';
 import { BORDER } from '../constants';
 import {
   GRAY_300,
@@ -17,7 +17,7 @@ const AddProduct: NextPage = () => {
       <Head>
         <title>상품 등록ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnPrev headerTitle="상품 등록" />
+      <ToolBar title="상품 등록" />
       <MainAddProduct>
         <section>
           <h2 className="sr-only">상품 등록 페이지</h2>

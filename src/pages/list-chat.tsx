@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { HeaderUserPage } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
+import { ToolBar } from '../components/layouts/ToolBar';
 import { UserAvatar } from '../components/UserAvatar';
 import { USER_AVATAR } from '../constants';
 import { GRAY_900, PRIMARY, SECONDARY } from '../constants/colors';
@@ -14,7 +14,7 @@ const ListChat: NextPage = () => {
       <Head>
         <title>채팅ㅣ낑깡팜</title>
       </Head>
-      <HeaderUserPage headerTitle="채팅" />
+      <ToolBar title="채팅" />
       <MainListChat>
         <ListChats>
           <Link href="/" passHref>

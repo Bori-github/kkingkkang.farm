@@ -7,8 +7,8 @@ import router from 'next/router';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
-import { HeaderUserPage } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
 import {
   PopupMoreUser,
   PopupPost,
@@ -71,7 +71,11 @@ const UserPage: NextPage = () => {
           {username}({accountname})ㅣ낑깡팜
         </title>
       </Head>
-      <HeaderUserPage headerTitle={username} handleModal={handleModal} />
+      <ToolBar title={username}>
+        <BtnMore type="button" onClick={handleModal}>
+          <span className="sr-only">옵션 더 보기</span>
+        </BtnMore>
+      </ToolBar>
       <MainMyPage>
         <SectionMyInfo
           userInfoData={{
@@ -253,4 +257,10 @@ const BtnCancel = styled.button`
 const BtnLogout = styled.button`
   ${BtnStyle}
   color: ${PRIMARY};
+`;
+
+const BtnMore = styled.button`
+  width: 24px;
+  height: 24px;
+  background: url('/icons/header/more.svg') no-repeat 50% 50%;
 `;
