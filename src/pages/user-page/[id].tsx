@@ -4,15 +4,15 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
-import { HeaderUserPage } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
 import {
   PopupPost,
   PopupPostDelete,
   PopupProducDelete,
   PopupProduct,
 } from '../../components/Popup';
-import { SectionFeed } from '../../components/SectionFeed';
+import { SectionFeed } from '../../components/feed/SectionFeed';
 import { SectionProducts } from '../../components/SectionProducts';
 import { SectionUserInfo } from '../../components/SectionUserInfo';
 import { API_ENDPOINT } from '../../constants';
@@ -26,8 +26,15 @@ const MyProfile: NextPage = () => {
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
-  const { followerCount, followingCount, image, intro, isfollow, username } =
-    data.profile;
+  const {
+    followerCount,
+    followingCount,
+    image,
+    intro,
+    isfollow,
+    username,
+    accountname,
+  } = data.profile;
 
   return (
     <>
@@ -36,7 +43,7 @@ const MyProfile: NextPage = () => {
           {username}({id})ㅣ낑깡팜
         </title>
       </Head>
-      <HeaderUserPage headerTitle={username} />
+      <ToolBar title={username} />
       <MainMyPage>
         <SectionUserInfo
           userInfoData={{
@@ -50,7 +57,7 @@ const MyProfile: NextPage = () => {
           }}
         />
         {/* <SectionProducts /> */}
-        {/* <SectionFeed /> */}
+        <SectionFeed accountname={accountname} />
       </MainMyPage>
       {/* <PopupPost />
       <PopupPostDelete />

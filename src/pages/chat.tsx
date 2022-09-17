@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { HeaderChat } from '../components/layouts/Header';
+import { ToolBar } from '../components/layouts/ToolBar';
 import { PopupExitChat } from '../components/Popup';
 import { SectionInpChat } from '../components/SectionInput';
 import { UserAvatar } from '../components/UserAvatar';
@@ -14,7 +14,7 @@ const Chat: NextPage = () => {
       <Head>
         <title>채팅 유저 이름ㅣ낑깡팜</title>
       </Head>
-      <HeaderChat headerTitle="채팅 유저 이름" />
+      <ToolBar title="채팅 유저 이름" />
       <MainChat>
         <SectionChat>
           <Message>

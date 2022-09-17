@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
-import { HeaderUserPage } from '../../../components/layouts/Header';
+import { ToolBar } from '../../../components/layouts/ToolBar';
 import { PostCard } from '../../../components/post/PostCard';
 import { SectionInputReply } from '../../../components/post/SectionInputReply';
 import { SectionReplies } from '../../../components/post/SectionReplies';
@@ -41,7 +41,7 @@ const Post: NextPage = () => {
           {username}(@{accountname})ㅣ낑깡팜
         </title>
       </Head>
-      <HeaderUserPage headerTitle="게시물" />
+      <ToolBar title="게시물" />
       <MainPost>
         <PostCard
           postData={{

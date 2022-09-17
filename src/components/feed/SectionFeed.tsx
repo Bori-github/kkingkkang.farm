@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { BORDER } from '../constants';
-import { WHITE } from '../constants/colors';
-import { AlbumTypeContainer } from './feed/AlbumTypeContainer';
-import { UserFeedContainer } from './feed/UserFeedContainer';
+import { BORDER } from '../../constants';
+import { WHITE } from '../../constants/colors';
+import { AlbumTypeContainer } from './AlbumTypeContainer';
+import { ListTypeContainer } from './ListTypeContainer';
 
-export const SectionFeed = () => {
+interface SectionFeedProps {
+  accountname: string;
+}
+
+export const SectionFeed = ({ accountname }: SectionFeedProps) => {
   const [listType, setListType] = useState<boolean>(true);
 
   return (
@@ -27,12 +31,17 @@ export const SectionFeed = () => {
           <span className="sr-only">앨범 형</span>
         </BtnAlbumType>
       </Toolbar>
-      {listType ? <UserFeedContainer /> : <AlbumTypeContainer />}
+      {listType ? (
+        <ListTypeContainer accountname={accountname} />
+      ) : (
+        <AlbumTypeContainer accountname={accountname} />
+      )}
     </Section>
   );
 };
 
 const Section = styled.section`
+  min-height: calc(100vh - 433px);
   margin-top: 10px;
   background-color: ${WHITE};
 `;

@@ -5,8 +5,8 @@ import Head from 'next/head';
 import useSWR from 'swr';
 import { Loader } from '../components/common/Loader';
 import { FeedContainer } from '../components/feed/FeedContainer';
-import { HeaderFeed } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
+import { ToolBar } from '../components/layouts/ToolBar';
 import { SplashScreen } from '../components/SplashScreen';
 import { API_ENDPOINT, BUTTON } from '../constants';
 import { WHITE } from '../constants/colors';
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       <Head>
         <title>낑깡팜 피드ㅣ낑깡팜</title>
       </Head>
-      <HeaderFeed headerTitle="낑깡팜 피드" />
+      <ToolBar title="낑깡팜 피드" />
       <MainHome>
         {data.profile.followingCount < 1 ? (
           <SectionHome>
