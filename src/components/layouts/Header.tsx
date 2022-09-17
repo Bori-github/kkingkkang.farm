@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { Dispatch, SetStateAction } from 'react';
 import { BORDER, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_50, GRAY_900, WHITE } from '../../constants/colors';
 
 interface HeaderProps {
   headerTitle: string;
+}
+
+interface HeaderMoreProps extends HeaderProps {
+  handleModal: () => void;
 }
 
 export const HeaderFeed = ({ headerTitle }: HeaderProps) => {
@@ -33,7 +38,10 @@ export const HeaderSearch = () => {
   );
 };
 
-export const HeaderUserPage = ({ headerTitle }: HeaderProps) => {
+export const HeaderUserPage = ({
+  headerTitle,
+  handleModal,
+}: HeaderMoreProps) => {
   const router = useRouter();
 
   return (
@@ -42,7 +50,7 @@ export const HeaderUserPage = ({ headerTitle }: HeaderProps) => {
         <span className="sr-only">뒤로가기</span>
       </BtnPrev>
       <TitleHeader>{headerTitle}</TitleHeader>
-      <BtnMore type="button">
+      <BtnMore type="button" onClick={handleModal}>
         <span className="sr-only">옵션 더 보기</span>
       </BtnMore>
     </Header>
