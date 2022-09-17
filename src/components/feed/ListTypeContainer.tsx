@@ -7,13 +7,13 @@ import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { FeedCard } from './FeedCard';
 
-interface UserFeedContainerProps {
+interface ListTypeContainerProps {
   accountname: string;
 }
 
 const PAGE_SIZE = 10;
 
-export const UserFeedContainer = ({ accountname }: UserFeedContainerProps) => {
+export const ListTypeContainer = ({ accountname }: ListTypeContainerProps) => {
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 

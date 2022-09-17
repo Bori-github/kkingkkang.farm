@@ -16,7 +16,7 @@ import {
   PopupProducDelete,
   PopupProduct,
 } from '../../components/Popup';
-import { SectionFeed } from '../../components/SectionFeed';
+import { SectionFeed } from '../../components/feed/SectionFeed';
 import { SectionProducts } from '../../components/SectionProducts';
 import { SectionMyInfo } from '../../components/SectionUserInfo';
 import { API_ENDPOINT, BORDER, Z_INDEX } from '../../constants';

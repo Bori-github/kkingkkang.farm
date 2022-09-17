@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { BORDER } from '../constants';
-import { WHITE } from '../constants/colors';
-import { AlbumTypeContainer } from './feed/AlbumTypeContainer';
-import { UserFeedContainer } from './feed/UserFeedContainer';
+import { BORDER } from '../../constants';
+import { WHITE } from '../../constants/colors';
+import { AlbumTypeContainer } from './AlbumTypeContainer';
+import { ListTypeContainer } from './ListTypeContainer';
 
 interface SectionFeedProps {
   accountname: string;
@@ -32,7 +32,7 @@ export const SectionFeed = ({ accountname }: SectionFeedProps) => {
         </BtnAlbumType>
       </Toolbar>
       {listType ? (
-        <UserFeedContainer accountname={accountname} />
+        <ListTypeContainer accountname={accountname} />
       ) : (
         <AlbumTypeContainer accountname={accountname} />
       )}
