@@ -5,7 +5,11 @@ import { WHITE } from '../constants/colors';
 import { AlbumTypeContainer } from './feed/AlbumTypeContainer';
 import { UserFeedContainer } from './feed/UserFeedContainer';
 
-export const SectionFeed = () => {
+interface SectionFeedProps {
+  accountname: string;
+}
+
+export const SectionFeed = ({ accountname }: SectionFeedProps) => {
   const [listType, setListType] = useState<boolean>(true);
 
   return (
@@ -27,7 +31,11 @@ export const SectionFeed = () => {
           <span className="sr-only">앨범 형</span>
         </BtnAlbumType>
       </Toolbar>
-      {listType ? <UserFeedContainer /> : <AlbumTypeContainer />}
+      {listType ? (
+        <UserFeedContainer accountname={accountname} />
+      ) : (
+        <AlbumTypeContainer accountname={accountname} />
+      )}
     </Section>
   );
 };

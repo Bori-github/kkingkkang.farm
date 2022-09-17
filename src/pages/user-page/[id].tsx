@@ -26,8 +26,15 @@ const MyProfile: NextPage = () => {
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
-  const { followerCount, followingCount, image, intro, isfollow, username } =
-    data.profile;
+  const {
+    followerCount,
+    followingCount,
+    image,
+    intro,
+    isfollow,
+    username,
+    accountname,
+  } = data.profile;
 
   return (
     <>
@@ -50,7 +57,7 @@ const MyProfile: NextPage = () => {
           }}
         />
         {/* <SectionProducts /> */}
-        {/* <SectionFeed /> */}
+        <SectionFeed accountname={accountname} />
       </MainMyPage>
       {/* <PopupPost />
       <PopupPostDelete />

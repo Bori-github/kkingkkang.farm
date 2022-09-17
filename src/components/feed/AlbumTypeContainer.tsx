@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
@@ -8,11 +7,15 @@ import { PostData } from '../../types';
 import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 
+interface AlbumTypeContainerProps {
+  accountname: string;
+}
+
 const PAGE_SIZE = 10;
 
-export const AlbumTypeContainer = () => {
-  const accountname = Cookies.get('accountname');
-
+export const AlbumTypeContainer = ({
+  accountname,
+}: AlbumTypeContainerProps) => {
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 

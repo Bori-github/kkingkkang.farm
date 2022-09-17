@@ -89,7 +89,7 @@ const UserPage: NextPage = () => {
           }}
         />
         {/* <SectionProducts /> */}
-        <SectionFeed />
+        <SectionFeed accountname={accountname} />
       </MainMyPage>
       {/* <PopupPost />
       <PopupPostDelete />
