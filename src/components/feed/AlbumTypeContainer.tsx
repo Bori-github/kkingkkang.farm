@@ -54,7 +54,7 @@ export const AlbumTypeContainer = ({
     return () => observer && observer.disconnect();
   }, [target]);
 
-  if (!myFeedData) return <Loader height="calc(100vh - 109px)" />;
+  if (!myFeedData) return <div />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
@@ -67,13 +67,13 @@ export const AlbumTypeContainer = ({
 
             return (
               imageList[0].length > 0 && (
-                <div key={`post-item-${postId}`}>
+                <Container key={`post-item-${postId}`}>
                   <Link href={`/post/${postId}`}>
                     <Anchor href="replace" multiImages={imageList.length > 1}>
                       <Image src={imageList[0]} alt="" />
                     </Anchor>
                   </Link>
-                </div>
+                </Container>
               )
             );
           });
@@ -94,10 +94,13 @@ const SectionFeed = styled.section`
   column-gap: 5px;
 `;
 
+const Container = styled.div`
+  margin-bottom: 5px;
+`;
+
 const Anchor = styled.a<{ multiImages: boolean }>`
   position: relative;
   display: block;
-  margin: 5px 0;
 
   &::after {
     content: '';
