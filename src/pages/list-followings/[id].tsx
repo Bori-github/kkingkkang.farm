@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { FollowingContainer } from '../../components/follow/FollowingContainer';
-import { HeaderBtnPrev } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
 
 const UserListFollowings: NextPage = () => {
   return (
@@ -11,7 +11,7 @@ const UserListFollowings: NextPage = () => {
       <Head>
         <title>팔로잉ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnPrev headerTitle="Followings" />
+      <ToolBar title="팔로잉" />
       <MainListFollowings>
         <FollowingContainer />
       </MainListFollowings>

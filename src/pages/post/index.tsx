@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
-import { HeaderBtnPrev } from '../../components/layouts/Header';
+import { ToolBar } from '../../components/layouts/ToolBar';
 import { handleTextarea } from '../../components/post/handleTextarea';
 import { UserAvatar } from '../../components/UserAvatar';
 import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../constants';
@@ -107,7 +107,7 @@ const UploadPostPage: NextPage = () => {
       <Head>
         <title>새 게시글ㅣ낑깡팜</title>
       </Head>
-      <HeaderBtnPrev headerTitle="새 게시물" />
+      <ToolBar title="새 게시물" />
       <Main>
         <Section>
           <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />

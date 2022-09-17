@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { HeaderSearch } from '../components/layouts/Header';
 import { Navigation } from '../components/layouts/Navigation';
+import { ToolBar } from '../components/layouts/ToolBar';
 import { UserAvatar } from '../components/UserAvatar';
 import { USER_AVATAR } from '../constants';
 import { GRAY_900 } from '../constants/colors';
@@ -14,7 +14,7 @@ const SearchUser: NextPage = () => {
       <Head>
         <title>계정 검색ㅣ낑깡팜</title>
       </Head>
-      <HeaderSearch />
+      <ToolBar title="계정 검색" />
       <MainSearch>
         <ListUser>
           <li>

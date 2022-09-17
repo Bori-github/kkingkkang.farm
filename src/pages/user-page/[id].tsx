@@ -4,8 +4,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
-import { HeaderUserPage } from '../../components/layouts/Header';
 import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
 import {
   PopupPost,
   PopupPostDelete,
@@ -36,7 +36,7 @@ const MyProfile: NextPage = () => {
           {username}({id})ㅣ낑깡팜
         </title>
       </Head>
-      <HeaderUserPage headerTitle={username} />
+      <ToolBar title={username} />
       <MainMyPage>
         <SectionUserInfo
           userInfoData={{
