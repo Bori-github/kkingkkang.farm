@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
@@ -17,12 +18,9 @@ import {
 } from '../../components/Popup';
 import { SectionFeed } from '../../components/SectionFeed';
 import { SectionProducts } from '../../components/SectionProducts';
-import {
-  SectionMyInfo,
-  SectionUserInfo,
-} from '../../components/SectionUserInfo';
-import { API_ENDPOINT, Z_INDEX } from '../../constants';
-import { GRAY_900, WHITE, GRAY_300 } from '../../constants/colors';
+import { SectionMyInfo } from '../../components/SectionUserInfo';
+import { API_ENDPOINT, BORDER, Z_INDEX } from '../../constants';
+import { GRAY_900, WHITE, GRAY_300, PRIMARY } from '../../constants/colors';
 import { fetcher } from '../../utils';
 
 interface ModalProps {
@@ -32,9 +30,9 @@ interface ModalProps {
 const UserPage: NextPage = () => {
   const accountname = Cookies.get('accountname') || '';
 
-  // const [isShowPopup, setIsShowPopup] = useState(false);
+  const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<(HTMLElement | null)[]>([]);
 
   const handleModal = useCallback(() => {
     setIsShowModal(!isShowModal);
@@ -46,10 +44,18 @@ const UserPage: NextPage = () => {
   );
 
   const handleCloseModal = (e: MouseEvent<HTMLElement>) => {
-    if (modalRef.current === e.target) {
-      setIsShowModal(false);
-      // setIsShowPopup(false);
-    }
+    modalRef.current.forEach((el) => {
+      if (el === e.target) {
+        setIsShowModal(false);
+        setIsShowPopup(false);
+      }
+    });
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('accountname');
+    Cookies.remove('token');
+    router.push('/');
   };
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
@@ -89,25 +95,53 @@ const UserPage: NextPage = () => {
       {isShowModal && (
         <ModalContainer>
           <BgPopup
-            ref={modalRef}
+            ref={(el) => {
+              modalRef.current[0] = el;
+            }}
             onClick={handleCloseModal}
             isShowModal={isShowModal}
           />
-          <ModalPopup isShowModal={isShowModal}>
-            <ul>
-              <ItemMore>
-                <button
-                  type="button"
-                  onClick={() => router.push('/edit-profile')}
-                >
-                  프로필 수정
-                </button>
-              </ItemMore>
-              <ItemMore>
-                <button type="button">로그아웃</button>
-              </ItemMore>
-            </ul>
-          </ModalPopup>
+          {!isShowPopup ? (
+            <ModalPopup isShowModal={isShowModal}>
+              <ul>
+                <ItemMore>
+                  <button
+                    type="button"
+                    onClick={() => router.push('/edit-profile')}
+                  >
+                    프로필 수정
+                  </button>
+                </ItemMore>
+                <ItemMore>
+                  <button type="button" onClick={() => setIsShowPopup(true)}>
+                    로그아웃
+                  </button>
+                </ItemMore>
+              </ul>
+            </ModalPopup>
+          ) : (
+            <Popup>
+              <TxtLogout>로그아웃 할까요?</TxtLogout>
+              <ListLogoutBtns>
+                <li>
+                  <BtnCancel
+                    ref={(el) => {
+                      modalRef.current[1] = el;
+                    }}
+                    type="button"
+                    onClick={handleCloseModal}
+                  >
+                    취소
+                  </BtnCancel>
+                </li>
+                <li>
+                  <BtnLogout type="button" onClick={handleLogout}>
+                    로그아웃
+                  </BtnLogout>
+                </li>
+              </ListLogoutBtns>
+            </Popup>
+          )}
         </ModalContainer>
       )}
     </>
@@ -137,7 +171,6 @@ const BgPopup = styled.div<ModalProps>`
   right: 0;
   bottom: 0;
   left: 0;
-  /* z-index: ${Z_INDEX.popup}; */
   background-color: rgba(0, 0, 0, 0.5);
   color: ${GRAY_900};
   transform: ${(isShowModal) =>
@@ -175,4 +208,49 @@ const ModalPopup = styled.div<ModalProps>`
 const ItemMore = styled.li`
   padding: 14px 25px;
   font-size: 14px;
+`;
+
+const Popup = styled.div`
+  position: absolute;
+  top: calc(50% - 30px);
+  left: 50%;
+  border-radius: 10px;
+  background-color: ${WHITE};
+  text-align: center;
+  transform: translate(-50%, -50%);
+`;
+
+const TxtLogout = styled.p`
+  padding: 20px 0;
+  border-bottom: ${BORDER.basic};
+`;
+
+const ListLogoutBtns = styled.ul`
+  display: flex;
+  font-size: 14px;
+`;
+
+const BtnStyle = css`
+  width: 126px;
+  padding: 15px 0;
+`;
+
+const BtnCancel = styled.button`
+  ${BtnStyle}
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: ${GRAY_300};
+  }
+`;
+
+const BtnLogout = styled.button`
+  ${BtnStyle}
+  color: ${PRIMARY};
 `;

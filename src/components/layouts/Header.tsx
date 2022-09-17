@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
 import { BORDER, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_50, GRAY_900, WHITE } from '../../constants/colors';
 
