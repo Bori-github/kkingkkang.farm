@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
@@ -8,11 +7,15 @@ import { PostData } from '../../types';
 import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 
+interface AlbumTypeContainerProps {
+  accountname: string;
+}
+
 const PAGE_SIZE = 10;
 
-export const AlbumTypeContainer = () => {
-  const accountname = Cookies.get('accountname');
-
+export const AlbumTypeContainer = ({
+  accountname,
+}: AlbumTypeContainerProps) => {
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,11 +54,11 @@ export const AlbumTypeContainer = () => {
     return () => observer && observer.disconnect();
   }, [target]);
 
-  if (!myFeedData) return <Loader height="calc(100vh - 109px)" />;
+  if (!myFeedData) return <div />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
-    <PostList>
+    <SectionFeed>
       {myFeedData ? (
         myFeedData.map((data) => {
           return data.post.map((postData: PostData) => {
@@ -64,13 +67,13 @@ export const AlbumTypeContainer = () => {
 
             return (
               imageList[0].length > 0 && (
-                <li key={`post-item-${postId}`}>
+                <Container key={`post-item-${postId}`}>
                   <Link href={`/post/${postId}`}>
                     <Anchor href="replace" multiImages={imageList.length > 1}>
                       <Image src={imageList[0]} alt="" />
                     </Anchor>
                   </Link>
-                </li>
+                </Container>
               )
             );
           });
@@ -81,19 +84,23 @@ export const AlbumTypeContainer = () => {
       <TargetElement ref={setTarget}>
         {isLoading && !isReachingEnd && <Loader height="auto" />}
       </TargetElement>
-    </PostList>
+    </SectionFeed>
   );
 };
 
-const PostList = styled.ul`
+const SectionFeed = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  padding: 5px;
+  column-gap: 5px;
+`;
+
+const Container = styled.div`
+  margin-bottom: 5px;
 `;
 
 const Anchor = styled.a<{ multiImages: boolean }>`
   position: relative;
+  display: block;
 
   &::after {
     content: '';

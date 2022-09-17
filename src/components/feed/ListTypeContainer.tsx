@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { API_ENDPOINT } from '../../constants';
@@ -8,11 +7,13 @@ import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { FeedCard } from './FeedCard';
 
+interface ListTypeContainerProps {
+  accountname: string;
+}
+
 const PAGE_SIZE = 10;
 
-export const UserFeedContainer = () => {
-  const accountname = Cookies.get('accountname');
-
+export const ListTypeContainer = ({ accountname }: ListTypeContainerProps) => {
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -103,5 +104,4 @@ const SectionFeed = styled.section`
 
 const TargetElement = styled.div`
   width: 100%;
-  margin-bottom: 10px;
 `;
