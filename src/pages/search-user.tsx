@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../components/common/Loader';
 import { Navigation } from '../components/layouts/Navigation';
@@ -18,17 +18,20 @@ const SearchUser: NextPage = () => {
 
   const { data, error } = useSWR(`${API_ENDPOINT}/user`, fetcher);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, []);
-
+  let timer: NodeJS.Timeout | null;
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const filteredData = data.filter((user: UserData) => {
-      const { accountname } = user;
-      return accountname.includes(e.target.value);
-    });
+    if (!timer) {
+      timer = setTimeout(() => {
+        timer = null;
 
-    setUserList(filteredData);
+        const filteredData = data.filter(
+          (user: UserData) =>
+            e.target.value.length > 0 && user.username.includes(e.target.value),
+        );
+
+        setUserList(filteredData);
+      }, 1000);
+    }
   };
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
@@ -93,6 +96,7 @@ const Input = styled.input`
 `;
 
 const ListUser = styled.ul`
+  overflow-y: auto;
   display: grid;
   gap: 15px;
   padding: 20px 0;
