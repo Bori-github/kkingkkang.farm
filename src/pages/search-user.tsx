@@ -67,7 +67,7 @@ const SearchUser: NextPage = () => {
               const { _id, accountname, username, image } = user;
               return (
                 <li key={`user-list-${_id}`}>
-                  <Link href="/" passHref>
+                  <Link href={`/user-page/${accountname}`} passHref>
                     <LinkUser>
                       <UserAvatar
                         size={USER_AVATAR.md.size}
@@ -100,10 +100,10 @@ const MainSearch = styled.main`
 
 const Input = styled.input`
   width: 100%;
-  padding: 8px 16px;
+  padding: 4px 16px;
   border: 0;
   background-color: ${GRAY_200};
-  border-radius: 32px;
+  border-radius: 24px;
 
   &::placeholder {
     color: ${GRAY_400};

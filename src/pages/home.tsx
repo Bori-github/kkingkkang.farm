@@ -28,7 +28,13 @@ const Home: NextPage = () => {
       <Head>
         <title>낑깡팜 피드ㅣ낑깡팜</title>
       </Head>
-      <ToolBar title="낑깡팜 피드" />
+      <ToolBar title="낑깡팜 피드">
+        <Link href="/search-user" passHref>
+          <BtnSearch href="replace">
+            <span className="sr-only">계정 검색</span>
+          </BtnSearch>
+        </Link>
+      </ToolBar>
       <MainHome>
         {data.profile.followingCount < 1 ? (
           <SectionHome>
@@ -85,4 +91,11 @@ const SearchAnchor = styled.a`
   background-color: ${BUTTON.background_color};
   color: ${BUTTON.color};
   font-weight: 700;
+`;
+
+const BtnSearch = styled.a`
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: url('/icons/header/search.svg');
 `;
