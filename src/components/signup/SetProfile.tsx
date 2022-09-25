@@ -93,7 +93,7 @@ export const SetProfile = ({
     });
 
     if (res.data.message === '회원가입 성공') {
-      router.push('/login-email');
+      router.push('/');
     }
   });
   return (
