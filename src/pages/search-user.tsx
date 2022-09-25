@@ -2,18 +2,19 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../components/common/Loader';
 import { Navigation } from '../components/layouts/Navigation';
 import { ToolBar } from '../components/layouts/ToolBar';
 import { UserAvatar } from '../components/UserAvatar';
 import { API_ENDPOINT, USER_AVATAR } from '../constants';
-import { GRAY_200, GRAY_400, GRAY_900 } from '../constants/colors';
+import { GRAY_200, GRAY_400, GRAY_900, PRIMARY } from '../constants/colors';
 import { UserData } from '../types/UserData';
 import { fetcher } from '../utils';
 
 const SearchUser: NextPage = () => {
+  const [keyword, setKeyword] = useState<string>('');
   const [userList, setUserList] = useState<UserData[]>([]);
 
   const { data, error } = useSWR(`${API_ENDPOINT}/user`, fetcher);
@@ -24,14 +25,28 @@ const SearchUser: NextPage = () => {
       timer = setTimeout(() => {
         timer = null;
 
-        const filteredData = data.filter(
+        const filteredData = data?.filter(
           (user: UserData) =>
             e.target.value.length > 0 && user.username.includes(e.target.value),
         );
 
+        setKeyword(e.target.value);
         setUserList(filteredData);
       }, 1000);
     }
+  };
+
+  const handleHighlight = (username: string) => {
+    if (username.includes(keyword)) {
+      return (
+        <>
+          {username.split(keyword)[0]}
+          <HightlightedUserName>{keyword}</HightlightedUserName>
+          {username.split(keyword)[1]}
+        </>
+      );
+    }
+    return username;
   };
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
@@ -43,7 +58,7 @@ const SearchUser: NextPage = () => {
         <title>계정 검색ㅣ낑깡팜</title>
       </Head>
       <ToolBar title="">
-        <Input type="search" placeholder="계정 검색" onChange={handleSearch} />
+        <Input type="text" placeholder="계정 검색" onChange={handleSearch} />
       </ToolBar>
       <MainSearch>
         <ListUser>
@@ -61,7 +76,7 @@ const SearchUser: NextPage = () => {
                         }
                       />
                       <UserAccount>
-                        <UserName>{username}</UserName>
+                        <UserName>{handleHighlight(username)}</UserName>
                         <UserId>@{accountname}</UserId>
                       </UserAccount>
                     </LinkUser>
@@ -118,6 +133,10 @@ const UserName = styled.span`
   color: ${GRAY_900};
   font-size: 14px;
   font-weight: 700;
+`;
+
+const HightlightedUserName = styled.span`
+  color: ${PRIMARY};
 `;
 
 const UserId = styled.span`
