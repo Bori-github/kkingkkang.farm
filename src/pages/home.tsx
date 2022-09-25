@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import useSWR from 'swr';
 import { Loader } from '../components/common/Loader';
 import { FeedContainer } from '../components/feed/FeedContainer';
@@ -27,13 +28,21 @@ const Home: NextPage = () => {
       <Head>
         <title>낑깡팜 피드ㅣ낑깡팜</title>
       </Head>
-      <ToolBar title="낑깡팜 피드" />
+      <ToolBar title="낑깡팜 피드">
+        <Link href="/search-user" passHref>
+          <BtnSearch href="replace">
+            <span className="sr-only">계정 검색</span>
+          </BtnSearch>
+        </Link>
+      </ToolBar>
       <MainHome>
         {data.profile.followingCount < 1 ? (
           <SectionHome>
-            <ImgLogoGray src="/logo/logo-gray.png" alt="낑깡팜 로고" />
+            <ImgLogo src="/logo/logo-gray.png" alt="낑깡팜 로고" />
             <p>유저를 검색해 팔로우 해보세요!</p>
-            <BtnSearchFollower type="button">검색하기</BtnSearchFollower>
+            <Link href="/search-user" passHref>
+              <SearchAnchor href="replace">검색하기</SearchAnchor>
+            </Link>
           </SectionHome>
         ) : (
           <FeedContainer />
@@ -69,16 +78,24 @@ const SectionHome = styled.section`
   font-size: 14px;
 `;
 
-const ImgLogoGray = styled.img`
+const ImgLogo = styled.img`
   width: 100px;
   margin-bottom: 15px;
 `;
 
-const BtnSearchFollower = styled.button`
+const SearchAnchor = styled.a`
+  display: block;
   margin-top: 20px;
-  padding: 8px 30px;
+  padding: 10px 30px;
   border-radius: 44px;
   background-color: ${BUTTON.background_color};
   color: ${BUTTON.color};
   font-weight: 700;
+`;
+
+const BtnSearch = styled.a`
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: url('/icons/header/search.svg');
 `;
