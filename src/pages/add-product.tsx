@@ -1,11 +1,14 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import router from 'next/router';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Navigation } from '../components/layouts/Navigation';
 import { ToolBar } from '../components/layouts/ToolBar';
-import { BORDER, BUTTON } from '../constants';
+import { API_ENDPOINT, BORDER, BUTTON } from '../constants';
 import {
   ERROR,
   GRAY_200,
@@ -16,9 +19,11 @@ import {
 import { ProductData } from '../types/ProductData';
 
 const AddProduct: NextPage = () => {
+  const token = Cookies.get('token');
   const {
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm<ProductData>({ mode: 'onChange' });
   const [image, setImage] = useState<string>('');
 
@@ -29,6 +34,32 @@ const AddProduct: NextPage = () => {
     }
   };
 
+  const onSubmit: SubmitHandler<ProductData> = async (data) => {
+    const { itemName, price, link } = data;
+    try {
+      await axios(`${API_ENDPOINT}/product`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+        data: JSON.stringify({
+          product: {
+            itemName,
+            price,
+            link,
+            itemImage: image,
+          },
+        }),
+      });
+
+      alert(`${itemName}이 상품으로 등록되었습니다.`);
+      router.push('/user-page');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -36,9 +67,9 @@ const AddProduct: NextPage = () => {
       </Head>
       <Section>
         <h2 className="sr-only">상품 등록 페이지</h2>
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <ToolBar title="상품 등록">
-            <button type="button">등록</button>
+            <button type="submit">등록</button>
           </ToolBar>
           <BoxInp>
             <label htmlFor="itemImage">이미지 등록</label>
@@ -160,7 +191,7 @@ const BoxUploadImg = styled.div`
   position: relative;
   width: 100%;
   height: 250px;
-  margin: 18px 0 30px;
+  margin: 18px 0;
   border-radius: 10px;
   background-color: ${GRAY_200};
 `;
