@@ -6,11 +6,20 @@ import { useForm } from 'react-hook-form';
 import { Navigation } from '../components/layouts/Navigation';
 import { ToolBar } from '../components/layouts/ToolBar';
 import { BORDER, BUTTON } from '../constants';
-import { GRAY_200, GRAY_300, GRAY_900, PRIMARY } from '../constants/colors';
+import {
+  ERROR,
+  GRAY_200,
+  GRAY_300,
+  GRAY_900,
+  PRIMARY,
+} from '../constants/colors';
 import { ProductData } from '../types/ProductData';
 
 const AddProduct: NextPage = () => {
-  const { register } = useForm<ProductData>({ mode: 'onChange' });
+  const {
+    register,
+    formState: { errors },
+  } = useForm<ProductData>({ mode: 'onChange' });
   const [image, setImage] = useState<string>('');
 
   const handleImageUpload = (imageFiles: FileList) => {
@@ -40,16 +49,19 @@ const AddProduct: NextPage = () => {
                 id="itemImage"
                 accept="image/*"
                 className="sr-only"
-                required
                 {...register('itemImage', {
+                  required: true,
                   onChange: (e) => handleImageUpload(e.target.files),
                 })}
               />
               <LabelUploadImage htmlFor="itemImage">
                 <span className="sr-only">사진 업로드 버튼</span>
               </LabelUploadImage>
-              {image && <Image src={image} alt="" />}
+              {image && <Image src={image} alt="상" />}
             </BoxUploadImg>
+            {errors.itemImage?.type === 'required' && (
+              <TxtError>* 이미지를 선택해주세요.</TxtError>
+            )}
           </BoxInp>
           <BoxInp>
             <label htmlFor="itemName">상품명</label>
@@ -57,11 +69,20 @@ const AddProduct: NextPage = () => {
               type="text"
               id="itemName"
               placeholder="2~15자 이내여야 합니다."
-              minLength={2}
-              maxLength={15}
-              required
-              {...register('itemName')}
+              {...register('itemName', {
+                required: true,
+                minLength: 2,
+                maxLength: 15,
+              })}
             />
+            {errors.itemName?.type === 'required' ? (
+              <TxtError>* 필수 입력사항 입니다.</TxtError>
+            ) : (
+              (errors?.itemName?.type === 'minLength' ||
+                errors?.itemName?.type === 'maxLength') && (
+                <TxtError>* 2~15자 이내여야 합니다.</TxtError>
+              )
+            )}
           </BoxInp>
           <BoxInp>
             <label htmlFor="price">가격</label>
@@ -69,9 +90,11 @@ const AddProduct: NextPage = () => {
               type="number"
               id="price"
               placeholder="숫자만 입력 가능합니다."
-              required
-              {...register('price')}
+              {...register('price', { required: true, valueAsNumber: true })}
             />
+            {errors.price?.type === 'required' && (
+              <TxtError>* 필수 입력사항 입니다.</TxtError>
+            )}
           </BoxInp>
           <BoxInp>
             <label htmlFor="link">판매 링크</label>
@@ -79,9 +102,11 @@ const AddProduct: NextPage = () => {
               type="text"
               id="link"
               placeholder="URL을 입력해주세요."
-              required
-              {...register('link')}
+              {...register('link', { required: true })}
             />
+            {errors.link?.type === 'required' && (
+              <TxtError>* 필수 입력사항 입니다.</TxtError>
+            )}
           </BoxInp>
         </Form>
       </Section>
@@ -159,4 +184,11 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+const TxtError = styled.span`
+  display: block;
+  margin-top: 6px;
+  color: ${ERROR};
+  font-size: 12px;
 `;
