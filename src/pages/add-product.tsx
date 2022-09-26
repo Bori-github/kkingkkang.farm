@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigation } from '../components/layouts/Navigation';
 import { ToolBar } from '../components/layouts/ToolBar';
@@ -10,6 +11,15 @@ import { ProductData } from '../types/ProductData';
 
 const AddProduct: NextPage = () => {
   const { register } = useForm<ProductData>({ mode: 'onChange' });
+  const [image, setImage] = useState<string>('');
+
+  const handleImageUpload = (imageFiles: FileList) => {
+    if (imageFiles) {
+      const imageUrl = URL.createObjectURL(imageFiles[0]);
+      setImage(imageUrl);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -25,18 +35,20 @@ const AddProduct: NextPage = () => {
             <label htmlFor="itemImage">이미지 등록</label>
             <BoxUploadImg>
               <span>이미지 미리보기</span>
-              {/* <img src="" alt="" /> */}
               <input
                 type="file"
                 id="itemImage"
                 accept="image/*"
                 className="sr-only"
                 required
-                {...register('itemImage')}
+                {...register('itemImage', {
+                  onChange: (e) => handleImageUpload(e.target.files),
+                })}
               />
-              <LabelUploadImage htmlFor="uploadImg">
+              <LabelUploadImage htmlFor="itemImage">
                 <span className="sr-only">사진 업로드 버튼</span>
               </LabelUploadImage>
+              {image && <Image src={image} alt="" />}
             </BoxUploadImg>
           </BoxInp>
           <BoxInp>
@@ -116,12 +128,13 @@ const Input = styled.input`
 `;
 
 const BoxUploadImg = styled.div`
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 250px;
   margin: 18px 0 30px;
   border-radius: 10px;
   background-color: ${GRAY_200};
@@ -131,9 +144,19 @@ const LabelUploadImage = styled.label`
   position: absolute;
   right: 10px;
   bottom: 10px;
+  z-index: 1;
   width: 36px;
   height: 36px;
   border-radius: 50%;
   background: url('/icons/img/image.svg') no-repeat ${BUTTON.background_color}
     50% 50%;
+`;
+
+const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
