@@ -27,11 +27,18 @@ const AddProduct: NextPage = () => {
   } = useForm<ProductData>({ mode: 'onChange' });
   const [image, setImage] = useState<string>('');
 
-  const handleImageUpload = (imageFiles: FileList) => {
-    if (imageFiles) {
-      const imageUrl = URL.createObjectURL(imageFiles[0]);
-      setImage(imageUrl);
-    }
+  const handleImageUpload = async (imageFiles: FileList) => {
+    const imgData = new FormData();
+    imgData.append('image', imageFiles[0]);
+
+    const uploadImg = await axios(`${API_ENDPOINT}/image/uploadfile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: imgData,
+    });
+    setImage(`${API_ENDPOINT}/${uploadImg.data.filename}`);
   };
 
   const onSubmit: SubmitHandler<ProductData> = async (data) => {
