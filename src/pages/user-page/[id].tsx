@@ -56,7 +56,7 @@ const MyProfile: NextPage = () => {
             username,
           }}
         />
-        {/* <SectionProducts /> */}
+        <SectionProducts accountname={accountname} />
         <SectionFeed accountname={accountname} />
       </MainMyPage>
       {/* <PopupPost />

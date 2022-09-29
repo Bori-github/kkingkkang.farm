@@ -20,11 +20,13 @@ interface ModalProps {
 
 export const SectionProducts = ({ accountname }: SectionProductsProps) => {
   const token = Cookies.get('token');
+  const accountName = Cookies.get('accountname');
 
   const [isShowPopup, setIsShowPopup] = useState<boolean>(false);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
   const [productId, setProductId] = useState<string>('');
+  const [productLink, setProductLink] = useState<string>('');
   const modalRef = useRef<(HTMLElement | null)[]>([]);
 
   const { data, error, mutate } = useSWR(
@@ -77,8 +79,9 @@ export const SectionProducts = ({ accountname }: SectionProductsProps) => {
                       type="button"
                       onClick={() => {
                         setIsShowModal(true);
-                        setIsAuthor(author.accountname === accountname);
+                        setIsAuthor(author.accountname === accountName);
                         setProductId(id);
+                        setProductLink(link);
                       }}
                     >
                       <ImgProduct src={itemImage} alt={`${itemName} 이미지`} />
@@ -102,22 +105,29 @@ export const SectionProducts = ({ accountname }: SectionProductsProps) => {
                   <ul>
                     {isAuthor && (
                       <>
-                        <ItemMore onClick={() => setIsShowPopup(true)}>
-                          <button type="button">삭제</button>
+                        <ItemMore>
+                          <button
+                            type="button"
+                            onClick={() => setIsShowPopup(true)}
+                          >
+                            삭제
+                          </button>
                         </ItemMore>
-                        <ItemMore onClick={() => setIsShowPopup(true)}>
-                          <button type="button">수정</button>
-                        </ItemMore>
-                        <ItemMore onClick={() => setIsShowPopup(true)}>
-                          <button type="button">웹사이트에서 상품 보기</button>
+                        <ItemMore>
+                          <Link href={`/product/${productId}`} passHref>
+                            <a href="replace">수정</a>
+                          </Link>
                         </ItemMore>
                       </>
                     )}
+                    <ItemMore>
+                      <button type="button">웹사이트에서 상품 보기</button>
+                    </ItemMore>
                   </ul>
                 </ModalPopup>
               ) : (
                 <Popup>
-                  {isAuthor && <TxtLogout>상품을 삭제할까요?</TxtLogout>}
+                  <TxtLogout>상품을 삭제할까요?</TxtLogout>
                   <ListModalBtns>
                     <li>
                       <BtnCancel
@@ -131,14 +141,12 @@ export const SectionProducts = ({ accountname }: SectionProductsProps) => {
                       </BtnCancel>
                     </li>
                     <li>
-                      {isAuthor && (
-                        <BtnDelete
-                          type="button"
-                          onClick={() => handleDeleteProduct(productId)}
-                        >
-                          삭제
-                        </BtnDelete>
-                      )}
+                      <BtnDelete
+                        type="button"
+                        onClick={() => handleDeleteProduct(productId)}
+                      >
+                        삭제
+                      </BtnDelete>
                     </li>
                   </ListModalBtns>
                 </Popup>
