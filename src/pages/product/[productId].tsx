@@ -39,11 +39,11 @@ const EditProductPage: NextPage = () => {
   );
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       setImage(data.product.itemImage);
       reset(data.product);
     }
+    console.log(image);
   }, [data]);
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
@@ -65,9 +65,10 @@ const EditProductPage: NextPage = () => {
 
   const onSubmit: SubmitHandler<ProductData> = async (data) => {
     const { itemName, price, link } = data;
+
     try {
-      await axios(`${API_ENDPOINT}/product`, {
-        method: 'POST',
+      await axios(`${API_ENDPOINT}/product/${productId}`, {
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
@@ -82,7 +83,7 @@ const EditProductPage: NextPage = () => {
         }),
       });
 
-      alert(`${itemName}이 상품으로 등록되었습니다.`);
+      alert(`${itemName}이 수정되었습니다.`);
       router.push('/user-page');
     } catch (error) {
       console.log(error);
@@ -109,7 +110,7 @@ const EditProductPage: NextPage = () => {
                 accept="image/*"
                 className="sr-only"
                 {...register('itemImage', {
-                  required: true,
+                  required: !image,
                   onChange: (e) => handleImageUpload(e.target.files),
                 })}
               />
