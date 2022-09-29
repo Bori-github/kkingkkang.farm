@@ -128,6 +128,7 @@ export const GlobalStyles = css`
     font-family: inherit;
   }
   button {
+    padding: 0;
     border: 0;
     background: none;
     color: inherit;

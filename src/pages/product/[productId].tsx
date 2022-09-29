@@ -3,29 +3,51 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import router from 'next/router';
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Navigation } from '../components/layouts/Navigation';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { API_ENDPOINT, BORDER, BUTTON } from '../constants';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import useSWR from 'swr';
+import { Loader } from '../../components/common/Loader';
+import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { API_ENDPOINT, BORDER, BUTTON } from '../../constants';
 import {
-  ERROR,
-  GRAY_200,
-  GRAY_300,
   GRAY_900,
+  GRAY_300,
   PRIMARY,
-} from '../constants/colors';
-import { ProductData } from '../types/ProductData';
+  GRAY_200,
+  ERROR,
+} from '../../constants/colors';
+import { ProductData } from '../../types/ProductData';
+import { fetcher } from '../../utils';
 
-const AddProduct: NextPage = () => {
+const EditProductPage: NextPage = () => {
   const token = Cookies.get('token');
+  const router = useRouter();
+  const { productId } = router.query;
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<ProductData>({ mode: 'onChange' });
   const [image, setImage] = useState<string>('');
+
+  const { data, error } = useSWR(
+    `${API_ENDPOINT}/product/detail/${productId}`,
+    fetcher,
+  );
+
+  useEffect(() => {
+    if (data) {
+      setImage(data.product.itemImage);
+      reset(data.product);
+    }
+    console.log(image);
+  }, [data]);
+
+  if (!data) return <Loader height="calc(100vh - 109px)" />;
+  if (error) return <div>에러가 발생했습니다.</div>;
 
   const handleImageUpload = async (imageFiles: FileList) => {
     const imgData = new FormData();
@@ -43,9 +65,10 @@ const AddProduct: NextPage = () => {
 
   const onSubmit: SubmitHandler<ProductData> = async (data) => {
     const { itemName, price, link } = data;
+
     try {
-      await axios(`${API_ENDPOINT}/product`, {
-        method: 'POST',
+      await axios(`${API_ENDPOINT}/product/${productId}`, {
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
@@ -60,23 +83,22 @@ const AddProduct: NextPage = () => {
         }),
       });
 
-      alert(`${itemName}이 상품으로 등록되었습니다.`);
+      alert(`${itemName}이 수정되었습니다.`);
       router.push('/user-page');
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
       <Head>
-        <title>상품 등록ㅣ낑깡팜</title>
+        <title>상품 수정ㅣ낑깡팜</title>
       </Head>
       <Section>
-        <h2 className="sr-only">상품 등록 페이지</h2>
+        <h2 className="sr-only">상품 수정 페이지</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <ToolBar title="상품 등록">
-            <button type="submit">등록</button>
+          <ToolBar title="상품 수정">
+            <button type="submit">수정</button>
           </ToolBar>
           <BoxInp>
             <label htmlFor="itemImage">이미지 등록</label>
@@ -88,14 +110,14 @@ const AddProduct: NextPage = () => {
                 accept="image/*"
                 className="sr-only"
                 {...register('itemImage', {
-                  required: true,
+                  required: !image,
                   onChange: (e) => handleImageUpload(e.target.files),
                 })}
               />
               <LabelUploadImage htmlFor="itemImage">
                 <span className="sr-only">사진 업로드 버튼</span>
               </LabelUploadImage>
-              {image && <Image src={image} alt="상" />}
+              {image && <Image src={image} alt="상품" />}
             </BoxUploadImg>
             {errors.itemImage?.type === 'required' && (
               <TxtError>* 이미지를 선택해주세요.</TxtError>
@@ -153,7 +175,7 @@ const AddProduct: NextPage = () => {
   );
 };
 
-export default AddProduct;
+export default EditProductPage;
 
 const Section = styled.section`
   margin-top: 49px;
