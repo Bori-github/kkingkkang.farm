@@ -88,7 +88,7 @@ const UserPage: NextPage = () => {
             isfollow,
           }}
         />
-        {/* <SectionProducts /> */}
+        <SectionProducts accountname={accountname} />
         <SectionFeed accountname={accountname} />
       </MainMyPage>
       {/* <PopupPost />
