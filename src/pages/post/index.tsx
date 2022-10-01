@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
+import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { handleTextarea } from '../../components/post/handleTextarea';
 import { UserAvatar } from '../../components/UserAvatar';
@@ -108,69 +109,65 @@ const UploadPostPage: NextPage = () => {
         <title>새 게시글ㅣ낑깡팜</title>
       </Head>
       <ToolBar title="새 게시물" />
-      <Main>
-        <Section>
-          <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
-          <form onSubmit={onHandleSubmit}>
-            <Textarea
-              placeholder="게시글 입력하기"
-              {...register('content', {
-                onChange: () =>
-                  handleTextarea(textareaRef.current as HTMLTextAreaElement),
+      <Section>
+        <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
+        <form onSubmit={onHandleSubmit}>
+          <Textarea
+            placeholder="게시글 입력하기"
+            {...register('content', {
+              onChange: () =>
+                handleTextarea(textareaRef.current as HTMLTextAreaElement),
+            })}
+            ref={textareaRef}
+          />
+          <Label htmlFor="uploadImg">
+            <span className="sr-only">사진 업로드 버튼</span>
+            <input
+              type="file"
+              id="uploadImg"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              {...register('image', {
+                onChange: (e) => handleImageUpload(e.target.files),
               })}
-              ref={textareaRef}
             />
-            <Label htmlFor="uploadImg">
-              <span className="sr-only">사진 업로드 버튼</span>
-              <input
-                type="file"
-                id="uploadImg"
-                accept="image/*"
-                multiple
-                className="sr-only"
-                {...register('image', {
-                  onChange: (e) => handleImageUpload(e.target.files),
-                })}
-              />
-            </Label>
-            <SubmitButton type="submit">
-              <span className="sr-only">업로드</span>
-            </SubmitButton>
-          </form>
-          <ImageContainer>
-            <ImageList>
-              {imageList.length > 0 &&
-                imageList.map((img, idx) => {
-                  return (
-                    <ImageItem key={`list-upload-img-${Math.random()}`}>
-                      <Image src={img} alt="피드 이미지" />
-                      <DeleteButton
-                        type="button"
-                        onClick={() => deleteUploadImg(idx)}
-                      >
-                        <span className="sr-only">업로드 이미지 삭제</span>
-                      </DeleteButton>
-                    </ImageItem>
-                  );
-                })}
-            </ImageList>
-          </ImageContainer>
-        </Section>
-      </Main>
+          </Label>
+          <SubmitButton type="submit">
+            <span className="sr-only">업로드</span>
+          </SubmitButton>
+        </form>
+        <ImageContainer>
+          <ImageList>
+            {imageList.length > 0 &&
+              imageList.map((img, idx) => {
+                return (
+                  <ImageItem key={`list-upload-img-${Math.random()}`}>
+                    <Image src={img} alt="피드 이미지" />
+                    <DeleteButton
+                      type="button"
+                      onClick={() => deleteUploadImg(idx)}
+                    >
+                      <span className="sr-only">업로드 이미지 삭제</span>
+                    </DeleteButton>
+                  </ImageItem>
+                );
+              })}
+          </ImageList>
+        </ImageContainer>
+      </Section>
+      <Navigation />
     </>
   );
 };
 
 export default UploadPostPage;
 
-const Main = styled.main`
-  margin-top: 49px;
-`;
-
 const Section = styled.section`
   display: grid;
   grid-template-columns: 42px auto;
   gap: 10px;
+  margin-top: 49px;
   padding: 20px;
 `;
 
@@ -229,7 +226,7 @@ const DeleteButton = styled.button`
 const Label = styled.label`
   position: absolute;
   right: 20px;
-  bottom: 80px;
+  bottom: 140px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -240,7 +237,7 @@ const Label = styled.label`
 const SubmitButton = styled.button`
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 80px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
