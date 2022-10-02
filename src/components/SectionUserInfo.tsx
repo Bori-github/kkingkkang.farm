@@ -135,7 +135,7 @@ export const SectionMyInfo = ({ userInfoData }: UserInfoProps) => {
           </Link>
         </li>
         <li>
-          <Link href="/add-product" passHref>
+          <Link href="/product" passHref>
             <BtnProduct>상품 등록</BtnProduct>
           </Link>
         </li>

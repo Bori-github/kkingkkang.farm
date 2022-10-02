@@ -6,19 +6,19 @@ import Head from 'next/head';
 import router from 'next/router';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Navigation } from '../components/layouts/Navigation';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { API_ENDPOINT, BORDER, BUTTON } from '../constants';
+import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { API_ENDPOINT, BORDER, BUTTON } from '../../constants';
 import {
   ERROR,
   GRAY_200,
   GRAY_300,
   GRAY_900,
   PRIMARY,
-} from '../constants/colors';
-import { ProductData } from '../types/ProductData';
+} from '../../constants/colors';
+import { ProductData } from '../../types/ProductData';
 
-const AddProduct: NextPage = () => {
+const RegisterProductPage: NextPage = () => {
   const token = Cookies.get('token');
   const {
     register,
@@ -153,7 +153,7 @@ const AddProduct: NextPage = () => {
   );
 };
 
-export default AddProduct;
+export default RegisterProductPage;
 
 const Section = styled.section`
   margin-top: 49px;
