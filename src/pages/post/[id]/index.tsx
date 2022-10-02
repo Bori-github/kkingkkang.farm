@@ -22,16 +22,8 @@ const Post: NextPage = () => {
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
-  const {
-    id: postID,
-    content,
-    image,
-    createdAt,
-    hearted,
-    heartCount,
-    commentCount,
-    author,
-  } = data.post;
+  const { post } = data;
+  const { id: postID, author } = post;
   const { accountname, username } = author;
 
   return (
@@ -41,20 +33,9 @@ const Post: NextPage = () => {
           {username}(@{accountname})ㅣ낑깡팜
         </title>
       </Head>
-      <ToolBar title="게시물" />
+      <ToolBar title="게시글" />
       <MainPost>
-        <PostCard
-          postData={{
-            id: postID,
-            content,
-            image,
-            createdAt,
-            hearted,
-            heartCount,
-            commentCount,
-            author,
-          }}
-        />
+        <PostCard postData={post} />
         <SectionReplies postData={{ id: postID }} />
         <SectionInputReply postData={{ id: postID }} />
       </MainPost>

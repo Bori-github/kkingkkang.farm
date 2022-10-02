@@ -5,25 +5,13 @@ import router from 'next/router';
 import { MouseEvent, useRef, useState } from 'react';
 import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
+import { PostData } from '../../types';
 import { dateFormatter } from '../../utils';
 import { ImgCarousel } from '../feed/ImgCarousel';
 import { UserAvatar } from '../UserAvatar';
 
-interface PostProps {
-  postData: {
-    id: string;
-    content: string;
-    image: string;
-    createdAt: string;
-    hearted: boolean;
-    heartCount: number;
-    commentCount: number;
-    author: {
-      username: string;
-      accountname: string;
-      image: string;
-    };
-  };
+interface PostCardProps {
+  postData: PostData;
 }
 
 interface FeedCardProps {
@@ -34,12 +22,12 @@ interface ModalProps {
   isShowModal: boolean;
 }
 
-export const PostCard = ({ postData }: PostProps) => {
+export const PostCard = ({ postData }: PostCardProps) => {
   const accountname = Cookies.get('accountname');
   const token = Cookies.get('token');
 
   const {
-    id: postID,
+    id: postId,
     content,
     image,
     createdAt,
@@ -63,7 +51,7 @@ export const PostCard = ({ postData }: PostProps) => {
 
   const handleBtnLike = async () => {
     if (liked) {
-      await axios(`${API_ENDPOINT}/post/${postID}/unheart`, {
+      await axios(`${API_ENDPOINT}/post/${postId}/unheart`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +61,7 @@ export const PostCard = ({ postData }: PostProps) => {
 
       setLikeCount((state) => state - 1);
     } else {
-      await axios(`${API_ENDPOINT}/post/${postID}/heart`, {
+      await axios(`${API_ENDPOINT}/post/${postId}/heart`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -97,7 +85,7 @@ export const PostCard = ({ postData }: PostProps) => {
   };
 
   const handleDeletePost = async () => {
-    const { data } = await axios(`${API_ENDPOINT}/post/${postID}`, {
+    const { data } = await axios(`${API_ENDPOINT}/post/${postId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -113,7 +101,7 @@ export const PostCard = ({ postData }: PostProps) => {
   };
 
   const handleReportPost = async () => {
-    const { data } = await axios(`${API_ENDPOINT}/post/${postID}/report`, {
+    const { data } = await axios(`${API_ENDPOINT}/post/${postId}/report`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -121,7 +109,7 @@ export const PostCard = ({ postData }: PostProps) => {
       },
     });
 
-    if (data.report.post === postID) {
+    if (data.report.post === postId) {
       setIsShowModal(false);
       setIsShowPopup(false);
       alert('해당 게시글은 신고 처리 되었습니다.');
@@ -189,7 +177,7 @@ export const PostCard = ({ postData }: PostProps) => {
                     <ItemMore>
                       <button
                         type="button"
-                        onClick={() => router.push(`/post/${postID}/edit`)}
+                        onClick={() => router.push(`/post/${postId}/edit`)}
                       >
                         수정
                       </button>
