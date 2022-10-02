@@ -23,7 +23,7 @@ const Post: NextPage = () => {
   if (error) return <div>에러가 발생했습니다.</div>;
 
   const { post } = data;
-  const { id: postID, author } = post;
+  const { id: postId, author } = post;
   const { accountname, username } = author;
 
   return (
@@ -36,8 +36,8 @@ const Post: NextPage = () => {
       <ToolBar title="게시글" />
       <MainPost>
         <PostCard postData={post} />
-        <SectionReplies postData={{ id: postID }} />
-        <SectionInputReply postData={{ id: postID }} />
+        <SectionReplies postId={postId} />
+        <SectionInputReply postId={postId} />
       </MainPost>
     </>
   );

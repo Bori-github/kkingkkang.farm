@@ -10,22 +10,19 @@ import { dateFormatter, fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { UserAvatar } from '../UserAvatar';
 
-interface RepliesProps {
-  postData: {
-    id: string;
-  };
+interface SectionRepliesProps {
+  postId: string;
 }
 
 interface ModalProps {
   isShowModal: boolean;
 }
 
-export const SectionReplies = ({ postData }: RepliesProps) => {
+export const SectionReplies = ({ postId }: SectionRepliesProps) => {
   const accountname = Cookies.get('accountname');
   const token = Cookies.get('token');
-  const { id: postID } = postData;
   const { data, error, mutate } = useSWR(
-    postID ? `${API_ENDPOINT}/post/${postID}/comments/?limit=1000` : null,
+    postId ? `${API_ENDPOINT}/post/${postId}/comments/?limit=1000` : null,
     fetcher,
   );
 
@@ -38,7 +35,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
     if (data) {
       setCommentsList(data.comments);
     }
-  });
+  }, [data]);
 
   const handleCloseModal = (e: MouseEvent<HTMLElement>) => {
     modalRef.current.forEach((el) => {
@@ -51,7 +48,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
 
   const handleDeleteComment = async (commentID: string) => {
     const { data } = await axios(
-      `${API_ENDPOINT}/post/${postID}/comments/${commentID}`,
+      `${API_ENDPOINT}/post/${postId}/comments/${commentID}`,
       {
         method: 'DELETE',
         headers: {
@@ -70,7 +67,7 @@ export const SectionReplies = ({ postData }: RepliesProps) => {
 
   const handleReportComment = async (commentID: string) => {
     const { data } = await axios(
-      `${API_ENDPOINT}/post/${postID}/comments/${commentID}/report`,
+      `${API_ENDPOINT}/post/${postId}/comments/${commentID}/report`,
       {
         method: 'POST',
         headers: {

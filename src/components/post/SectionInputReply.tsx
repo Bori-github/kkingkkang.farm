@@ -16,14 +16,11 @@ import { fetcher } from '../../utils';
 import { Loader } from '../common/Loader';
 import { UserAvatar } from '../UserAvatar';
 
-interface PostProps {
-  postData: {
-    id: string;
-  };
+interface SectionInputReplyProps {
+  postId: string;
 }
 
-export const SectionInputReply = ({ postData }: PostProps) => {
-  const { id: postID } = postData;
+export const SectionInputReply = ({ postId }: SectionInputReplyProps) => {
   const accountname = Cookies.get('accountname');
   const token = Cookies.get('token');
   const { data, error } = useSWR(
@@ -47,7 +44,7 @@ export const SectionInputReply = ({ postData }: PostProps) => {
   const handleComment = handleSubmit(async () => {
     const { comment } = getValues();
     const { data } = await axios(
-      `${API_ENDPOINT}/post/${postID}/comments/?limit=1000`,
+      `${API_ENDPOINT}/post/${postId}/comments/?limit=1000`,
       {
         method: 'POST',
         headers: {
@@ -63,7 +60,7 @@ export const SectionInputReply = ({ postData }: PostProps) => {
     );
 
     if (data.comment !== []) {
-      mutate(`${API_ENDPOINT}/post/${postID}/comments/?limit=1000`);
+      mutate(`${API_ENDPOINT}/post/${postId}/comments/?limit=1000`);
       setValue('comment', '');
     }
   });
