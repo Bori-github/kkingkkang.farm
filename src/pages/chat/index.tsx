@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Navigation } from '../components/layouts/Navigation';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { UserAvatar } from '../components/UserAvatar';
-import { USER_AVATAR } from '../constants';
-import { GRAY_900, PRIMARY, SECONDARY } from '../constants/colors';
+import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { UserAvatar } from '../../components/UserAvatar';
+import { USER_AVATAR } from '../../constants';
+import { GRAY_900, PRIMARY, SECONDARY } from '../../constants/colors';
 
 const ListChat: NextPage = () => {
   return (

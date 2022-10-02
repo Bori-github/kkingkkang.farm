@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { PopupExitChat } from '../components/Popup';
-import { SectionInpChat } from '../components/SectionInput';
-import { UserAvatar } from '../components/UserAvatar';
-import { USER_AVATAR } from '../constants';
-import { GRAY_900, PRIMARY, SECONDARY, WHITE } from '../constants/colors';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { PopupExitChat } from '../../components/Popup';
+import { SectionInpChat } from '../../components/SectionInput';
+import { UserAvatar } from '../../components/UserAvatar';
+import { USER_AVATAR } from '../../constants';
+import { GRAY_900, PRIMARY, SECONDARY, WHITE } from '../../constants/colors';
 
 const Chat: NextPage = () => {
   return (

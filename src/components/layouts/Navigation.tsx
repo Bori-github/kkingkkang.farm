@@ -20,11 +20,9 @@ export const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link href="/list-chat" passHref>
+          <Link href="/chat" passHref>
             <LinkMenu
-              className={
-                router.pathname === '/list-chat' ? 'chat active' : 'chat'
-              }
+              className={router.pathname === '/chat' ? 'chat active' : 'chat'}
             >
               <span>채팅</span>
             </LinkMenu>
