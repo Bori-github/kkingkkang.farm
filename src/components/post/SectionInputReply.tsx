@@ -81,9 +81,7 @@ export const SectionInputReply = ({ postId }: SectionInputReplyProps) => {
             required: true,
           })}
         />
-        <BtnSend type="submit" disabled={!isValid}>
-          게시
-        </BtnSend>
+        <BtnSend type="submit" disabled={!isValid} />
       </Form>
     </Contaioner>
   );
@@ -105,7 +103,7 @@ const Contaioner = styled.article`
 
 const Form = styled.form`
   display: grid;
-  grid-template-columns: auto 50px;
+  grid-template-columns: auto 40px;
   gap: 10px;
   align-items: center;
 `;
@@ -117,8 +115,11 @@ const TextArea = styled.textarea`
 `;
 
 const BtnSend = styled.button`
+  width: 40px;
+  height: 40px;
   padding: 5px;
-  border-radius: 26px;
+  border-radius: 4px;
+  background: url('/icons/post/send.svg') no-repeat 50% 50%;
   background-color: ${BUTTON.background_color};
   color: ${WHITE};
 
