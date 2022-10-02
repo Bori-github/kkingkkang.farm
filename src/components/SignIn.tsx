@@ -100,7 +100,7 @@ export const SignIn = () => {
           로그인
         </BtnLogin>
       </FormLogin>
-      <Link href="/signup" passHref>
+      <Link href="/user/signup" passHref>
         <LinkSignUp>이메일로 회원가입</LinkSignUp>
       </Link>
     </SectionLoginEmail>

@@ -29,7 +29,7 @@ const Home: NextPage = () => {
         <title>낑깡팜 피드ㅣ낑깡팜</title>
       </Head>
       <ToolBar title="낑깡팜 피드">
-        <Link href="/search-user" passHref>
+        <Link href="/user/search" passHref>
           <BtnSearch href="replace">
             <span className="sr-only">계정 검색</span>
           </BtnSearch>
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
           <SectionHome>
             <ImgLogo src="/logo/logo-gray.png" alt="낑깡팜 로고" />
             <p>유저를 검색해 팔로우 해보세요!</p>
-            <Link href="/search-user" passHref>
+            <Link href="/user/search" passHref>
               <SearchAnchor href="replace">검색하기</SearchAnchor>
             </Link>
           </SectionHome>
