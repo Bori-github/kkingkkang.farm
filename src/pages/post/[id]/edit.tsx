@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
 import { Navigation } from '../../../components/layouts/Navigation';
@@ -20,6 +20,7 @@ import { fetcher } from '../../../utils/fetcher';
 const EditPostPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+
   const {
     register,
     handleSubmit,
@@ -27,6 +28,7 @@ const EditPostPage: NextPage = () => {
   } = useForm<PostData>({
     mode: 'onChange',
   });
+
   const [imageList, setImageList] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const token = Cookies.get('token');
@@ -40,11 +42,12 @@ const EditPostPage: NextPage = () => {
     if (textareaRef.current) {
       textareaRef.current.value = data.post.content;
     }
+
     const imageData = data?.post?.image.split(',');
     setImageList(imageData);
   }, [data]);
 
-  const onUploadImgs: ChangeEventHandler<HTMLInputElement> = async (e) => {
+  const handleImageUpload: ChangeEventHandler<HTMLInputElement> = async (e) => {
     const imgFiles = e.target.files;
     const imgData = new FormData();
 
@@ -79,11 +82,11 @@ const EditPostPage: NextPage = () => {
     }
   };
 
-  const deleteUploadImg = (idx: number) => {
-    setImageList((state) => state.filter((_, index) => index !== idx));
+  const handleDeleteImage = (index: number) => {
+    setImageList((state) => state.filter((_, i) => i !== index));
   };
 
-  const onHandleSubmit = handleSubmit(async (e) => {
+  const onSubmit: SubmitHandler<PostData> = async () => {
     const content = textareaRef.current?.value;
     const image = imageList.join();
 
@@ -107,7 +110,7 @@ const EditPostPage: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
-  });
+  };
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
@@ -124,7 +127,7 @@ const EditPostPage: NextPage = () => {
         <BoxProfileImg>
           <UserAvatar size={USER_AVATAR.sm.size} src={author.image} />
         </BoxProfileImg>
-        <form onSubmit={onHandleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Textarea
             {...register('content', {
               onChange: () =>
@@ -143,7 +146,7 @@ const EditPostPage: NextPage = () => {
             multiple
             className="sr-only"
             {...register('image', {
-              onChange: onUploadImgs,
+              onChange: handleImageUpload,
             })}
           />
           <SubmitButton type="submit" disabled={isSubmitting}>
@@ -162,7 +165,7 @@ const EditPostPage: NextPage = () => {
                     <Image src={image} alt="피드 이미지" />
                     <DeleteButton
                       type="button"
-                      onClick={() => deleteUploadImg(index)}
+                      onClick={() => handleDeleteImage(index)}
                     >
                       <span className="sr-only">업로드 이미지 삭제</span>
                     </DeleteButton>
