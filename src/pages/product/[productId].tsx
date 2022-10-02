@@ -84,7 +84,7 @@ const EditProductPage: NextPage = () => {
       });
 
       alert(`${itemName}이 수정되었습니다.`);
-      router.push('/user-page');
+      router.push('/profile');
     } catch (error) {
       console.log(error);
     }

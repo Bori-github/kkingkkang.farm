@@ -45,7 +45,7 @@ export const FollowingCard = ({ followingData }: FollowingProps) => {
 
   return (
     <Following>
-      <Link href={`/user-page/${accountname}`} passHref>
+      <Link href={`/profile/${accountname}`} passHref>
         <LinkFollowing>
           <UserAvatar size={USER_AVATAR.md.size} src={image} />
           <FollowingAccount>

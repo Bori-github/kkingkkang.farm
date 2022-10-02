@@ -4,14 +4,14 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { ChangeEventHandler, useState } from 'react';
 import useSWR from 'swr';
-import { Loader } from '../components/common/Loader';
-import { Navigation } from '../components/layouts/Navigation';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { UserAvatar } from '../components/UserAvatar';
-import { API_ENDPOINT, USER_AVATAR } from '../constants';
-import { GRAY_200, GRAY_400, GRAY_900, PRIMARY } from '../constants/colors';
-import { UserData } from '../types/UserData';
-import { fetcher } from '../utils';
+import { Loader } from '../../components/common/Loader';
+import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { UserAvatar } from '../../components/UserAvatar';
+import { API_ENDPOINT, USER_AVATAR } from '../../constants';
+import { GRAY_200, GRAY_400, GRAY_900, PRIMARY } from '../../constants/colors';
+import { UserData } from '../../types/UserData';
+import { fetcher } from '../../utils';
 
 const SearchUser: NextPage = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -67,7 +67,7 @@ const SearchUser: NextPage = () => {
               const { _id, accountname, username, image } = user;
               return (
                 <li key={`user-list-${_id}`}>
-                  <Link href={`/user-page/${accountname}`} passHref>
+                  <Link href={`/profile/${accountname}`} passHref>
                     <LinkUser>
                       <UserAvatar
                         size={USER_AVATAR.md.size}
