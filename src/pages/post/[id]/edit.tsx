@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
@@ -20,7 +20,11 @@ import { fetcher } from '../../../utils/fetcher';
 const EditPostPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { register, handleSubmit } = useForm<PostData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<PostData>({
     mode: 'onChange',
   });
   const [imageList, setImageList] = useState<string[]>([]);
@@ -40,7 +44,7 @@ const EditPostPage: NextPage = () => {
     setImageList(imageData);
   }, [data]);
 
-  const onUploadImgs = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUploadImgs: ChangeEventHandler<HTMLInputElement> = async (e) => {
     const imgFiles = e.target.files;
     const imgData = new FormData();
 
@@ -97,6 +101,8 @@ const EditPostPage: NextPage = () => {
           },
         }),
       });
+
+      alert('게시글이 수정되었습니다:)');
       router.push('/user-page');
     } catch (error) {
       console.log(error);
@@ -113,7 +119,7 @@ const EditPostPage: NextPage = () => {
       <Head>
         <title>게시글 수정ㅣ낑깡팜</title>
       </Head>
-      <ToolBar title="게시물 수정" />
+      <ToolBar title="게시글 수정" />
       <Section>
         <BoxProfileImg>
           <UserAvatar size={USER_AVATAR.sm.size} src={author.image} />
@@ -140,23 +146,23 @@ const EditPostPage: NextPage = () => {
               onChange: onUploadImgs,
             })}
           />
-          <SubmitButton type="submit">
+          <SubmitButton type="submit" disabled={isSubmitting}>
             <span className="sr-only">업로드</span>
           </SubmitButton>
         </form>
         <PreviewContainer>
           <ImageList>
             {imageList?.length > 0 &&
-              imageList.map((img, idx) => {
+              imageList.map((image, index) => {
                 return (
                   <ImageItem
                     id="slide1"
                     key={`list-upload-img-${Math.random()}`}
                   >
-                    <Image src={img} alt="피드 이미지" />
+                    <Image src={image} alt="피드 이미지" />
                     <DeleteButton
                       type="button"
-                      onClick={() => deleteUploadImg(idx)}
+                      onClick={() => deleteUploadImg(index)}
                     >
                       <span className="sr-only">업로드 이미지 삭제</span>
                     </DeleteButton>
