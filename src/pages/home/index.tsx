@@ -4,14 +4,14 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { Loader } from '../components/common/Loader';
-import { FeedContainer } from '../components/feed/FeedContainer';
-import { Navigation } from '../components/layouts/Navigation';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { SplashScreen } from '../components/SplashScreen';
-import { API_ENDPOINT, BUTTON } from '../constants';
-import { WHITE } from '../constants/colors';
-import { fetcher } from '../utils';
+import { Loader } from '../../components/common/Loader';
+import { FeedContainer } from '../../components/feed/FeedContainer';
+import { Navigation } from '../../components/layouts/Navigation';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { SplashScreen } from '../../components/SplashScreen';
+import { API_ENDPOINT, BUTTON } from '../../constants';
+import { WHITE } from '../../constants/colors';
+import { fetcher } from '../../utils';
 
 const Home: NextPage = () => {
   const accountname = Cookies.get('accountname');
