@@ -5,9 +5,10 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
+import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { handleTextarea } from '../../components/post/handleTextarea';
 import { UserAvatar } from '../../components/UserAvatar';
@@ -17,14 +18,20 @@ import { PostData } from '../../types';
 import { fetcher } from '../../utils/fetcher';
 
 const UploadPostPage: NextPage = () => {
-  const { register, handleSubmit } = useForm<PostData>({ mode: 'onChange' });
-  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
-  const [imageList, setImageList] = useState<string[]>([]);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
 
   const token = Cookies.get('token');
   const accountname = Cookies.get('accountname') || '';
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<PostData>({ mode: 'onChange' });
+
+  const [profileImg, setProfileImg] = useState('/default-profile-w.png');
+  const [imageList, setImageList] = useState<string[]>([]);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
@@ -48,12 +55,12 @@ const UploadPostPage: NextPage = () => {
     }
   };
 
-  const deleteUploadImg = (idx: number) => {
-    setImageList((state) => state.filter((_, index) => index !== idx));
-    URL.revokeObjectURL(imageList[idx]);
+  const handleDeleteImage = (index: number) => {
+    setImageList((state) => state.filter((_, i) => i !== index));
+    URL.revokeObjectURL(imageList[index]);
   };
 
-  const onHandleSubmit = handleSubmit(async (e) => {
+  const onSubmit: SubmitHandler<PostData> = async (e) => {
     const imgData = new FormData();
 
     for (let i = 0; i < e.image.length; i++) {
@@ -73,7 +80,7 @@ const UploadPostPage: NextPage = () => {
       },
     );
 
-    const fileNameList = [];
+    const fileNameList: string[] = [];
     for (let i = 0; i < data.length; i++) {
       fileNameList.push(`${API_ENDPOINT}/${data[i].filename}`);
     }
@@ -81,21 +88,27 @@ const UploadPostPage: NextPage = () => {
     const content = textareaRef.current?.value;
     const image = fileNameList.join();
 
-    await axios(`${API_ENDPOINT}/post`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-type': 'application/json',
-      },
-      data: JSON.stringify({
-        post: {
-          content,
-          image,
+    try {
+      await axios(`${API_ENDPOINT}/post`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
         },
-      }),
-    });
-    router.push('/user-page');
-  });
+        data: JSON.stringify({
+          post: {
+            content,
+            image,
+          },
+        }),
+      });
+
+      alert('게시글이 작성되었습니다:)');
+      router.push('/user-page');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
@@ -107,70 +120,66 @@ const UploadPostPage: NextPage = () => {
       <Head>
         <title>새 게시글ㅣ낑깡팜</title>
       </Head>
-      <ToolBar title="새 게시물" />
-      <Main>
-        <Section>
-          <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
-          <form onSubmit={onHandleSubmit}>
-            <Textarea
-              placeholder="게시글 입력하기"
-              {...register('content', {
-                onChange: () =>
-                  handleTextarea(textareaRef.current as HTMLTextAreaElement),
+      <ToolBar title="새 게시글" />
+      <Section>
+        <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Textarea
+            placeholder="게시글 입력하기"
+            {...register('content', {
+              onChange: () =>
+                handleTextarea(textareaRef.current as HTMLTextAreaElement),
+            })}
+            ref={textareaRef}
+          />
+          <Label htmlFor="uploadImg">
+            <span className="sr-only">사진 업로드 버튼</span>
+            <input
+              type="file"
+              id="uploadImg"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              {...register('image', {
+                onChange: (e) => handleImageUpload(e.target.files),
               })}
-              ref={textareaRef}
             />
-            <Label htmlFor="uploadImg">
-              <span className="sr-only">사진 업로드 버튼</span>
-              <input
-                type="file"
-                id="uploadImg"
-                accept="image/*"
-                multiple
-                className="sr-only"
-                {...register('image', {
-                  onChange: (e) => handleImageUpload(e.target.files),
-                })}
-              />
-            </Label>
-            <SubmitButton type="submit">
-              <span className="sr-only">업로드</span>
-            </SubmitButton>
-          </form>
-          <ImageContainer>
-            <ImageList>
-              {imageList.length > 0 &&
-                imageList.map((img, idx) => {
-                  return (
-                    <ImageItem key={`list-upload-img-${Math.random()}`}>
-                      <Image src={img} alt="피드 이미지" />
-                      <DeleteButton
-                        type="button"
-                        onClick={() => deleteUploadImg(idx)}
-                      >
-                        <span className="sr-only">업로드 이미지 삭제</span>
-                      </DeleteButton>
-                    </ImageItem>
-                  );
-                })}
-            </ImageList>
-          </ImageContainer>
-        </Section>
-      </Main>
+          </Label>
+          <SubmitButton type="submit" disabled={isSubmitting}>
+            <span className="sr-only">업로드</span>
+          </SubmitButton>
+        </form>
+        <ImageContainer>
+          <ImageList>
+            {imageList.length > 0 &&
+              imageList.map((image, index) => {
+                return (
+                  <ImageItem key={`list-upload-img-${Math.random()}`}>
+                    <Image src={image} alt="피드 이미지" />
+                    <DeleteButton
+                      type="button"
+                      onClick={() => handleDeleteImage(index)}
+                    >
+                      <span className="sr-only">업로드 이미지 삭제</span>
+                    </DeleteButton>
+                  </ImageItem>
+                );
+              })}
+          </ImageList>
+        </ImageContainer>
+      </Section>
+      <Navigation />
     </>
   );
 };
 
 export default UploadPostPage;
 
-const Main = styled.main`
-  margin-top: 49px;
-`;
-
 const Section = styled.section`
   display: grid;
   grid-template-columns: 42px auto;
   gap: 10px;
+  margin-top: 49px;
   padding: 20px;
 `;
 
@@ -229,18 +238,19 @@ const DeleteButton = styled.button`
 const Label = styled.label`
   position: absolute;
   right: 20px;
-  bottom: 80px;
+  bottom: 140px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
   background: url('/icons/img/image.svg') no-repeat 50% 50%
     ${BUTTON.background_color};
+  cursor: pointer;
 `;
 
 const SubmitButton = styled.button`
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 80px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
