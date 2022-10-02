@@ -130,7 +130,7 @@ export const SectionMyInfo = ({ userInfoData }: UserInfoProps) => {
       <p className="user-desc">{intro}</p>
       <ListMyBtns>
         <li>
-          <Link href="/edit-profile" passHref>
+          <Link href="/profile/edit" passHref>
             <BtnProfile>프로필 수정</BtnProfile>
           </Link>
         </li>

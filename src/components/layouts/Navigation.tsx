@@ -40,12 +40,10 @@ export const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link href="/user-page" passHref>
+          <Link href="/profile" passHref>
             <LinkMenu
               className={
-                router.pathname === '/user-page'
-                  ? 'user-page active'
-                  : 'user-page'
+                router.pathname === '/profile' ? 'profile active' : 'profile'
               }
             >
               <span>프로필</span>
@@ -92,7 +90,7 @@ const LinkMenu = styled.a`
   &.post {
     background-image: url('/icons/nav/post.svg');
   }
-  &.user-page {
+  &.profile {
     background-image: url('/icons/nav/profile.svg');
   }
 
@@ -102,7 +100,7 @@ const LinkMenu = styled.a`
   &.chat.active {
     background-image: url('/icons/nav/chat-fill.svg');
   }
-  &.user-page.active {
+  &.profile.active {
     background-image: url('/icons/nav/profile-fill.svg');
   }
 `;

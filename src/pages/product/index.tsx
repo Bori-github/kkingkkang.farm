@@ -61,7 +61,7 @@ const RegisterProductPage: NextPage = () => {
       });
 
       alert(`${itemName}이 상품으로 등록되었습니다.`);
-      router.push('/user-page');
+      router.push('/profile');
     } catch (error) {
       console.log(error);
     }

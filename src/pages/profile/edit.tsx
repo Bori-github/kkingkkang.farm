@@ -7,18 +7,18 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
-import { Loader } from '../components/common/Loader';
-import { ToolBar } from '../components/layouts/ToolBar';
-import { UserAvatar } from '../components/UserAvatar';
-import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../constants';
+import { Loader } from '../../components/common/Loader';
+import { ToolBar } from '../../components/layouts/ToolBar';
+import { UserAvatar } from '../../components/UserAvatar';
+import { API_ENDPOINT, BORDER, BUTTON, USER_AVATAR } from '../../constants';
 import {
   ERROR,
   GRAY_300,
   GRAY_900,
   PRIMARY,
   SECONDARY,
-} from '../constants/colors';
-import { fetcher } from '../utils';
+} from '../../constants/colors';
+import { fetcher } from '../../utils';
 
 interface EditProfileValues {
   username: string;
@@ -27,7 +27,7 @@ interface EditProfileValues {
   image: string;
 }
 
-const EditProfile: NextPage = () => {
+const EditProfilePage: NextPage = () => {
   const {
     register,
     getValues,
@@ -106,7 +106,7 @@ const EditProfile: NextPage = () => {
       }),
     });
     Cookies.set('accountname', accountname);
-    router.push('/user-page');
+    router.push('/profile');
   });
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
@@ -203,7 +203,7 @@ const EditProfile: NextPage = () => {
   );
 };
 
-export default EditProfile;
+export default EditProfilePage;
 
 const MainEditProfile = styled.main`
   display: flex;

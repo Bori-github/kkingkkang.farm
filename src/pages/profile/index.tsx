@@ -111,7 +111,7 @@ const UserPage: NextPage = () => {
                 <ItemMore>
                   <button
                     type="button"
-                    onClick={() => router.push('/edit-profile')}
+                    onClick={() => router.push('/profile/edit')}
                   >
                     프로필 수정
                   </button>

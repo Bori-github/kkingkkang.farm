@@ -67,7 +67,7 @@ const SearchUser: NextPage = () => {
               const { _id, accountname, username, image } = user;
               return (
                 <li key={`user-list-${_id}`}>
-                  <Link href={`/user-page/${accountname}`} passHref>
+                  <Link href={`/profile/${accountname}`} passHref>
                     <LinkUser>
                       <UserAvatar
                         size={USER_AVATAR.md.size}

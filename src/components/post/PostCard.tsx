@@ -96,7 +96,7 @@ export const PostCard = ({ postData }: PostCardProps) => {
     if (data.message === '삭제되었습니다.') {
       setIsShowModal(false);
       setIsShowPopup(false);
-      router.push('/user-page');
+      router.push('/profile');
     }
   };
 
