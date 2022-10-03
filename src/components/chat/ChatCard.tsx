@@ -25,7 +25,7 @@ export const ChatCard = ({ followerData }: ChatCardProps) => {
   const { post } = data;
 
   return (
-    <li>
+    <Item isActive={post.length > 0}>
       <Link href={`/chat/${accountname}`} passHref>
         <ChatAnchor href="replace">
           <UserBox>
@@ -52,9 +52,23 @@ export const ChatCard = ({ followerData }: ChatCardProps) => {
           </ChatTime>
         </ChatAnchor>
       </Link>
-    </li>
+    </Item>
   );
 };
+
+const Item = styled.li<{ isActive: boolean }>`
+  position: relative;
+
+  &::after {
+    content: '';
+    display: ${({ isActive }) => (!isActive ? 'block' : 'none')};
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+`;
 
 const ChatAnchor = styled.a`
   display: grid;
