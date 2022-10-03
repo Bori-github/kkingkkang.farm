@@ -9,13 +9,6 @@ import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
-import {
-  PopupMoreUser,
-  PopupPost,
-  PopupPostDelete,
-  PopupProducDelete,
-  PopupProduct,
-} from '../../components/Popup';
 import { SectionFeed } from '../../components/feed/SectionFeed';
 import { SectionProducts } from '../../components/SectionProducts';
 import { SectionMyInfo } from '../../components/SectionUserInfo';
@@ -91,10 +84,6 @@ const UserPage: NextPage = () => {
         <SectionProducts accountname={accountname} />
         <SectionFeed accountname={accountname} />
       </MainMyPage>
-      {/* <PopupPost />
-      <PopupPostDelete />
-      <PopupProduct />
-      <PopupProducDelete /> */}
       <Navigation />
       {isShowModal && (
         <ModalContainer>
@@ -111,7 +100,7 @@ const UserPage: NextPage = () => {
                 <ItemMore>
                   <button
                     type="button"
-                    onClick={() => router.push('/edit-profile')}
+                    onClick={() => router.push('/profile/edit')}
                   >
                     프로필 수정
                   </button>

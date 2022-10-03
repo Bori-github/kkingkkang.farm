@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 import Head from 'next/head';
-import { SignupEmail } from '../components/signup/SignupEmail';
-import { SetProfile } from '../components/signup/SetProfile';
+import { SignupEmail } from '../../components/signup/SignupEmail';
+import { SetProfile } from '../../components/signup/SetProfile';
 
 const Signup: NextPage = () => {
   const [pages, setPages] = useState(true);

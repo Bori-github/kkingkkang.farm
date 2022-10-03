@@ -106,7 +106,7 @@ const EditPostPage: NextPage = () => {
       });
 
       alert('게시글이 수정되었습니다:)');
-      router.push('/user-page');
+      router.push('/profile');
     } catch (error) {
       console.log(error);
     }
