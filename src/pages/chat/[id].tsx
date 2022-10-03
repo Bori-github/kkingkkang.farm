@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { ReactEventHandler } from 'react';
+import { ReactEventHandler, useEffect } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { ToolBar } from '../../components/layouts/ToolBar';
@@ -17,8 +18,14 @@ import { dateFormatter, fetcher } from '../../utils';
 const ChatPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const accountname = Cookies.get('accountname');
+
   const { data, error } = useSWR(
     `${API_ENDPOINT}/post/${id}/userpost`,
+    fetcher,
+  );
+  const { data: myData, error: myError } = useSWR(
+    `${API_ENDPOINT}/post/${accountname}/userpost`,
     fetcher,
   );
 
@@ -27,8 +34,17 @@ const ChatPage: NextPage = () => {
     e.currentTarget.className = 'onError';
   };
 
-  if (!data) return <Loader height="100vh" />;
-  if (error) return <div>에러가 발생했습니다.</div>;
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, []);
+
+  if (!data || !myData) return <Loader height="100vh" />;
+  if (error || myError) return <div>에러가 발생했습니다.</div>;
+
+  // 팔로워의 게시글과 나의 게시글을 가져와 글 작성 순서로 정렬
+  const chatData = [...data.post, ...myData.post].sort((a, b) =>
+    new Date(a.createdAt).valueOf() > new Date(b.createdAt).valueOf() ? 1 : -1,
+  );
 
   const { post } = data;
   const { username } = post[0].author;
@@ -45,25 +61,29 @@ const ChatPage: NextPage = () => {
       </ToolBar>
       <MainChat>
         <SectionChat>
-          {post.map((postData: PostData) => {
+          {chatData.map((postData: PostData) => {
             const { id, author, content, createdAt, image } = postData;
-            const { image: authorImage } = author;
+            const { image: authorImage, accountname: authorAccountname } =
+              author;
             const imageList = image.split(',');
+            const isMyChat = authorAccountname === accountname;
 
             return (
-              <Message key={`chat-${id}`}>
-                <UserAvatar
-                  size={USER_AVATAR.sm.size}
-                  src={authorImage || '/default-profile-w.png'}
-                />
+              <Message key={`chat-${id}`} isMyChat={isMyChat}>
+                {!isMyChat && (
+                  <UserAvatar
+                    size={USER_AVATAR.sm.size}
+                    src={authorImage || '/default-profile-w.png'}
+                  />
+                )}
                 <div>
                   {content.length > 0 && (
-                    <MsgBubble>
+                    <MsgBubble isMyChat={isMyChat}>
                       <span>{content}</span>
                     </MsgBubble>
                   )}
-                  {imageList.length > 0 && (
-                    <ImgBubble column={imageList.length}>
+                  {imageList[0] !== '' && (
+                    <ImgBubble column={imageList.length} isMyChat={isMyChat}>
                       {imageList.map((image) => {
                         return (
                           <Image
@@ -81,19 +101,6 @@ const ChatPage: NextPage = () => {
               </Message>
             );
           })}
-
-          {/* <Message className="own">
-            <MsgBubble className="own">
-              <span>네 말씀하세요.</span>
-            </MsgBubble>
-            <Timestamp>12:50</Timestamp>
-          </Message>
-          <ImgMessage className="own">
-            <ImgBubble className="own">
-              <img src="/example/chat-exapmle.png" alt="업로드 사진" />
-            </ImgBubble>
-            <Timestamp>12:51</Timestamp>
-          </ImgMessage> */}
         </SectionChat>
         {/* <PopupExitChat /> */}
       </MainChat>
@@ -123,33 +130,24 @@ const SectionChat = styled.section`
   padding: 10px;
 `;
 
-const Message = styled.div`
+const Message = styled.div<{ isMyChat: boolean }>`
   display: flex;
+  flex-direction: ${({ isMyChat }) => (isMyChat ? 'row-reverse' : 'row')};
   align-items: flex-start;
   gap: 8px;
-
-  &.own {
-    flex-direction: row-reverse;
-  }
+  white-space: pre-wrap;
 `;
 
-const MsgBubble = styled.div`
+const MsgBubble = styled.div<{ isMyChat: boolean }>`
   max-width: 220px;
   padding: 12px;
-  margin-bottom: 8px;
   border: ${BORDER.basic};
-  border-radius: 0 10px 10px 10px;
-  background-color: ${WHITE};
-  color: ${GRAY_900};
+  border-radius: ${({ isMyChat }) =>
+    isMyChat ? '10px 0 10px 10px' : '0 10px 10px 10px'};
+  background-color: ${({ isMyChat }) => (isMyChat ? PRIMARY : WHITE)};
+  color: ${({ isMyChat }) => (isMyChat ? WHITE : GRAY_900)};
   font-size: 14px;
   line-height: 1.3;
-
-  &.own {
-    margin: 0 0 0 5px;
-    border-radius: 10px 0 10px 10px;
-    background-color: ${PRIMARY};
-    color: ${WHITE};
-  }
 `;
 
 const Timestamp = styled.span`
@@ -158,28 +156,18 @@ const Timestamp = styled.span`
   font-size: 10px;
 `;
 
-const ImgMessage = styled.div`
-  display: flex;
-
-  &.own {
-    flex-direction: row-reverse;
-  }
-`;
-
-const ImgBubble = styled.div<{ column: number }>`
+const ImgBubble = styled.div<{ column: number; isMyChat: boolean }>`
+  overflow: hidden;
   display: grid;
   grid-template-columns: ${({ column }) => `repeat(${column}, 1fr)`};
   width: 240px;
-
-  &.own {
-    margin: 0 0 0 5px;
-  }
+  margin-top: 4px;
+  border-radius: 10px;
 `;
 
 const Image = styled.img`
   width: 100%;
   aspect-ratio: 1;
-  border-radius: 10px;
   object-fit: cover;
 
   &.onError {
