@@ -6,12 +6,6 @@ import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
-import {
-  PopupPost,
-  PopupPostDelete,
-  PopupProducDelete,
-  PopupProduct,
-} from '../../components/Popup';
 import { SectionFeed } from '../../components/feed/SectionFeed';
 import { SectionProducts } from '../../components/SectionProducts';
 import { SectionUserInfo } from '../../components/SectionUserInfo';
@@ -59,10 +53,6 @@ const MyProfile: NextPage = () => {
         <SectionProducts accountname={accountname} />
         <SectionFeed accountname={accountname} />
       </MainMyPage>
-      {/* <PopupPost />
-      <PopupPostDelete />
-      <PopupProduct />
-      <PopupProducDelete /> */}
       <Navigation />
     </>
   );
