@@ -1,52 +1,81 @@
 import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import { Loader } from '../../components/common/Loader';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { PopupExitChat } from '../../components/Popup';
 import { SectionInpChat } from '../../components/SectionInput';
 import { UserAvatar } from '../../components/UserAvatar';
-import { BORDER, USER_AVATAR } from '../../constants';
+import { API_ENDPOINT, BORDER, USER_AVATAR } from '../../constants';
 import { GRAY_50, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
+import { PostData } from '../../types';
+import { dateFormatter, fetcher } from '../../utils';
 
 const ChatPage: NextPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, error } = useSWR(
+    `${API_ENDPOINT}/post/${id}/userpost`,
+    fetcher,
+  );
+
+  if (!data) return <Loader height="100vh" />;
+  if (error) return <div>에러가 발생했습니다.</div>;
+
+  const { post } = data;
+  const { username } = post[0].author;
+
   return (
     <>
       <Head>
-        <title>채팅 유저 이름ㅣ낑깡팜</title>
+        <title>{username}ㅣ낑깡팜</title>
       </Head>
-      <ToolBar title="채팅 유저 이름">
+      <ToolBar title={username}>
         <BtnMore type="button">
           <span className="sr-only">더 보기</span>
         </BtnMore>
       </ToolBar>
       <MainChat>
         <SectionChat>
-          <Message>
-            <UserAvatar
-              size={USER_AVATAR.sm.size}
-              src="/default-profile-w.png"
-            />
-            <MsgBubble>
-              <span>
-                옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
-                뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할
-                넣는 풍부하게 뛰노는 인생의 힘있다.
-              </span>
-            </MsgBubble>
-            <Timestamp>12:39</Timestamp>
-          </Message>
-          <Message>
-            <UserAvatar
-              size={USER_AVATAR.sm.size}
-              src="/default-profile-w.png"
-            />
-            <MsgBubble>
-              <span>안녕하세요. 감귤 사고싶어요요요요요</span>
-            </MsgBubble>
-            <Timestamp>12:49</Timestamp>
-          </Message>
+          {post.map((postData: PostData) => {
+            const { id, author, content, createdAt, image } = postData;
+            const { image: authorImage } = author;
+            const imageList = image.split(',');
 
-          <Message className="own">
+            return (
+              <Message key={`chat-${id}`}>
+                <UserAvatar
+                  size={USER_AVATAR.sm.size}
+                  src={authorImage || '/default-profile-w.png'}
+                />
+                <div>
+                  {content.length > 0 && (
+                    <MsgBubble>
+                      <span>{content}</span>
+                    </MsgBubble>
+                  )}
+                  {imageList.length > 0 && (
+                    <ImgBubble column={imageList.length}>
+                      {imageList.map((image) => {
+                        return (
+                          <Image
+                            src={image}
+                            alt="업로드 사진"
+                            key={`chat-image-${Math.random()}`}
+                          />
+                        );
+                      })}
+                    </ImgBubble>
+                  )}
+                </div>
+                <Timestamp>{dateFormatter(createdAt)}</Timestamp>
+              </Message>
+            );
+          })}
+
+          {/* <Message className="own">
             <MsgBubble className="own">
               <span>네 말씀하세요.</span>
             </MsgBubble>
@@ -57,7 +86,7 @@ const ChatPage: NextPage = () => {
               <img src="/example/chat-exapmle.png" alt="업로드 사진" />
             </ImgBubble>
             <Timestamp>12:51</Timestamp>
-          </ImgMessage>
+          </ImgMessage> */}
         </SectionChat>
         {/* <PopupExitChat /> */}
       </MainChat>
@@ -90,6 +119,7 @@ const SectionChat = styled.section`
 const Message = styled.div`
   display: flex;
   align-items: flex-start;
+  gap: 8px;
 
   &.own {
     flex-direction: row-reverse;
@@ -98,8 +128,8 @@ const Message = styled.div`
 
 const MsgBubble = styled.div`
   max-width: 220px;
-  margin: 0 5px 0 8px;
   padding: 12px;
+  margin-bottom: 8px;
   border: ${BORDER.basic};
   border-radius: 0 10px 10px 10px;
   background-color: ${WHITE};
@@ -117,23 +147,31 @@ const MsgBubble = styled.div`
 
 const Timestamp = styled.span`
   align-self: flex-end;
+  padding-bottom: 5px;
   font-size: 10px;
 `;
 
 const ImgMessage = styled.div`
   display: flex;
+
   &.own {
     flex-direction: row-reverse;
   }
 `;
 
-const ImgBubble = styled.div`
-  overflow: hidden;
+const ImgBubble = styled.div<{ column: number }>`
+  display: grid;
+  grid-template-columns: ${({ column }) => `repeat(${column}, 1fr)`};
   width: 240px;
-  height: 240px;
-  margin-right: 5px;
-  border-radius: 10px;
+
   &.own {
     margin: 0 0 0 5px;
   }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  object-fit: cover;
 `;
