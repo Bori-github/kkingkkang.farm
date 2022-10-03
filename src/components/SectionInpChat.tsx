@@ -15,7 +15,7 @@ export const SectionInpChat = ({ mutate }: SectionInpChatProps) => {
   const token = Cookies.get('token');
   const {
     register,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
     handleSubmit,
     setValue,
   } = useForm<PostData>({ mode: 'onChange' });
@@ -83,7 +83,7 @@ export const SectionInpChat = ({ mutate }: SectionInpChatProps) => {
           placeholder="메시지 입력하기"
           {...register('content', { required: true })}
         />
-        <BtnSend type="submit" disabled={isSubmitting} />
+        <BtnSend type="submit" disabled={!isValid || isSubmitting} />
       </Form>
     </Contaioner>
   );
