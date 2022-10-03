@@ -13,7 +13,7 @@ import {
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { ToolBar } from '../../components/layouts/ToolBar';
-import { SectionInpChat } from '../../components/SectionInput';
+import { SectionInpChat } from '../../components/SectionInpChat';
 import { UserAvatar } from '../../components/UserAvatar';
 import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
 import {
@@ -42,10 +42,11 @@ const ChatPage: NextPage = () => {
     `${API_ENDPOINT}/post/${id}/userpost`,
     fetcher,
   );
-  const { data: myData, error: myError } = useSWR(
-    `${API_ENDPOINT}/post/${accountname}/userpost`,
-    fetcher,
-  );
+  const {
+    data: myData,
+    error: myError,
+    mutate,
+  } = useSWR(`${API_ENDPOINT}/post/${accountname}/userpost`, fetcher);
 
   const handleImageOnError: ReactEventHandler<HTMLImageElement> = (e) => {
     e.currentTarget.src = '/logo/logo-fail.png';
@@ -104,9 +105,7 @@ const ChatPage: NextPage = () => {
                 )}
                 <div>
                   {content.length > 0 && (
-                    <MsgBubble isMyChat={isMyChat}>
-                      <span>{content}</span>
-                    </MsgBubble>
+                    <MsgBubble isMyChat={isMyChat}>{content}</MsgBubble>
                   )}
                   {imageList[0] !== '' && (
                     <ImgBubble column={imageList.length} isMyChat={isMyChat}>
@@ -129,7 +128,7 @@ const ChatPage: NextPage = () => {
           })}
         </SectionChat>
       </MainChat>
-      <SectionInpChat />
+      <SectionInpChat mutate={mutate} />
       {isShowModal && (
         <BgPopup
           ref={(el) => {
@@ -184,10 +183,9 @@ const Message = styled.div<{ isMyChat: boolean }>`
   flex-direction: ${({ isMyChat }) => (isMyChat ? 'row-reverse' : 'row')};
   align-items: flex-start;
   gap: 8px;
-  white-space: pre-wrap;
 `;
 
-const MsgBubble = styled.div<{ isMyChat: boolean }>`
+const MsgBubble = styled.p<{ isMyChat: boolean }>`
   max-width: 220px;
   padding: 12px;
   border: ${BORDER.basic};
@@ -197,6 +195,8 @@ const MsgBubble = styled.div<{ isMyChat: boolean }>`
   color: ${({ isMyChat }) => (isMyChat ? WHITE : GRAY_900)};
   font-size: 14px;
   line-height: 1.3;
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 const Timestamp = styled.span`
