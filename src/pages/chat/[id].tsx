@@ -3,22 +3,40 @@ import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { ReactEventHandler, useEffect } from 'react';
+import {
+  MouseEvent,
+  ReactEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { ToolBar } from '../../components/layouts/ToolBar';
-import { PopupExitChat } from '../../components/Popup';
 import { SectionInpChat } from '../../components/SectionInput';
 import { UserAvatar } from '../../components/UserAvatar';
-import { API_ENDPOINT, BORDER, USER_AVATAR } from '../../constants';
-import { GRAY_50, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
+import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
+import {
+  GRAY_300,
+  GRAY_50,
+  GRAY_900,
+  PRIMARY,
+  WHITE,
+} from '../../constants/colors';
 import { PostData } from '../../types';
 import { dateFormatter, fetcher } from '../../utils';
+
+interface ModalProps {
+  isShowModal: boolean;
+}
 
 const ChatPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const accountname = Cookies.get('accountname');
+
+  const [isShowModal, setIsShowModal] = useState(false);
+  const modalRef = useRef<(HTMLElement | null)[]>([]);
 
   const { data, error } = useSWR(
     `${API_ENDPOINT}/post/${id}/userpost`,
@@ -38,6 +56,14 @@ const ChatPage: NextPage = () => {
     window.scrollTo(0, document.body.scrollHeight);
   }, []);
 
+  const handleCloseModal = (e: MouseEvent<HTMLElement>) => {
+    modalRef.current.forEach((el) => {
+      if (el === e.target) {
+        setIsShowModal(false);
+      }
+    });
+  };
+
   if (!data || !myData) return <Loader height="100vh" />;
   if (error || myError) return <div>에러가 발생했습니다.</div>;
 
@@ -55,7 +81,7 @@ const ChatPage: NextPage = () => {
         <title>{username}ㅣ낑깡팜</title>
       </Head>
       <ToolBar title={username}>
-        <BtnMore type="button">
+        <BtnMore type="button" onClick={() => setIsShowModal(true)}>
           <span className="sr-only">더 보기</span>
         </BtnMore>
       </ToolBar>
@@ -102,9 +128,32 @@ const ChatPage: NextPage = () => {
             );
           })}
         </SectionChat>
-        {/* <PopupExitChat /> */}
       </MainChat>
       <SectionInpChat />
+      {isShowModal && (
+        <BgPopup
+          ref={(el) => {
+            modalRef.current[0] = el;
+          }}
+          onClick={handleCloseModal}
+        >
+          <ModalPopup isShowModal={isShowModal}>
+            <ul>
+              <ItemMore>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsShowModal(false);
+                    router.back();
+                  }}
+                >
+                  채팅 목록으로 이동하기
+                </button>
+              </ItemMore>
+            </ul>
+          </ModalPopup>
+        </BgPopup>
+      )}
     </>
   );
 };
@@ -174,4 +223,46 @@ const Image = styled.img`
     aspect-ratio: auto;
     object-fit: contain;
   }
+`;
+
+const BgPopup = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: ${Z_INDEX.popup};
+  background-color: rgba(0, 0, 0, 0.5);
+  color: ${GRAY_900};
+`;
+
+const ModalPopup = styled.div<ModalProps>`
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 36px 0 10px;
+  border-radius: 20px 20px 0 0;
+  background-color: ${WHITE};
+  transform: ${(isShowModal) =>
+    isShowModal ? 'translateY(0)' : 'translateY(100%)'};
+  transition: transform 0.1s;
+  will-change: transform;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 50px;
+    height: 4px;
+    border-radius: 4px;
+    background-color: ${GRAY_300};
+    transform: translateX(-50%);
+  }
+`;
+
+const ItemMore = styled.li`
+  padding: 14px 25px;
+  font-size: 14px;
 `;
