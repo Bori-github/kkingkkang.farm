@@ -5,16 +5,20 @@ import { ToolBar } from '../../components/layouts/ToolBar';
 import { PopupExitChat } from '../../components/Popup';
 import { SectionInpChat } from '../../components/SectionInput';
 import { UserAvatar } from '../../components/UserAvatar';
-import { USER_AVATAR } from '../../constants';
-import { GRAY_900, PRIMARY, SECONDARY, WHITE } from '../../constants/colors';
+import { BORDER, USER_AVATAR } from '../../constants';
+import { GRAY_50, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
 
-const Chat: NextPage = () => {
+const ChatPage: NextPage = () => {
   return (
     <>
       <Head>
         <title>채팅 유저 이름ㅣ낑깡팜</title>
       </Head>
-      <ToolBar title="채팅 유저 이름" />
+      <ToolBar title="채팅 유저 이름">
+        <BtnMore type="button">
+          <span className="sr-only">더 보기</span>
+        </BtnMore>
+      </ToolBar>
       <MainChat>
         <SectionChat>
           <Message>
@@ -62,18 +66,27 @@ const Chat: NextPage = () => {
   );
 };
 
-export default Chat;
+export default ChatPage;
+
+const BtnMore = styled.button`
+  width: 18px;
+  height: 18px;
+  background: url('/icons/header/more.svg') no-repeat;
+  background-size: 100%;
+`;
 
 const MainChat = styled.main`
   min-height: calc(100vh - 100px);
   margin: 49px 0 51px;
-  background-color: ${SECONDARY};
+  background-color: ${GRAY_50};
 `;
+
 const SectionChat = styled.section`
   display: grid;
   gap: 10px;
   padding: 10px;
 `;
+
 const Message = styled.div`
   display: flex;
   align-items: flex-start;
@@ -82,10 +95,12 @@ const Message = styled.div`
     flex-direction: row-reverse;
   }
 `;
+
 const MsgBubble = styled.div`
   max-width: 220px;
   margin: 0 5px 0 8px;
   padding: 12px;
+  border: ${BORDER.basic};
   border-radius: 0 10px 10px 10px;
   background-color: ${WHITE};
   color: ${GRAY_900};
@@ -99,16 +114,19 @@ const MsgBubble = styled.div`
     color: ${WHITE};
   }
 `;
+
 const Timestamp = styled.span`
   align-self: flex-end;
   font-size: 10px;
 `;
+
 const ImgMessage = styled.div`
   display: flex;
   &.own {
     flex-direction: row-reverse;
   }
 `;
+
 const ImgBubble = styled.div`
   overflow: hidden;
   width: 240px;

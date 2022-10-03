@@ -8,7 +8,7 @@ import { UserAvatar } from '../../components/UserAvatar';
 import { USER_AVATAR } from '../../constants';
 import { GRAY_900, PRIMARY, SECONDARY } from '../../constants/colors';
 
-const ListChat: NextPage = () => {
+const ChatListPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -85,7 +85,7 @@ const ListChat: NextPage = () => {
   );
 };
 
-export default ListChat;
+export default ChatListPage;
 
 const MainListChat = styled.main`
   margin: 49px 0 60px;
