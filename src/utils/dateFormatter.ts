@@ -8,7 +8,7 @@ export const dateFormatter = (createdAt: string) => {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).format(new Date(createdAt));
+  }).format(createdDate);
   const [day, month, year] = date.split('/');
 
   if (minTimeGap < 1) {

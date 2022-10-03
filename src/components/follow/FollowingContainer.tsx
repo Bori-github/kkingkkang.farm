@@ -12,7 +12,7 @@ export const FollowingContainer = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, error } = useSWR(
-    `${API_ENDPOINT}/profile/${id}/following`,
+    `${API_ENDPOINT}/profile/${id}/following?limit=1000&skip=0`,
     fetcher,
   );
 
