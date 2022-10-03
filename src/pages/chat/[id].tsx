@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { ReactEventHandler } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { ToolBar } from '../../components/layouts/ToolBar';
@@ -20,6 +21,11 @@ const ChatPage: NextPage = () => {
     `${API_ENDPOINT}/post/${id}/userpost`,
     fetcher,
   );
+
+  const handleImageOnError: ReactEventHandler<HTMLImageElement> = (e) => {
+    e.currentTarget.src = '/logo/logo-fail.png';
+    e.currentTarget.className = 'onError';
+  };
 
   if (!data) return <Loader height="100vh" />;
   if (error) return <div>에러가 발생했습니다.</div>;
@@ -63,6 +69,7 @@ const ChatPage: NextPage = () => {
                           <Image
                             src={image}
                             alt="업로드 사진"
+                            onError={handleImageOnError}
                             key={`chat-image-${Math.random()}`}
                           />
                         );
@@ -174,4 +181,9 @@ const Image = styled.img`
   aspect-ratio: 1;
   border-radius: 10px;
   object-fit: cover;
+
+  &.onError {
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
 `;
