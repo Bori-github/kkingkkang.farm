@@ -4,47 +4,52 @@ import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { API_ENDPOINT, BORDER, BUTTON } from '../constants';
 import { ERROR, GRAY_900, WHITE } from '../constants/colors';
 
+interface SignUpProps {
+  email: string;
+  password: string;
+}
+
 export const SignIn = () => {
   const router = useRouter();
-  if (Cookies.get('token')) {
-    router.push('/home');
-  }
-
-  const [loginError, setLoginError] = useState('');
+  const [loginError, setLoginError] = useState<string>('');
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<{ email: string; password: string }>({ mode: 'onChange' });
+  } = useForm<SignUpProps>({ mode: 'onChange' });
 
-  const onSubmit = handleSubmit(async (userData) => {
-    const { data } = await axios(`${API_ENDPOINT}/user/login`, {
+  if (Cookies.get('token')) {
+    router.push('/home');
+  }
+
+  const onSubmit: SubmitHandler<SignUpProps> = async (data) => {
+    const { email, password } = data;
+
+    const { data: signinData } = await axios(`${API_ENDPOINT}/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       data: JSON.stringify({
         user: {
-          email: userData.email,
-          password: userData.password,
+          email,
+          password,
         },
       }),
     });
 
-    if (data.message) {
+    const { message, user } = signinData;
+
+    if (message) {
       setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
     } else {
-      Cookies.set('accountname', data.user.accountname);
-      Cookies.set('token', data.user.token);
+      Cookies.set('accountname', user.accountname);
+      Cookies.set('token', user.token);
     }
-  });
-
-  const handleChange = () => {
-    setLoginError('');
   };
 
   const regExpEm =
@@ -54,7 +59,7 @@ export const SignIn = () => {
   return (
     <Section>
       <h2 className="sr-only">낑깡팜 로그인</h2>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <InputBox>
             <Label htmlFor="userEmail">
@@ -83,7 +88,7 @@ export const SignIn = () => {
                 {...register('password', {
                   required: true,
                   pattern: regExgPw,
-                  onChange: handleChange,
+                  onChange: () => setLoginError(''),
                 })}
               />
             </Label>
