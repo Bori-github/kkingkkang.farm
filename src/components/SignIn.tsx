@@ -52,65 +52,64 @@ export const SignIn = () => {
   const regExgPw = /^[A-Za-z0-9]{6,12}$/;
 
   return (
-    <SectionLoginEmail>
+    <Section>
       <h2 className="sr-only">낑깡팜 로그인</h2>
-      <FormLogin onSubmit={onSubmit}>
-        <BoxInp>
-          <Label htmlFor="userEmail">
-            이메일
-            <Input
-              type="email"
-              id="userEmail"
-              required
-              {...register('email', { required: true, pattern: regExpEm })}
-            />
-          </Label>
-        </BoxInp>
-        {errors?.email?.type === 'required' && (
-          <TxtError>* 이메일을 입력해주세요</TxtError>
-        )}
-        {errors?.email?.type === 'pattern' && (
-          <TxtError>* 잘못된 이메일 형식입니다.</TxtError>
-        )}
-        <BoxInp>
-          <Label htmlFor="userPw">
-            비밀번호
-            <Input
-              type="password"
-              id="userPw"
-              required
-              {...register('password', {
-                required: true,
-                pattern: regExgPw,
-                onChange: handleChange,
-              })}
-            />
-          </Label>
-          {errors?.password?.type === 'pattern' && (
-            <TxtError>
-              * 비밀번호는 영문(대/소문자 구분), 숫자 조합하여 6~12자리로 입력해
-              주세요.
-            </TxtError>
+      <Form onSubmit={onSubmit}>
+        <div>
+          <InputBox>
+            <Label htmlFor="userEmail">
+              이메일
+              <Input
+                type="email"
+                id="userEmail"
+                required
+                {...register('email', { required: true, pattern: regExpEm })}
+              />
+            </Label>
+          </InputBox>
+          {errors?.email?.type === 'required' && (
+            <ErrorText>* 이메일을 입력해주세요</ErrorText>
           )}
-          {loginError === '이메일 또는 비밀번호가 일치하지 않습니다.' && (
-            <TxtError>* 이메일 또는 비밀번호가 일치하지 않습니다.</TxtError>
+          {errors?.email?.type === 'pattern' && (
+            <ErrorText>* 잘못된 이메일 형식입니다.</ErrorText>
           )}
-        </BoxInp>
-        <BtnLogin type="submit" disabled={!isValid}>
+          <InputBox>
+            <Label htmlFor="userPw">
+              비밀번호
+              <Input
+                type="password"
+                id="userPw"
+                required
+                {...register('password', {
+                  required: true,
+                  pattern: regExgPw,
+                  onChange: handleChange,
+                })}
+              />
+            </Label>
+            {errors?.password?.type === 'pattern' && (
+              <ErrorText>
+                * 비밀번호는 영문(대/소문자 구분), 숫자 조합하여 6~12자리로
+                입력해 주세요.
+              </ErrorText>
+            )}
+            {loginError === '이메일 또는 비밀번호가 일치하지 않습니다.' && (
+              <ErrorText>* 이메일 또는 비밀번호가 일치하지 않습니다.</ErrorText>
+            )}
+          </InputBox>
+        </div>
+        <LoginButton type="submit" disabled={!isValid}>
           로그인
-        </BtnLogin>
-      </FormLogin>
+        </LoginButton>
+      </Form>
       <Link href="/user/signup" passHref>
-        <LinkSignUp>이메일로 회원가입</LinkSignUp>
+        <SignUpAnchor>이메일로 회원가입</SignUpAnchor>
       </Link>
-    </SectionLoginEmail>
+    </Section>
   );
 };
 
-const SectionLoginEmail = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const Section = styled.section`
   width: 100%;
   box-sizing: border-box;
   padding: 30px 35px;
@@ -118,15 +117,15 @@ const SectionLoginEmail = styled.section`
   background-color: ${WHITE};
 `;
 
-const LinkSignUp = styled.a`
-  font-size: 12px;
-`;
-
-const FormLogin = styled.form`
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  min-height: 260px;
 `;
 
-const BoxInp = styled.div`
+const InputBox = styled.div`
   &:not(:first-of-type) {
     margin-top: 16px;
   }
@@ -152,7 +151,7 @@ const Input = styled.input`
   }
 `;
 
-const TxtError = styled.span`
+const ErrorText = styled.span`
   display: block;
   margin-top: 6px;
   color: ${ERROR};
@@ -160,9 +159,9 @@ const TxtError = styled.span`
   line-height: 1.3;
 `;
 
-const BtnLogin = styled.button`
+const LoginButton = styled.button`
   width: 100%;
-  margin: 30px 0 20px;
+  margin-bottom: 15px;
   padding: 13px 0;
   border-radius: 44px;
   background-color: ${BUTTON.background_color};
@@ -177,4 +176,10 @@ const BtnLogin = styled.button`
   &:active {
     background-color: ${BUTTON.background_color};
   }
+`;
+
+const SignUpAnchor = styled.a`
+  display: block;
+  font-size: 12px;
+  text-align: center;
 `;
