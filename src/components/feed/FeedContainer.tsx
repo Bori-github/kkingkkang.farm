@@ -25,32 +25,8 @@ export const FeedContainer = () => {
     <SectionFeed>
       {data && feedData ? (
         feedData.map((data: PostData) => {
-          const {
-            id,
-            content,
-            image,
-            createdAt,
-            hearted,
-            heartCount,
-            commentCount,
-            author,
-          } = data;
-
-          return (
-            <FeedCard
-              key={`feed-item-${id}`}
-              postData={{
-                id,
-                content,
-                image,
-                createdAt,
-                hearted,
-                heartCount,
-                commentCount,
-                author,
-              }}
-            />
-          );
+          const { id } = data;
+          return <FeedCard key={`feed-item-${id}`} postData={data} />;
         })
       ) : (
         <Loader height="100vh" />
