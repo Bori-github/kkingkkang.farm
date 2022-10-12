@@ -11,23 +11,27 @@ const PAGE_SIZE = 10;
 
 export const FeedContainer = () => {
   const [target, setTarget] = useState<HTMLElement | null>(null);
+  const [feedData, setFeedData] = useState<PostData[]>([]);
 
-  const {
-    data: feedData,
-    error,
-    setSize,
-    isValidating,
-  } = useSWRInfinite(
-    (index) =>
-      `${API_ENDPOINT}/post/feed/?limit=${PAGE_SIZE}&skip=${index * PAGE_SIZE}`,
+  const getKey = (
+    pageIndex: number,
+    previousPageData: { posts: PostData[] },
+  ) => {
+    if (previousPageData && !previousPageData.posts.length) return null;
+    return `${API_ENDPOINT}/post/feed/?limit=${PAGE_SIZE}&skip=${
+      pageIndex * PAGE_SIZE
+    }`;
+  };
+
+  const { data, error, setSize, isValidating } = useSWRInfinite(
+    getKey,
     fetcher,
     { revalidateAll: true },
   );
 
-  const isEmpty = feedData?.[0]?.length === 0;
+  const isEmpty = data?.[0]?.posts.length === 0;
   const isReachingEnd =
-    isEmpty ||
-    (feedData && feedData[feedData.length - 1]?.posts.length < PAGE_SIZE);
+    isEmpty || (data && data[data.length - 1]?.posts.length < PAGE_SIZE);
 
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting && !isReachingEnd) {
@@ -45,44 +49,49 @@ export const FeedContainer = () => {
     return () => observer && observer.disconnect();
   }, [target]);
 
-  if (!feedData) return <Loader height="calc(100vh - 109px)" />;
+  useEffect(() => {
+    if (data) {
+      const updateData = data.flatMap((data) => data.posts);
+      setFeedData(updateData);
+    }
+  }, [data]);
+
+  if (!data || !feedData) return <Loader height="100vh" />;
   if (error) return <div>에러가 발생했습니다.</div>;
 
   return (
     <SectionFeed>
-      {feedData ? (
-        feedData.map((data) => {
-          return data.posts.map((postData: PostData) => {
-            const {
-              id,
-              content,
-              image,
-              createdAt,
-              hearted,
-              heartCount,
-              commentCount,
-              author,
-            } = postData;
+      {data && feedData ? (
+        feedData.map((data: PostData) => {
+          const {
+            id,
+            content,
+            image,
+            createdAt,
+            hearted,
+            heartCount,
+            commentCount,
+            author,
+          } = data;
 
-            return (
-              <FeedCard
-                key={`feed-item-${id}`}
-                postData={{
-                  id,
-                  content,
-                  image,
-                  createdAt,
-                  hearted,
-                  heartCount,
-                  commentCount,
-                  author,
-                }}
-              />
-            );
-          });
+          return (
+            <FeedCard
+              key={`feed-item-${id}`}
+              postData={{
+                id,
+                content,
+                image,
+                createdAt,
+                hearted,
+                heartCount,
+                commentCount,
+                author,
+              }}
+            />
+          );
         })
       ) : (
-        <Loader height="calc(100vh - 109px)" />
+        <Loader height="100vh" />
       )}
       <TargetElement ref={setTarget}>
         {isValidating && !isReachingEnd && <Loader height="auto" />}
