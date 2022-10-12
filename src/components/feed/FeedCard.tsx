@@ -5,25 +5,13 @@ import { useRouter } from 'next/router';
 import { MouseEvent, useRef, useState } from 'react';
 import { API_ENDPOINT, BORDER, USER_AVATAR, Z_INDEX } from '../../constants';
 import { GRAY_300, GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
+import { PostData } from '../../types';
 import { dateFormatter } from '../../utils';
 import { UserAvatar } from '../UserAvatar';
 import { ImgCarousel } from './ImgCarousel';
 
 interface PostProps {
-  postData: {
-    id: string;
-    content: string;
-    image: string;
-    createdAt: string;
-    hearted: boolean;
-    heartCount: number;
-    commentCount: number;
-    author: {
-      username: string;
-      accountname: string;
-      image: string;
-    };
-  };
+  postData: PostData;
 }
 
 interface FeedCardProps {
