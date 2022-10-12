@@ -60,32 +60,9 @@ export const ListTypeContainer = ({ accountname }: ListTypeContainerProps) => {
       {myFeedData ? (
         myFeedData.map((data) => {
           return data.post.map((postData: PostData) => {
-            const {
-              id,
-              content,
-              image,
-              createdAt,
-              hearted,
-              heartCount,
-              commentCount,
-              author,
-            } = postData;
+            const { id } = postData;
 
-            return (
-              <FeedCard
-                key={`myfeed-item-${id}`}
-                postData={{
-                  id,
-                  content,
-                  image,
-                  createdAt,
-                  hearted,
-                  heartCount,
-                  commentCount,
-                  author,
-                }}
-              />
-            );
+            return <FeedCard key={`myfeed-item-${id}`} postData={postData} />;
           });
         })
       ) : (
