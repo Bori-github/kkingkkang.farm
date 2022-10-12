@@ -11,12 +11,12 @@ const PAGE_SIZE = 10;
 
 export const FeedContainer = () => {
   const [target, setTarget] = useState<HTMLElement | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const {
     data: feedData,
     error,
     setSize,
+    isValidating,
   } = useSWRInfinite(
     (index) =>
       `${API_ENDPOINT}/post/feed/?limit=${PAGE_SIZE}&skip=${index * PAGE_SIZE}`,
@@ -31,7 +31,6 @@ export const FeedContainer = () => {
 
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting && !isReachingEnd) {
-      setIsLoading(false);
       setSize((prev) => prev + 1);
     }
   };
@@ -86,7 +85,7 @@ export const FeedContainer = () => {
         <Loader height="calc(100vh - 109px)" />
       )}
       <TargetElement ref={setTarget}>
-        {isLoading && !isReachingEnd && <Loader height="auto" />}
+        {isValidating && !isReachingEnd && <Loader height="auto" />}
       </TargetElement>
     </SectionFeed>
   );
