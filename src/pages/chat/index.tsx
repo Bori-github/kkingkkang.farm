@@ -40,7 +40,6 @@ const ChatListPage: NextPage = () => {
           })}
         </ListChats>
       </MainListChat>
-      <Navigation />
     </>
   );
 };

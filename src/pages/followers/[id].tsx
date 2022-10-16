@@ -15,7 +15,6 @@ const UserListFollowers: NextPage = () => {
       <MainListFollowers>
         <FollowerContainer />
       </MainListFollowers>
-      <Navigation />
     </>
   );
 };

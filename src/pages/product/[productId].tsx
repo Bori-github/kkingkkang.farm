@@ -170,7 +170,6 @@ const EditProductPage: NextPage = () => {
           </BoxInp>
         </Form>
       </Section>
-      <Navigation />
     </>
   );
 };
