@@ -84,7 +84,6 @@ const UserPage: NextPage = () => {
         <SectionProducts accountname={accountname} />
         <SectionFeed accountname={accountname} />
       </MainMyPage>
-      <Navigation />
       {isShowModal && (
         <ModalContainer>
           <BgPopup

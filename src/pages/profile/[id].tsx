@@ -53,7 +53,6 @@ const MyProfile: NextPage = () => {
         <SectionProducts accountname={accountname} />
         <SectionFeed accountname={accountname} />
       </MainMyPage>
-      <Navigation />
     </>
   );
 };

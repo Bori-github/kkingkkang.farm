@@ -175,7 +175,6 @@ const EditPostPage: NextPage = () => {
           </ImageList>
         </PreviewContainer>
       </Section>
-      <Navigation />
     </>
   );
 };

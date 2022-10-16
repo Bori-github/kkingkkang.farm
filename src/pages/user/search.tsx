@@ -86,7 +86,6 @@ const SearchUser: NextPage = () => {
             })}
         </ListUser>
       </MainSearch>
-      <Navigation />
     </>
   );
 };
