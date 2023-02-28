@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { ReactChild } from 'react';
 import { Navigation } from './Navigation';
 
@@ -6,10 +7,12 @@ interface LayoutProps {
 }
 
 export const Layout = ({ children }: LayoutProps) => {
+  const router = useRouter();
+  const { pathname } = router;
   return (
     <>
       <main>{children}</main>
-      <Navigation />
+      {pathname !== '/' && <Navigation />}
     </>
   );
 };
