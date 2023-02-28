@@ -1,17 +1,30 @@
-// import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { GRAY_300 } from '../constants/colors';
 
-type AvatarProps = {
+interface StyleProps {
   size: string;
   src: string;
-};
+}
 
-export const UserAvatar = ({ size, src }: AvatarProps) => {
+interface UserAvatarProps extends StyleProps {
+  accountName?: string;
+}
+
+export const UserAvatar = ({ size, src, accountName }: UserAvatarProps) => {
+  if (accountName) {
+    return (
+      <Link href={`/profile/${accountName}`} passHref>
+        <a>
+          <ImgProfile size={size} src={src} alt="사용자 프로필 이미지" />
+        </a>
+      </Link>
+    );
+  }
   return <ImgProfile size={size} src={src} alt="사용자 프로필 이미지" />;
 };
 
-const ImgProfile = styled.img<AvatarProps>`
+const ImgProfile = styled.img<StyleProps>`
   width: ${(props) => props.size};
   height: ${(props) => props.size};
   border-radius: 50%;
