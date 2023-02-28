@@ -83,7 +83,11 @@ export const CommentCard = ({
   return (
     <Container>
       <CommentBox>
-        <UserAvatar size={USER_AVATAR.xs.size} src={image} />
+        <UserAvatar
+          size={USER_AVATAR.xs.size}
+          src={image}
+          accountName={authorAccountname}
+        />
         <User>
           <UserName>{username}</UserName>
           <Timestamp>{dateFormatter(createdAt)}</Timestamp>

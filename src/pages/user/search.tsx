@@ -66,22 +66,17 @@ const SearchUser: NextPage = () => {
             userList.map((user) => {
               const { _id, accountname, username, image } = user;
               return (
-                <li key={`user-list-${_id}`}>
-                  <Link href={`/profile/${accountname}`} passHref>
-                    <LinkUser>
-                      <UserAvatar
-                        size={USER_AVATAR.md.size}
-                        src={
-                          image?.length > 0 ? image : '/default-profile-w.png'
-                        }
-                      />
-                      <UserAccount>
-                        <UserName>{handleHighlight(username)}</UserName>
-                        <UserId>@{accountname}</UserId>
-                      </UserAccount>
-                    </LinkUser>
-                  </Link>
-                </li>
+                <UserContainer key={`user-list-${_id}`}>
+                  <UserAvatar
+                    size={USER_AVATAR.md.size}
+                    src={image?.length > 0 ? image : '/default-profile-w.png'}
+                    accountName={accountname}
+                  />
+                  <UserAccount>
+                    <UserName>{handleHighlight(username)}</UserName>
+                    <UserId>@{accountname}</UserId>
+                  </UserAccount>
+                </UserContainer>
               );
             })}
         </ListUser>
@@ -116,7 +111,7 @@ const ListUser = styled.ul`
   padding: 20px 0;
 `;
 
-const LinkUser = styled.a`
+const UserContainer = styled.li`
   display: grid;
   grid-template-columns: 50px auto;
   gap: 10px;
