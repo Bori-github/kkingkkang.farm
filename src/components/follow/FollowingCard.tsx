@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Link from 'next/link';
 import { useState } from 'react';
 import { BORDER, USER_AVATAR, API_ENDPOINT } from '../../constants';
 import { GRAY_900, PRIMARY, WHITE } from '../../constants/colors';
@@ -45,15 +44,17 @@ export const FollowingCard = ({ followingData }: FollowingProps) => {
 
   return (
     <Following>
-      <Link href={`/profile/${accountname}`} passHref>
-        <LinkFollowing>
-          <UserAvatar size={USER_AVATAR.md.size} src={image} />
-          <FollowingAccount>
-            <FollowingName>{username}</FollowingName>
-            <FollowingId>@{accountname}</FollowingId>
-          </FollowingAccount>
-        </LinkFollowing>
-      </Link>
+      <MetaContainer>
+        <UserAvatar
+          size={USER_AVATAR.md.size}
+          src={image}
+          accountName={accountname}
+        />
+        <FollowingAccount>
+          <FollowingName>{username}</FollowingName>
+          <FollowingId>@{accountname}</FollowingId>
+        </FollowingAccount>
+      </MetaContainer>
       {followed ? (
         <BtnCancel type="button" onClick={() => removeFollow(accountname)}>
           팔로잉
@@ -73,7 +74,7 @@ const Following = styled.li`
   gap: 10px;
 `;
 
-const LinkFollowing = styled.a`
+const MetaContainer = styled.div`
   display: grid;
   grid-template-columns: 50px auto;
   gap: 10px;

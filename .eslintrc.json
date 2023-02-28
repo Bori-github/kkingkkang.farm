@@ -28,6 +28,7 @@
   "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
   "ignorePatterns": ["src/frontend/generated/*", "apollo.config.js"],
   "rules": {
+    "react/require-default-props": "off",
     "react/react-in-jsx-scope": 0,
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,

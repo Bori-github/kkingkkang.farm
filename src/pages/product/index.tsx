@@ -148,7 +148,6 @@ const RegisterProductPage: NextPage = () => {
           </BoxInp>
         </Form>
       </Section>
-      <Navigation />
     </>
   );
 };

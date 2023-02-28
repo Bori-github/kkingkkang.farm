@@ -122,7 +122,11 @@ export const FeedCard = ({ postData }: PostProps) => {
     <>
       <Feed>
         <BoxProfileImg>
-          <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
+          <UserAvatar
+            size={USER_AVATAR.sm.size}
+            src={profileImg}
+            accountName={authorAccountname}
+          />
         </BoxProfileImg>
         <HeaderArticle>
           <UserName>{username}</UserName>
