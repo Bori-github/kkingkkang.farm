@@ -123,7 +123,11 @@ export const PostCard = ({ postData }: PostCardProps) => {
       <Feed>
         <h2 className="sr-only">피드 보기</h2>
         <BoxProfileImg>
-          <UserAvatar size={USER_AVATAR.sm.size} src={profileImg} />
+          <UserAvatar
+            size={USER_AVATAR.sm.size}
+            src={profileImg}
+            accountName={authorAccountname}
+          />
         </BoxProfileImg>
         <HeaderArticle>
           <UserName>{username}</UserName>
