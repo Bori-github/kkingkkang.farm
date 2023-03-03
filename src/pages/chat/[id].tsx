@@ -34,6 +34,7 @@ const ChatPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const accountname = Cookies.get('accountname');
+  const token = Cookies.get('token');
 
   const [isShowModal, setIsShowModal] = useState(false);
   const modalRef = useRef<(HTMLElement | null)[]>([]);
@@ -55,6 +56,10 @@ const ChatPage: NextPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
+
+    if (!token) {
+      router.push('/');
+    }
   }, []);
 
   const handleCloseModal = (e: MouseEvent<HTMLElement>) => {

@@ -8,7 +8,6 @@ import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
-import { Navigation } from '../../../components/layouts/Navigation';
 import { ToolBar } from '../../../components/layouts/ToolBar';
 import { handleTextarea } from '../../../components/post/handleTextarea';
 import { UserAvatar } from '../../../components/UserAvatar';
@@ -32,6 +31,12 @@ const EditPostPage: NextPage = () => {
   const [imageList, setImageList] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const token = Cookies.get('token');
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   const { data, error } = useSWR(
     id ? `${API_ENDPOINT}/post/${id}` : null,
@@ -248,7 +253,7 @@ const DeleteButton = styled.button`
 const LabelUploadImg = styled.label`
   position: absolute;
   right: 20px;
-  bottom: 140px;
+  bottom: 80px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -260,7 +265,7 @@ const LabelUploadImg = styled.label`
 const SubmitButton = styled.button`
   position: absolute;
   right: 20px;
-  bottom: 80px;
+  bottom: 20px;
   width: 45px;
   height: 45px;
   border-radius: 50%;

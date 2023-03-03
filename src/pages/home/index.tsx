@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
 import Head from 'next/head';
 import Link from 'next/link';
-import { ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import { ReactElement, useEffect } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { FeedContainer } from '../../components/feed/FeedContainer';
@@ -16,11 +17,19 @@ import { fetcher } from '../../utils';
 import { NextPageWithLayout } from '../_app';
 
 const Home: NextPageWithLayout = () => {
+  const router = useRouter();
   const accountname = Cookies.get('accountname');
+  const token = Cookies.get('token');
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
     fetcher,
   );
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;

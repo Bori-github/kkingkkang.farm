@@ -1,11 +1,22 @@
 import styled from '@emotion/styled';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { FollowingContainer } from '../../components/follow/FollowingContainer';
-import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 
 const UserListFollowings: NextPage = () => {
+  const router = useRouter();
+  const token = Cookies.get('token');
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
+
   return (
     <>
       <Head>

@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../../components/common/Loader';
 import { ToolBar } from '../../../components/layouts/ToolBar';
@@ -13,11 +15,18 @@ import { fetcher } from '../../../utils';
 
 const Post: NextPage = () => {
   const router = useRouter();
+  const token = Cookies.get('token');
   const { id } = router.query;
   const { data, error } = useSWR(
     id ? `${API_ENDPOINT}/post/${id}` : null,
     fetcher,
   );
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
