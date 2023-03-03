@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
-import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import { ReactElement, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { Loader } from '../../components/common/Loader';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
@@ -11,11 +12,20 @@ import { SectionProducts } from '../../components/SectionProducts';
 import { SectionUserInfo } from '../../components/SectionUserInfo';
 import { API_ENDPOINT } from '../../constants';
 import { fetcher } from '../../utils';
+import { Layout } from '../../components/layouts/Layout';
+import { NextPageWithLayout } from '../_app';
 
-const MyProfile: NextPage = () => {
+const MyProfile: NextPageWithLayout = () => {
   const router = useRouter();
+  const token = Cookies.get('token');
   const { id } = router.query;
   const { data, error } = useSWR(`${API_ENDPOINT}/profile/${id}`, fetcher);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
@@ -54,6 +64,15 @@ const MyProfile: NextPage = () => {
         <SectionFeed accountname={accountname} />
       </MainMyPage>
     </>
+  );
+};
+
+MyProfile.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 

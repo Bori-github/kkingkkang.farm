@@ -1,10 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
-import { NextPage } from 'next';
 import Head from 'next/head';
-import router from 'next/router';
-import { MouseEvent, useCallback, useRef, useState } from 'react';
+import router, { useRouter } from 'next/router';
+import {
+  MouseEvent,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { Navigation } from '../../components/layouts/Navigation';
@@ -15,17 +21,27 @@ import { SectionMyInfo } from '../../components/SectionUserInfo';
 import { API_ENDPOINT, BORDER, Z_INDEX } from '../../constants';
 import { GRAY_900, WHITE, GRAY_300, PRIMARY } from '../../constants/colors';
 import { fetcher } from '../../utils';
+import { Layout } from '../../components/layouts/Layout';
+import { NextPageWithLayout } from '../_app';
 
 interface ModalProps {
   isShowModal: boolean;
 }
 
-const UserPage: NextPage = () => {
+const UserPage: NextPageWithLayout = () => {
+  const router = useRouter();
   const accountname = Cookies.get('accountname') || '';
+  const token = Cookies.get('token');
 
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const modalRef = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   const handleModal = useCallback(() => {
     setIsShowModal(!isShowModal);
@@ -137,6 +153,15 @@ const UserPage: NextPage = () => {
         </ModalContainer>
       )}
     </>
+  );
+};
+
+UserPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 

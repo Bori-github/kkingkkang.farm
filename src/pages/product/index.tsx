@@ -4,9 +4,8 @@ import Cookies from 'js-cookie';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { API_ENDPOINT, BORDER, BUTTON } from '../../constants';
 import {
@@ -26,6 +25,12 @@ const RegisterProductPage: NextPage = () => {
     handleSubmit,
   } = useForm<ProductData>({ mode: 'onChange' });
   const [image, setImage] = useState<string>('');
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   const handleImageUpload = async (imageFiles: FileList) => {
     const imgData = new FormData();

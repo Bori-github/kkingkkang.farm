@@ -40,12 +40,19 @@ const EditProfilePage: NextPage = () => {
   const [profileImg, setProfileImg] = useState('/default-profile-w.png');
   const [accountValid, setAccountValid] = useState('');
   const accountname = Cookies.get('accountname') || '';
+  const token = Cookies.get('token');
   const regExpId = /^[0-9a-z-_]{5,20}$/;
 
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
     fetcher,
   );
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   useEffect(() => {
     setProfileImg(image);

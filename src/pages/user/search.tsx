@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import { NextPage } from 'next';
+import Cookies from 'js-cookie';
 import Head from 'next/head';
-import Link from 'next/link';
-import { ChangeEventHandler, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ChangeEventHandler, ReactElement, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
+import { Layout } from '../../components/layouts/Layout';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { UserAvatar } from '../../components/UserAvatar';
@@ -12,10 +13,19 @@ import { API_ENDPOINT, USER_AVATAR } from '../../constants';
 import { GRAY_200, GRAY_400, GRAY_900, PRIMARY } from '../../constants/colors';
 import { UserData } from '../../types/UserData';
 import { fetcher } from '../../utils';
+import { NextPageWithLayout } from '../_app';
 
-const SearchUser: NextPage = () => {
+const SearchUser: NextPageWithLayout = () => {
+  const router = useRouter();
+  const token = Cookies.get('token');
   const [keyword, setKeyword] = useState<string>('');
   const [userList, setUserList] = useState<UserData[]>([]);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   const { data, error } = useSWR(`${API_ENDPOINT}/user`, fetcher);
 
@@ -82,6 +92,15 @@ const SearchUser: NextPage = () => {
         </ListUser>
       </MainSearch>
     </>
+  );
+};
+
+SearchUser.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 

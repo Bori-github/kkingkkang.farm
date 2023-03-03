@@ -1,24 +1,35 @@
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
-import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ReactElement, useEffect } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { FeedContainer } from '../../components/feed/FeedContainer';
+import { Layout } from '../../components/layouts/Layout';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { SplashScreen } from '../../components/SplashScreen';
 import { API_ENDPOINT, BUTTON } from '../../constants';
 import { WHITE } from '../../constants/colors';
 import { fetcher } from '../../utils';
+import { NextPageWithLayout } from '../_app';
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
+  const router = useRouter();
   const accountname = Cookies.get('accountname');
+  const token = Cookies.get('token');
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
     fetcher,
   );
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;
@@ -51,6 +62,15 @@ const Home: NextPage = () => {
       <Navigation />
       <SplashScreen />
     </>
+  );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 

@@ -98,6 +98,9 @@ const LinkMenu = styled.a`
   &.chat.active {
     background-image: url('/icons/nav/chat-fill.svg');
   }
+  &.post.active {
+    background-image: url('/icons/nav/post-fill.svg');
+  }
   &.profile.active {
     background-image: url('/icons/nav/profile-fill.svg');
   }
