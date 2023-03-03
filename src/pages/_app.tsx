@@ -1,10 +1,21 @@
 import { Global } from '@emotion/react';
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Layout } from '../components/layouts/Layout';
+import { ReactElement, ReactNode } from 'react';
 import { GlobalStyles } from '../styles/globals';
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout || ((page) => page);
+
   return (
     <>
       <Head>
@@ -14,9 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Global styles={GlobalStyles} />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {getLayout(<Component {...pageProps} />)}
     </>
   );
 }

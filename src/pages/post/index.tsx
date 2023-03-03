@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
+import { Layout } from '../../components/layouts/Layout';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { handleTextarea } from '../../components/post/handleTextarea';
@@ -16,8 +16,9 @@ import { API_ENDPOINT, BUTTON, USER_AVATAR } from '../../constants';
 import { GRAY_400 } from '../../constants/colors';
 import { PostData } from '../../types';
 import { fetcher } from '../../utils/fetcher';
+import { NextPageWithLayout } from '../_app';
 
-const UploadPostPage: NextPage = () => {
+const UploadPostPage: NextPageWithLayout = () => {
   const router = useRouter();
 
   const token = Cookies.get('token');
@@ -168,8 +169,16 @@ const UploadPostPage: NextPage = () => {
           </ImageList>
         </ImageContainer>
       </Section>
-      <Navigation />
     </>
+  );
+};
+
+UploadPostPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 

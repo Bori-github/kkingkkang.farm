@@ -1,17 +1,19 @@
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
-import { NextPage } from 'next';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 import useSWR from 'swr';
 import { ChatCard } from '../../components/chat/ChatCard';
 import { Loader } from '../../components/common/Loader';
+import { Layout } from '../../components/layouts/Layout';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { API_ENDPOINT } from '../../constants';
 import { UserData } from '../../types/UserData';
 import { fetcher } from '../../utils';
+import { NextPageWithLayout } from '../_app';
 
-const ChatListPage: NextPage = () => {
+const ChatListPage: NextPageWithLayout = () => {
   const accountname = Cookies.get('accountname');
   const { data: followerData, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}/follower`,
@@ -41,6 +43,15 @@ const ChatListPage: NextPage = () => {
         </ListChats>
       </MainListChat>
     </>
+  );
+};
+
+ChatListPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 

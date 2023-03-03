@@ -1,19 +1,21 @@
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
-import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { ReactElement } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { FeedContainer } from '../../components/feed/FeedContainer';
+import { Layout } from '../../components/layouts/Layout';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { SplashScreen } from '../../components/SplashScreen';
 import { API_ENDPOINT, BUTTON } from '../../constants';
 import { WHITE } from '../../constants/colors';
 import { fetcher } from '../../utils';
+import { NextPageWithLayout } from '../_app';
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   const accountname = Cookies.get('accountname');
   const { data, error } = useSWR(
     `${API_ENDPOINT}/profile/${accountname}`,
@@ -51,6 +53,15 @@ const Home: NextPage = () => {
       <Navigation />
       <SplashScreen />
     </>
+  );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      <Navigation />
+    </Layout>
   );
 };
 
