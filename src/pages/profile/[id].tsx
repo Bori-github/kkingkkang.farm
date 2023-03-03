@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { Loader } from '../../components/common/Loader';
 import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
@@ -16,8 +17,15 @@ import { NextPageWithLayout } from '../_app';
 
 const MyProfile: NextPageWithLayout = () => {
   const router = useRouter();
+  const token = Cookies.get('token');
   const { id } = router.query;
   const { data, error } = useSWR(`${API_ENDPOINT}/profile/${id}`, fetcher);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   if (!data) return <Loader height="calc(100vh - 109px)" />;
   if (error) return <div>에러가 발생했습니다.</div>;

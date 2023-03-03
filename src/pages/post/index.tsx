@@ -40,6 +40,12 @@ const UploadPostPage: NextPageWithLayout = () => {
   );
 
   useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
+
+  useEffect(() => {
     setProfileImg(image);
   }, [data]);
 

@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
-import { Navigation } from '../../components/layouts/Navigation';
 import { ToolBar } from '../../components/layouts/ToolBar';
 import { API_ENDPOINT, BORDER, BUTTON } from '../../constants';
 import {
@@ -37,6 +36,12 @@ const EditProductPage: NextPage = () => {
     `${API_ENDPOINT}/product/detail/${productId}`,
     fetcher,
   );
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   useEffect(() => {
     if (data) {

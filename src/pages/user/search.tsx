@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import Cookies from 'js-cookie';
 import Head from 'next/head';
-import { ChangeEventHandler, ReactElement, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ChangeEventHandler, ReactElement, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { Layout } from '../../components/layouts/Layout';
@@ -14,8 +16,16 @@ import { fetcher } from '../../utils';
 import { NextPageWithLayout } from '../_app';
 
 const SearchUser: NextPageWithLayout = () => {
+  const router = useRouter();
+  const token = Cookies.get('token');
   const [keyword, setKeyword] = useState<string>('');
   const [userList, setUserList] = useState<UserData[]>([]);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   const { data, error } = useSWR(`${API_ENDPOINT}/user`, fetcher);
 

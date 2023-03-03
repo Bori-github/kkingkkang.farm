@@ -2,8 +2,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie';
 import Head from 'next/head';
-import router from 'next/router';
-import { MouseEvent, ReactElement, useCallback, useRef, useState } from 'react';
+import router, { useRouter } from 'next/router';
+import {
+  MouseEvent,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import useSWR from 'swr';
 import { Loader } from '../../components/common/Loader';
 import { Navigation } from '../../components/layouts/Navigation';
@@ -22,11 +29,19 @@ interface ModalProps {
 }
 
 const UserPage: NextPageWithLayout = () => {
+  const router = useRouter();
   const accountname = Cookies.get('accountname') || '';
+  const token = Cookies.get('token');
 
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const modalRef = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!token) {
+      router.push('/');
+    }
+  }, []);
 
   const handleModal = useCallback(() => {
     setIsShowModal(!isShowModal);
