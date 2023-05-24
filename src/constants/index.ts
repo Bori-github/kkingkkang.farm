@@ -1,7 +1,6 @@
 import { GRAY_300, SECONDARY, WHITE } from './colors';
 
-export const API_ENDPOINT = 'https://mandarin.api.weniv.co.kr';
-// export const API_ENDPOINT = 'http://146.56.183.55:5050';
+export const API_ENDPOINT = 'http://api.mandarin.weniv.co.kr';
 
 export const BORDER = {
   basic: `1px solid ${GRAY_300}`,
