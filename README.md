@@ -14,8 +14,8 @@
 ■ 사용자들을 팔로우하고 팔로잉한 사용자들의 피드를 보면서, 마음에 드는 게시물에 댓글을 남기거나 좋아요를 누를 수 있어요.
 
 ## 사용 기술
-☑︎ **Frontend** : `React` `Next.js` `TypeScript` `Emotion` `SWR`
-☑︎ **Backend** : 제공된 서버 API 사용
+☑︎ **Frontend** : `React` `Next.js` `TypeScript` `Emotion` `SWR`<br />
+☑︎ **Backend** : 제공된 서버 API 사용<br />
 ☑︎ **배포** : Vercel
 
 ## 화면 구성
